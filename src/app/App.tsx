@@ -1,11 +1,12 @@
+import AppRouter from './providers/router/ui/AppRouter'
 import './styles/index.scss';
 
 function App() {
 
   return (
-    <>
-      <h1>PetCare</h1>
-    </>
+    <div className='app light'>
+      <AppRouter />
+    </div>
   )
 }
 
