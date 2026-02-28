@@ -1,0 +1,13 @@
+.section {
+  margin-top: 2.4rem;
+  padding: 2rem;
+  background: var(--color-bg);
+  border-radius: 2rem;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.3rem;
+  padding: 0.6rem 0;
+}

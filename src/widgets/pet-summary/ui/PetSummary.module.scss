@@ -1,0 +1,35 @@
+.card {
+  display: flex;
+  gap: 1.6rem;
+  padding: 2rem;
+  background: var(--bg-color);
+  border-radius: 2.4rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+  align-items: center;
+}
+
+.avatar {
+  width: 6.4rem;
+  height: 6.4rem;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.info {
+  h2 {
+    font-size: 1.8rem;
+    margin: 0;
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+  }
+}
+
+.status {
+  margin-top: 0.4rem;
+  display: inline-block;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+}

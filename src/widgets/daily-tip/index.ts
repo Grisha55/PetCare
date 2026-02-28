@@ -1,0 +1,1 @@
+export { DailyTip } from './ui/DailyTip';

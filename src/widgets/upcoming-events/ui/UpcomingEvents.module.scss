@@ -1,0 +1,28 @@
+.section {
+  margin-top: 2.4rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.item {
+  padding: 1.2rem 1.6rem;
+  border-radius: 1.6rem;
+  background: var(--secondary-accent);
+  font-size: 1.3rem;
+}
+
+.ok {
+  border-left: 4px solid #6cc070;
+}
+
+.soon {
+  border-left: 4px solid #f4c430;
+}
+
+.overdue {
+  border-left: 4px solid #e55;
+}
