@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react'
 import { MainPage } from '../../../pages/MainPage'
+import { PassportPage } from '../../../pages/PassportPage'
 
 export interface AppRoute {
 	path: string
@@ -11,8 +12,8 @@ export const routeConfig: Record<string, AppRoute> = {
 		path: '/',
 		component: MainPage,
 	},
-	// passport: {
-	// 	path: '/passport',
-	// 	component: () => <div>Паспорт</div>,
-	// },
+	passport: {
+		path: '/passport',
+		component: PassportPage,
+	},
 }

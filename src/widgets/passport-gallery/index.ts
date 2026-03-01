@@ -1,0 +1,1 @@
+export { PassportGallery } from './ui/PassportGallery';
