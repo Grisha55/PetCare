@@ -1,4 +1,4 @@
-import AppRouter from './providers/router/ui/AppRouter'
+import { AppRouter } from '../shared/config/routeConfig/AppRouter'
 import './styles/index.scss';
 
 function App() {
