@@ -1,0 +1,1 @@
+export { passportImages } from './model/passport.mock'
