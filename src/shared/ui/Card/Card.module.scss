@@ -1,0 +1,14 @@
+.card {
+	background: var(--card-bg);
+	border-radius: 16px;
+	padding: 24px;
+	box-shadow: 0 4px 12px var(--shadow-color);
+	border: 1px solid var(--border-color);
+}
+
+.title {
+	margin: 0 0 20px 0;
+	font-size: 18px;
+	font-weight: 600;
+	color: var(--text-primary);
+}

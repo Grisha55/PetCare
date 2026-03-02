@@ -1,13 +1,25 @@
-import { AppRouter } from '../shared/config/routeConfig/AppRouter'
+import { useContext, useEffect } from 'react';
+import { AppRouter } from '../shared/config/routeConfig/AppRouter';
+import { Theme, ThemeContext } from './providers/ThemeProvider/lib/ThemeContext';
 import './styles/index.scss';
 
 function App() {
+	const { theme } = useContext(ThemeContext);
 
-  return (
-    <div className='app light'>
-      <AppRouter />
-    </div>
-  )
+  useEffect(() => {
+    document.body.classList.remove(Theme.LIGHT, Theme.DARK);
+    document.body.classList.add(theme || Theme.LIGHT);
+    document.body.classList.add('app');
+  }, [theme])
+
+  console.log('Current theme is ', theme);
+  
+
+	return (
+		<div className={`app ${theme}`}>
+			<AppRouter />
+		</div>
+	);
 }
 
-export default App
+export default App;
