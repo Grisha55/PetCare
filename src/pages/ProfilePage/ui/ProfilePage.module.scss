@@ -1,0 +1,16 @@
+.page {
+  padding: 3.2rem;
+  max-width: 110rem;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2.8rem;
+  margin-bottom: 2.4rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 32rem 1fr;
+  gap: 3.2rem;
+}
