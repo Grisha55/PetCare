@@ -5,9 +5,11 @@ import { NavLink } from './NavLink';
 import { Container } from '../../../shared/ui/Container/Container';
 import { BurgerMenu } from '../../../shared/ui/BurgerMenu/BurgerMenu';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'
 
 export const Navbar = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 820);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -47,7 +49,7 @@ export const Navbar = () => {
           </nav>
         )}
 
-        <div className={cls.profile}>
+        <div className={cls.profile} onClick={() => navigate('/profile')}>
           <div className={cls.image_block}>
             <img src={profile} alt="profile" />
           </div>

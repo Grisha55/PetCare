@@ -1,0 +1,34 @@
+.card {
+  background: var(--bg-secondary);
+  border-radius: 1.6rem;
+  padding: 2.4rem;
+  text-align: center;
+}
+
+.avatar {
+  width: 9.6rem;
+  height: 9.6rem;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1.6rem;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.4rem;
+}
+
+p {
+  font-size: 1.4rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.settings {
+  background: var(--secondary-accent);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  padding: 0.8rem 1.6rem;
+  border-radius: 1rem;
+  cursor: pointer;
+}

@@ -11,7 +11,8 @@
   border: none;
   font-size: 1.3rem;
   cursor: pointer;
-  background: var(--color-bg-soft);
+  color: var(--text-primary);
+  background: var(--bg-secondary);
   transition: transform 0.15s ease;
 
   &:hover {
