@@ -2,6 +2,8 @@ import type { ComponentType } from 'react'
 import { MainPage } from '../../../pages/MainPage'
 import { PassportPage } from '../../../pages/PassportPage'
 import { ProfilePage } from '../../../pages/ProfilePage'
+import { SettingsPage } from '../../../pages/SettingsPage'
+// import { withTheme } from '../../../app/providers/ThemeProvider'
 
 export interface AppRoute {
 	path: string
@@ -20,5 +22,9 @@ export const routeConfig: Record<string, AppRoute> = {
 	profile: {
 		path: '/profile',
 		component: ProfilePage,
-	}
+	},
+	settings: {
+		path: '/settings',
+		component: SettingsPage,
+	},
 }
