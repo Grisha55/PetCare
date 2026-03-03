@@ -3,6 +3,7 @@ import { MainPage } from '../../../pages/MainPage'
 import { PassportPage } from '../../../pages/PassportPage'
 import { ProfilePage } from '../../../pages/ProfilePage'
 import { SettingsPage } from '../../../pages/SettingsPage'
+import { TipsPage } from '../../../pages/TipsPage'
 // import { withTheme } from '../../../app/providers/ThemeProvider'
 
 export interface AppRoute {
@@ -27,4 +28,8 @@ export const routeConfig: Record<string, AppRoute> = {
 		path: '/settings',
 		component: SettingsPage,
 	},
+	tips: {
+		path: '/tips',
+		component: TipsPage,
+	}
 }

@@ -1,0 +1,1 @@
+export { TipsPagination } from './ui/TipsPagination';
