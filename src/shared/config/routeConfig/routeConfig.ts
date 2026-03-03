@@ -4,6 +4,8 @@ import { PassportPage } from '../../../pages/PassportPage'
 import { ProfilePage } from '../../../pages/ProfilePage'
 import { SettingsPage } from '../../../pages/SettingsPage'
 import { TipsPage } from '../../../pages/TipsPage'
+import { RegistrationPage } from '../../../pages/RegistrationPage/ui/RegistrationPage'
+import { LoginPage } from '../../../pages/LoginPage/ui/LoginPage'
 // import { withTheme } from '../../../app/providers/ThemeProvider'
 
 export interface AppRoute {
@@ -11,7 +13,24 @@ export interface AppRoute {
 	component: ComponentType
 }
 
+export const AppRoutes = {
+	LOGIN: 'login',
+	REGISTRATION: 'registration',
+	TIPS: 'tips',
+	PROFILE: 'profile',
+} as const;
+
+export type AppRoutes = typeof AppRoutes[keyof typeof AppRoutes]
+
 export const routeConfig: Record<string, AppRoute> = {
+	[AppRoutes.LOGIN]: {
+		path: '/login',
+		component: LoginPage,
+	},
+	[AppRoutes.REGISTRATION]: {
+		path: '/registration',
+		component: RegistrationPage,
+	},
 	main: {
 		path: '/',
 		component: MainPage,
@@ -20,7 +39,7 @@ export const routeConfig: Record<string, AppRoute> = {
 		path: '/passport',
 		component: PassportPage,
 	},
-	profile: {
+	[AppRoutes.PROFILE]: {
 		path: '/profile',
 		component: ProfilePage,
 	},
@@ -28,7 +47,7 @@ export const routeConfig: Record<string, AppRoute> = {
 		path: '/settings',
 		component: SettingsPage,
 	},
-	tips: {
+	[AppRoutes.TIPS]: {
 		path: '/tips',
 		component: TipsPage,
 	}

@@ -5,6 +5,7 @@ import { TipsList } from '../../../widgets/tips-list';
 import { TipsFilters } from '../../../widgets/tips-filters';
 import { TipsSearch } from '../../../widgets/tips-search'
 import { TipsPagination } from '../../../widgets/tips-pagination'
+import { Navbar } from '../../../widgets/navbar'
 
 const ITEMS_PER_PAGE = 4;
 
@@ -30,6 +31,7 @@ const TipsPage = () => {
 
   return (
     <div className={cls.page}>
+      <Navbar />
       <h1>Советы по уходу</h1>
 
       <TipsSearch value={search} onChange={setSearch} />
