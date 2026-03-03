@@ -1,0 +1,33 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--card-bg);
+  border-left: 6px solid;
+
+  h3 {
+    margin: 0 0 6px 0;
+  }
+
+  span {
+    font-size: 12px;
+    opacity: 0.6;
+  }
+}
+
+.vaccine {
+  border-color: #4caf50;
+}
+
+.medicine {
+  border-color: #ff9800;
+}
+
+.visit {
+  border-color: #2196f3;
+}
