@@ -14,7 +14,9 @@ export const PassportRecords = ({ records, onDelete }: Props) => {
           <h3>{record.title}</h3>
           <p>{record.description}</p>
           <span>{record.date}</span>
-          <button onClick={() => onDelete(record.id)}>🗑</button>
+          <button className={cls.deleteButton} onClick={() => onDelete(record.id)}>
+            🗑
+          </button>
         </div>
       ))}
     </div>
