@@ -4,9 +4,10 @@ import type { MedicalRecord } from '../../../entities/medical-record/model/types
 
 interface Props {
   records: MedicalRecord[];
+  onDelete: (id: string) => void;
 }
 
-export const UpcomingEvents = ({ records }: Props) => {
+export const UpcomingEvents = ({ records, onDelete }: Props) => {
   const events = getUpcomingEvents(records); // ✅ передаем records
 
   return (
@@ -23,6 +24,9 @@ export const UpcomingEvents = ({ records }: Props) => {
           >
             <strong>{event.title}</strong>
             <div>{event.date}</div>
+            <button className={cls.deleteButton} onClick={() => onDelete(event.id)}>
+              🗑️
+            </button>
           </div>
         ))}
       </div>
