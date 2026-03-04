@@ -3,9 +3,10 @@ import cls from './PassportRecords.module.scss';
 
 interface Props {
   records: MedicalRecord[];
+  onDelete: (id: string) => void;
 }
 
-export const PassportRecords = ({ records }: Props) => {
+export const PassportRecords = ({ records, onDelete }: Props) => {
   return (
     <div className={cls.wrapper}>
       {records.map((record) => (
@@ -13,6 +14,7 @@ export const PassportRecords = ({ records }: Props) => {
           <h3>{record.title}</h3>
           <p>{record.description}</p>
           <span>{record.date}</span>
+          <button onClick={() => onDelete(record.id)}>🗑</button>
         </div>
       ))}
     </div>

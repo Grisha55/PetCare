@@ -7,9 +7,10 @@ interface Props {
     id: string;
     url: string;
   };
+  onDelete: (id: string) => void;
 }
 
-export const PassportImage = ({ image }: Props) => {
+export const PassportImage = ({ image, onDelete }: Props) => {
   const [preview, setPreview] = useState<string | null>(null);
 
   return (
@@ -18,7 +19,7 @@ export const PassportImage = ({ image }: Props) => {
 
       <div className={cls.overlay}>
         <button onClick={() => setPreview(image.url)}>🔍</button>
-        <button>🗑</button>
+        <button onClick={() => onDelete(image.id)}>🗑</button>
       </div>
 
       <PassportPreviewModal image={preview} onClose={() => setPreview(null)} />
