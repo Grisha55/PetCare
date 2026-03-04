@@ -20,8 +20,12 @@ export const MedicalRecordsProvider = ({
     ]);
   };
 
+  const deleteRecord = (id: string) => {
+    setRecords((prev) => prev.filter((record) => record.id !== id));
+  };
+
   return (
-    <MedicalRecordsContext.Provider value={{ records, addRecord }}>
+    <MedicalRecordsContext.Provider value={{ records, addRecord, deleteRecord }}>
       {children}
     </MedicalRecordsContext.Provider>
   );

@@ -7,7 +7,7 @@ import type { CreateMedicalRecord } from '../../../entities/medical-record/model
 import { useMedicalRecords } from '../../../app/providers/medical-records-provider/model/useMedicalRecords'
 
 const PassportPage = () => {
-	const { records, addRecord } = useMedicalRecords();
+	const { records, addRecord, deleteRecord } = useMedicalRecords();
 
   const handleAdd = (data: CreateMedicalRecord) => {
     addRecord(data);
@@ -19,7 +19,7 @@ const PassportPage = () => {
 				<Navbar />
 				<PassportGallery />
 				<AddMedicalRecord onAdd={handleAdd} />
-				<PassportRecords records={records} />
+				<PassportRecords records={records} onDelete={deleteRecord} />
 			</main>
 		</div>
 	);
