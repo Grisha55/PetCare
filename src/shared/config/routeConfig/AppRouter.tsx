@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { routeConfig } from './routeConfig';
-import { useAuth } from '../../../app/providers/auth-provider/AuthContext'
 import { ProtectedRoute } from './ProtectedRoute'
+import { useAuth } from '../../../app/providers/auth-provider'
 
 export const AppRouter = () => {
   const { user } = useAuth();

@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { useAuth } from '../../../app/providers/auth-provider/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import cls from './RegistrationPage.module.scss';
 import { Input } from '../../../shared/ui/input/Input';
 import { Button } from '../../../shared/ui/Button/Button'
+import { useAuth } from '../../../app/providers/auth-provider/useAuth'
 
 
 export const RegistrationPage = () => {
