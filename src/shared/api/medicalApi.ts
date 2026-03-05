@@ -34,3 +34,12 @@ export const getMedicalRecords = async (petId: string) => {
 
   return data;
 };
+
+export const deleteMedicalRecord = async (id: string) => {
+  const { error } = await supabase
+    .from('medical_records')
+    .delete()
+    .eq('id', id)
+
+  if (error) throw error
+}
