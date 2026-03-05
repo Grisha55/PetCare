@@ -4,13 +4,15 @@ import cls from './PassportPage.module.scss';
 import { AddMedicalRecord } from '../../../features/add-medical-record/ui/AddMedicalRecord'
 import { PassportRecords } from '../../../widgets/passport-records/ui/PassportRecords'
 import type { CreateMedicalRecord } from '../../../entities/medical-record/model/types'
-import { useMedicalRecords } from '../../../app/providers/medical-records-provider/model/useMedicalRecords'
+import { useMedicalRecords } from '../../../entities/medical-record/model/useMedicalRecords'
+
+const PET_ID = '11111111-1111-1111-1111-111111111111';
 
 const PassportPage = () => {
-	const { records, addRecord, deleteRecord } = useMedicalRecords();
+	const { records, addRecord, deleteRecord } = useMedicalRecords(PET_ID);
 
-  const handleAdd = (data: CreateMedicalRecord) => {
-    addRecord(data);
+  const handleAdd = async (data: CreateMedicalRecord) => {
+    await addRecord(data);
   };
 
 	return (
