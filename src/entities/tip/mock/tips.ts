@@ -1,4 +1,4 @@
-import { Tip } from '../model/types';
+import { type Tip } from '../model/types';
 
 export const tipsMock: Tip[] = [
   {

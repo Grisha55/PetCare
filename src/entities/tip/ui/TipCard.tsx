@@ -1,5 +1,5 @@
 import cls from './TipCard.module.scss';
-import { Tip } from '../model/types';
+import { type Tip } from '../model/types';
 import { LikeButton } from '../../../features/like-tip/ui/LikeButton';
 
 interface Props {

@@ -1,31 +1,33 @@
-import { useState, useEffect, type ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import { AuthContext, type User } from './AuthContext';
 
 interface Props {
-  children: ReactNode;
+	children: ReactNode;
 }
 
 export const AuthProvider = ({ children }: Props) => {
-  const [user, setUser] = useState<User | null>(null);
+	const [user, setUser] = useState<User | null>(() => {
+		try {
+			const stored = localStorage.getItem('user');
+			return stored ? (JSON.parse(stored) as User) : null;
+		} catch {
+			return null;
+		}
+	});
 
-  useEffect(() => {
-    const stored = localStorage.getItem('user');
-    if (stored) setUser(JSON.parse(stored));
-  }, []);
+	const login = (user: User) => {
+		localStorage.setItem('user', JSON.stringify(user));
+		setUser(user);
+	};
 
-  const login = (user: User) => {
-    localStorage.setItem('user', JSON.stringify(user));
-    setUser(user);
-  };
+	const logout = () => {
+		localStorage.removeItem('user');
+		setUser(null);
+	};
 
-  const logout = () => {
-    localStorage.removeItem('user');
-    setUser(null);
-  };
-
-  return (
-    <AuthContext.Provider value={{ user, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
+	return (
+		<AuthContext.Provider value={{ user, login, logout }}>
+			{children}
+		</AuthContext.Provider>
+	);
 };
