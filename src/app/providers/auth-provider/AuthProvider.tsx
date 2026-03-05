@@ -1,19 +1,11 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { useState, useEffect, type ReactNode } from 'react';
+import { AuthContext, type User } from './AuthContext';
 
-interface User {
-  name: string;
-  email: string;
+interface Props {
+  children: ReactNode;
 }
 
-interface AuthContextType {
-  user: User | null;
-  login: (user: User) => void;
-  logout: () => void;
-}
-
-const AuthContext = createContext<AuthContextType | null>(null);
-
-export const AuthProvider = ({ children }: any) => {
+export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
@@ -36,8 +28,4 @@ export const AuthProvider = ({ children }: any) => {
       {children}
     </AuthContext.Provider>
   );
-};
-
-export const useAuth = () => {
-  return useContext(AuthContext)!;
 };
