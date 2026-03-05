@@ -1,12 +1,25 @@
-import { Navigate } from 'react-router-dom';
-import type { ReactNode } from 'react'
+import { Navigate } from 'react-router-dom'
 import { useAuth } from '../../../app/providers/auth-provider'
+import type { ReactNode } from 'react'
 
-interface ProtectedRouteProps {
-	children: ReactNode;
+interface Props {
+  children: ReactNode
 }
 
-export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { user } = useAuth();
-  return user ? children : <Navigate to="/login" />;
-};
+export const ProtectedRoute = ({ children }: Props) => {
+  const { user, loading } = useAuth()
+
+  console.log('ProtectedRoute - user:', user, 'loading:', loading);
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  if (!user) {
+    console.log('No user, redirecting to /registration');
+    return <Navigate to="/registration" />
+  }
+
+  console.log('User authenticated, rendering children');
+  return children
+}

@@ -1,32 +1,62 @@
-import { useState, type ReactNode } from 'react';
-import { AuthContext, type User } from './AuthContext';
+import type { User } from '@supabase/supabase-js';
+import { useEffect, useState, type ReactNode } from 'react';
+import { supabase } from '../../../shared/api/supabase';
+import { AuthContext } from './AuthContext';
 
 interface Props {
 	children: ReactNode;
 }
 
 export const AuthProvider = ({ children }: Props) => {
-	const [user, setUser] = useState<User | null>(() => {
-		try {
-			const stored = localStorage.getItem('user');
-			return stored ? (JSON.parse(stored) as User) : null;
-		} catch {
-			return null;
-		}
-	});
+	const [user, setUser] = useState<User | null>(null);
+	const [loading, setLoading] = useState(true);
 
-	const login = (user: User) => {
-		localStorage.setItem('user', JSON.stringify(user));
-		setUser(user);
+	useEffect(() => {
+		const getUser = async () => {
+			const { data } = await supabase.auth.getUser();
+			console.log('USER: ', data.user);
+			setUser(data.user);
+			setLoading(false);
+		};
+
+		getUser();
+
+		const { data: listener } = supabase.auth.onAuthStateChange(
+			(_event, session) => {
+				setUser(session?.user ?? null);
+				setLoading(false);
+			}
+		);
+
+		return () => {
+			listener.subscription.unsubscribe();
+		};
+	}, []);
+
+	const login = async (email: string, password: string) => {
+		const { error } = await supabase.auth.signInWithPassword({
+			email,
+			password
+		});
+
+		if (error) throw error;
 	};
 
-	const logout = () => {
-		localStorage.removeItem('user');
-		setUser(null);
+	const register = async (email: string, password: string) => {
+		const { error } = await supabase.auth.signUp({
+			email,
+			password
+		});
+
+		if (error) throw error;
+	};
+
+	const logout = async () => {
+		await supabase.auth.signOut();
 	};
 
 	return (
-		<AuthContext.Provider value={{ user, login, logout }}>
+		<AuthContext.Provider value={{ user, loading, login, register, logout }}>
 			{children}
 		</AuthContext.Provider>
 	);

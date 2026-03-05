@@ -4,8 +4,13 @@ import { ProtectedRoute } from './ProtectedRoute'
 import { useAuth } from '../../../app/providers/auth-provider'
 
 export const AppRouter = () => {
-  const { user } = useAuth();
-	console.log(user);
+  const { user, loading } = useAuth();
+	console.log('AppRouter - user: ', user, 'loading: ', loading);
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
   return (
     <Routes>
       {Object.values(routeConfig).map(({ path, component: Component }) => {
@@ -14,7 +19,6 @@ export const AppRouter = () => {
           return <Route key={path} path={path} element={<Component />} />;
         }
 
-        // Остальные страницы — защищаем
         return (
           <Route
             key={path}

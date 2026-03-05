@@ -1,48 +1,42 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import cls from './RegistrationPage.module.scss';
-import { Input } from '../../../shared/ui/input/Input';
-import { Button } from '../../../shared/ui/Button/Button'
-import { useAuth } from '../../../app/providers/auth-provider/useAuth'
-
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../app/providers/auth-provider';
 
 export const RegistrationPage = () => {
-  const { login } = useAuth();
-  const navigate = useNavigate();
+	const { register, login } = useAuth();
+	const navigate = useNavigate();
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    login({ name, email });
-    navigate('/');
-  };
+	const handleSubmit: React.FormEventHandler<HTMLFormElement> = async e => {
+		e.preventDefault();
 
-  return (
-    <div className={cls.page}>
-      <form className={cls.form} onSubmit={handleSubmit}>
-        <h1>Регистрация</h1>
+		try {
+			await register(email, password);
+			await login(email, password);
 
-        <Input
-          placeholder="Имя"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
+			navigate('/');
+		} catch {
+			alert('Registration error');
+		}
+	};
 
-        <Input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+	return (
+		<form onSubmit={handleSubmit}>
+      <h1>Registration</h1>
+			<input
+				placeholder="Email"
+				onChange={e => setEmail(e.target.value)}
+			/>
 
-        <Button type="submit">Создать аккаунт</Button>
+			<input
+				type="password"
+				placeholder="Password"
+				onChange={e => setPassword(e.target.value)}
+			/>
 
-        <p>
-          Уже есть аккаунт? <Link to="/login">Войти</Link>
-        </p>
-      </form>
-    </div>
-  );
+			<button type="submit">Register</button>
+		</form>
+	);
 };
