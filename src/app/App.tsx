@@ -12,9 +12,6 @@ function App() {
     document.body.classList.add('app');
   }, [theme])
 
-  console.log('Current theme is ', theme);
-  
-
 	return (
 		<div className={`app ${theme}`}>
 			<AppRouter />
