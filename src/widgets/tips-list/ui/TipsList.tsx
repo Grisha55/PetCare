@@ -1,6 +1,6 @@
 import cls from './TipsList.module.scss';
-import { Tip } from '@/entities/tip/model/types';
-import { TipCard } from '@/entities/tip/ui/TipCard';
+import { type Tip } from '../../../entities/tip/model/types';
+import { TipCard } from '../../../entities/tip/ui/TipCard';
 
 interface Props {
   tips: Tip[];
