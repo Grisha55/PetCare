@@ -1,7 +1,6 @@
-export type Pet = {
-  id: string;
-  name: string;
-  type: 'cat' | 'dog';
-  age: number;
-  avatar: string;
-};
+export interface Pet {
+  id: string
+  name: string
+  avatar_url: string | null
+  email?: string
+}
