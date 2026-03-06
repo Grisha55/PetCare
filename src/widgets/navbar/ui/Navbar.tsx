@@ -1,4 +1,3 @@
-import profile from '@/shared/images/petCare_logo.png';
 import { FaHome, FaDog, FaLightbulb } from 'react-icons/fa';
 import cls from './Navbar.module.scss';
 import { NavLink } from './NavLink';
@@ -6,10 +5,14 @@ import { Container } from '../../../shared/ui/Container/Container';
 import { BurgerMenu } from '../../../shared/ui/BurgerMenu/BurgerMenu';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { usePet } from '../../../entities/pet/model/usePet'
+
+const DEFAULT_AVATAR = '/images/passport-1';
 
 export const Navbar = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 820);
   const navigate = useNavigate();
+  const { pet } = usePet();
 
   useEffect(() => {
     const handleResize = () => {
@@ -51,7 +54,7 @@ export const Navbar = () => {
 
         <div className={cls.profile} onClick={() => navigate('/profile')}>
           <div className={cls.image_block}>
-            <img src={profile} alt="profile" />
+            <img src={pet?.avatar_url || DEFAULT_AVATAR} alt="profile" />
           </div>
           <div className={cls.info}>
             <span>Альфа</span>

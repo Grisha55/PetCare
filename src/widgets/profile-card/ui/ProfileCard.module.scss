@@ -5,12 +5,45 @@
   text-align: center;
 }
 
+.avatarContainer {
+  position: relative;
+  cursor: pointer;
+  width: fit-content;
+  margin: 0 auto;
+}
+
 .avatar {
-  width: 9.6rem;
-  height: 9.6rem;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 1.6rem;
+  transition: opacity 0.3s ease;
+}
+
+.avatarOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-size: 14px;
+  text-align: center;
+}
+
+.avatarContainer:hover .avatar {
+  opacity: 0.8;
+}
+
+.avatarContainer:hover .avatarOverlay {
+  opacity: 1;
 }
 
 h2 {
@@ -31,4 +64,16 @@ p {
   padding: 0.8rem 1.6rem;
   border-radius: 1rem;
   cursor: pointer;
+}
+
+.loading, .error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  color: var(--text-secondary);
+}
+
+.error {
+  color: red;
 }
