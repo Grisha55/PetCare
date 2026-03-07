@@ -9,21 +9,34 @@ import type {
   CreateMedicalRecord,
 } from './types'
 
-export const useMedicalRecords = (petId: string) => {
+export const useMedicalRecords = (petId: string | null) => {
   const [records, setRecords] = useState<MedicalRecord[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    // Если petId нет, не загружаем данные
+    if (!petId) {
+      setLoading(false);
+      return;
+    }
+
     const loadRecords = async () => {
-      const data = await getMedicalRecords(petId)
-      setRecords(data)
-      setLoading(false)
+      try {
+        const data = await getMedicalRecords(petId)
+        setRecords(data)
+      } catch (error) {
+        console.error('Error loading medical records:', error)
+      } finally {
+        setLoading(false)
+      }
     }
 
     loadRecords()
   }, [petId])
 
   const addRecord = async (record: CreateMedicalRecord) => {
+    if (!petId) return;
+    
     const newRecord = await createMedicalRecord(
       petId,
       record.type,
