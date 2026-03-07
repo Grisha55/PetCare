@@ -1,8 +1,8 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { usePet } from '../../../entities/pet/model/usePet';
 import { useAuth } from '../../../app/providers/auth-provider';
 import cls from './ProfileCard.module.scss';
+import { usePet } from '../../../app/providers/pet-provider/usePet'
 
 const DEFAULT_AVATAR = '/images/passport-1';
 
@@ -10,10 +10,13 @@ export const ProfileCard = () => {
   const { pet, changeAvatar, loading, error } = usePet();
   const { user } = useAuth();
   const fileInputRef = useRef<HTMLInputElement>(null);
-	const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [imgError, setImgError] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.length) return;
+    // Сбрасываем ошибку при загрузке нового файла
+    setImgError(false);
     changeAvatar(e.target.files[0]);
   };
 
@@ -21,9 +24,14 @@ export const ProfileCard = () => {
     fileInputRef.current?.click();
   };
 
-	const handleSettingsClick = () => {
-		navigate('/settings');
-	}
+  const handleSettingsClick = () => {
+    navigate('/settings');
+  }
+
+  const handleImageError = () => {
+    console.log('ProfileCard - image failed to load:', pet?.avatar_url);
+    setImgError(true);
+  };
 
   if (loading) {
     return (
@@ -49,7 +57,10 @@ export const ProfileCard = () => {
     );
   }
 
-	const avatarUrl = pet.avatar_url || DEFAULT_AVATAR;
+  // Определяем URL с учетом ошибки
+  const avatarUrl = imgError || !pet.avatar_url 
+    ? DEFAULT_AVATAR 
+    : pet.avatar_url;
 
   return (
     <div className={cls.card}>
@@ -58,12 +69,11 @@ export const ProfileCard = () => {
         onClick={handleAvatarClick}
       >
         <img
+          key={pet.avatar_url} // Ключ меняется при изменении URL
           src={avatarUrl}
           className={cls.avatar}
           alt={pet.name}
-					onError={(e) => {
-						e.currentTarget.src = DEFAULT_AVATAR;
-					}}
+          onError={handleImageError}
         />
         <div className={cls.avatarOverlay}>
           <span>Изменить фото</span>
