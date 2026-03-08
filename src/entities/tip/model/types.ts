@@ -1,7 +1,8 @@
 export interface Tip {
-  id: string;
-  title: string;
-  description: string;
-  category: 'health' | 'training' | 'nutrition';
-  image: string;
+  id: string
+  title: string
+  content: string
+  category: 'health' | 'training' | 'nutrition'
+  link?: string
+  liked?: boolean
 }
