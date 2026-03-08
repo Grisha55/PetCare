@@ -1,10 +1,490 @@
-.page {
-  padding: 3.2rem;
-  max-width: 120rem;
-  margin: 0 auto;
+// TipsPage.module.scss
+
+// Переменные
+$green-50: #f0fdf4;
+$green-100: #dcfce7;
+$green-200: #bbf7d0;
+$green-300: #86efac;
+$green-400: #4ade80;
+$green-500: #22c55e;
+$green-600: #16a34a;
+$green-700: #15803d;
+
+$blue-50: #eff6ff;
+$blue-100: #dbeafe;
+$blue-200: #bfdbfe;
+$blue-300: #93c5fd;
+$blue-600: #2563eb;
+
+$gray-100: #f3f4f6;
+$gray-200: #e5e7eb;
+$gray-300: #d1d5db;
+$gray-400: #9ca3af;
+$gray-500: #6b7280;
+$gray-600: #4b5563;
+$gray-700: #374151;
+
+// Миксины
+@mixin flex-center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-h1 {
-  font-size: 2.8rem;
-  margin-bottom: 2rem;
+// ИСПРАВЛЕНО: убрал white из аргументов
+@mixin gradient-bg($direction, $from, $to) {
+	background: linear-gradient($direction, $from, $to);
+}
+
+@mixin glassmorphism {
+	background: rgba(255, 255, 255, 0.8);
+	backdrop-filter: blur(8px);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+// Ключевые кадры
+@keyframes blob {
+	0%, 100% {
+		transform: translate(0, 0) scale(1);
+	}
+	33% {
+		transform: translate(30px, -50px) scale(1.1);
+	}
+	66% {
+		transform: translate(-20px, 20px) scale(0.9);
+	}
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes pulse {
+	0%, 100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.5;
+	}
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+// Основные стили
+.page {
+	min-height: 100vh;
+	background: linear-gradient(135deg, $blue-50, white, $green-50);
+	position: relative;
+	overflow-x: hidden;
+}
+
+// Декоративные элементы
+.decorations {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	pointer-events: none;
+	z-index: 0;
+}
+
+.blob {
+	position: absolute;
+	width: 20rem;
+	height: 20rem;
+	border-radius: 50%;
+	filter: blur(64px);
+	opacity: 0.2;
+	mix-blend-mode: multiply;
+
+	&TopRight {
+		@extend .blob;
+		top: -10rem;
+		right: -10rem;
+		background: $green-200;
+		animation: blob 7s infinite;
+	}
+
+	&BottomLeft {
+		@extend .blob;
+		bottom: -10rem;
+		left: -10rem;
+		background: $blue-200;
+		animation: blob 7s infinite;
+		animation-delay: 2s;
+	}
+}
+
+// Контейнер
+.container {
+	position: relative;
+	max-width: 80rem;
+	margin: 0 auto;
+	padding: 2rem 1rem;
+	z-index: 1;
+
+	@media (min-width: 640px) {
+		padding: 3rem 1.5rem;
+	}
+
+	@media (min-width: 1024px) {
+		padding: 3rem 2rem;
+	}
+}
+
+// Шапка
+.header {
+	text-align: center;
+	margin-bottom: 3rem;
+}
+
+.iconWrapper {
+	@include flex-center;
+	width: 3.5rem;
+	height: 3.5rem;
+	margin: 0 auto 1rem;
+	background: $green-100;
+	border-radius: 9999px;
+
+	svg {
+		width: 1.5rem;
+		height: 1.5rem;
+		color: $green-600;
+	}
+}
+
+.title {
+	font-size: 2.5rem;
+	font-weight: 800;
+	margin-bottom: 1rem;
+	@include gradient-bg(to right, $green-600, $blue-600);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+
+	@media (min-width: 640px) {
+		font-size: 3rem;
+	}
+}
+
+.subtitle {
+	font-size: 1.125rem;
+	color: $gray-600;
+	max-width: 42rem;
+	margin: 0 auto;
+}
+
+// Фильтры
+.filters {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 0.75rem;
+	margin-top: 2rem;
+}
+
+.filterButton {
+	@include flex-center;
+	gap: 0.5rem;
+	padding: 0.5rem 1rem;
+	@include glassmorphism;
+	border: 1px solid $gray-200;
+	border-radius: 9999px;
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: $gray-700;
+	transition: all 0.3s ease;
+	box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+	&:hover {
+		background: $green-50;
+		border-color: $green-300;
+		color: $green-700;
+		transform: translateY(-1px);
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+	}
+
+	svg {
+		width: 1.25rem;
+		height: 1.25rem;
+	}
+
+	span {
+		text-transform: capitalize;
+	}
+}
+
+// Сетка
+.grid {
+	display: grid;
+	gap: 1.5rem;
+
+	@media (min-width: 768px) {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 2rem;
+	}
+
+	@media (min-width: 1024px) {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+.cardWrapper {
+	transform: translateY(0);
+	transition: all 0.3s ease;
+	opacity: 0;
+	animation: fadeIn 0.5s ease-out forwards;
+}
+
+// Генерация задержек анимации
+@for $i from 0 through 20 {
+	.delay-#{$i} {
+		animation-delay: #{$i * 100}ms;
+	}
+}
+
+// Скелетон
+.skeletonWrapper {
+	animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@for $i from 0 through 5 {
+	.skeletonDelay-#{$i} {
+		animation-delay: #{$i * 100}ms;
+	}
+}
+
+// Кнопка загрузки
+.buttonContainer {
+	display: flex;
+	justify-content: center;
+	margin-top: 3rem;
+}
+
+.loadButton {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 1rem 2rem;
+	@include gradient-bg(to right, $green-600, $green-500);
+	color: white;
+	font-weight: 500;
+	border-radius: 1rem;
+	overflow: hidden;
+	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease;
+	border: none;
+	cursor: pointer;
+
+	&:hover:not(:disabled) {
+		transform: translateY(-0.125rem);
+		box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+		.buttonIcon {
+			transform: rotate(12deg);
+		}
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+}
+
+.buttonGradient {
+	position: absolute;
+	inset: 0;
+	@include gradient-bg(to right, $green-700, $green-600);
+	opacity: 0;
+	transition: opacity 0.3s ease;
+
+	.loadButton:hover:not(:disabled) & {
+		opacity: 1;
+	}
+}
+
+.buttonIcon {
+	position: relative;
+	width: 1.25rem;
+	height: 1.25rem;
+	transition: transform 0.3s ease;
+}
+
+.buttonText {
+	position: relative;
+}
+
+.buttonCount {
+	position: relative;
+	font-size: 0.875rem;
+	opacity: 0.8;
+}
+
+// Кнопка загрузки (состояние)
+.loadingButton {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 1rem 2rem;
+	background: $gray-400;
+	color: white;
+	font-weight: 500;
+	border-radius: 1rem;
+	cursor: not-allowed;
+	border: none;
+}
+
+.loadingSpinner {
+	width: 1.25rem;
+	height: 1.25rem;
+	border: 2px solid white;
+	border-top-color: transparent;
+	border-radius: 50%;
+	animation: spin 1s linear infinite;
+}
+
+// Пустое состояние
+.emptyState {
+	text-align: center;
+	padding: 5rem 0;
+}
+
+.emptyIconWrapper {
+	@include flex-center;
+	width: 4rem;
+	height: 4rem;
+	margin: 0 auto 1rem;
+	background: $gray-100;
+	border-radius: 9999px;
+
+	svg {
+		width: 2rem;
+		height: 2rem;
+		color: $gray-400;
+	}
+}
+
+.emptyTitle {
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: $gray-700;
+	margin-bottom: 0.5rem;
+}
+
+.emptyText {
+	color: $gray-500;
+}
+
+// Добавьте в существующий файл
+
+.likedFilter {
+	display: flex;
+	justify-content: center;
+	margin: 1rem 0;
+}
+
+.likedButton {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.75rem 1.5rem;
+	background: white;
+	border: 2px solid #e5e7eb;
+	border-radius: 9999px;
+	color: #4b5563;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	&:hover {
+		border-color: #ef4444;
+		background: #fef2f2;
+	}
+
+	&.active {
+		background: #ef4444;
+		border-color: #ef4444;
+		color: white;
+	}
+}
+
+.heartIcon {
+	width: 1.25rem;
+	height: 1.25rem;
+}
+
+.likedCount {
+	font-size: 0.875rem;
+	opacity: 0.8;
+}
+
+.activeFilter {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.5rem 1rem;
+	margin-top: 1rem;
+	background: #16a34a;
+	color: white;
+	border-radius: 9999px;
+	font-size: 0.875rem;
+
+	.clearFilter {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.25rem;
+		background: none;
+		border: none;
+		color: white;
+		cursor: pointer;
+		opacity: 0.8;
+		transition: opacity 0.2s ease;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+}
+
+.showAllButton {
+	margin-top: 1rem;
+	padding: 0.75rem 1.5rem;
+	background: #16a34a;
+	color: white;
+	border: none;
+	border-radius: 9999px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	&:hover {
+		background: #15803d;
+		transform: translateY(-2px);
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+	}
+}
+
+.filterButton {
+	// существующие стили
+	&.active {
+		background: #16a34a;
+		border-color: #16a34a;
+		color: white;
+
+		svg {
+			color: white;
+		}
+	}
 }
