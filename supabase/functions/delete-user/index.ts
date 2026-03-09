@@ -1,5 +1,7 @@
+// @ts-ignore - Deno imports
 import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.0'
+// @ts-ignore - Deno imports
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -8,101 +10,102 @@ const corsHeaders = {
 }
 
 serve(async (req: Request) => {
-  // Обработка preflight
+  // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
 
   try {
-    console.log('Function started')
-    console.log('Method:', req.method)
+    console.log('🚀 Delete user function started')
     
-    const headers = {
-      ...corsHeaders,
-      'Content-Type': 'application/json',
-    }
-
-    // Проверяем метод
-    if (req.method !== 'POST') {
-      return new Response(
-        JSON.stringify({ error: 'Method not allowed' }),
-        { status: 405, headers }
-      )
-    }
-
-    // Получаем и логируем заголовки
-    console.log('All headers:', Object.fromEntries(req.headers.entries()))
-    
+    // Get auth header
     const authHeader = req.headers.get('Authorization')
-    console.log('Auth header:', authHeader)
-
     if (!authHeader) {
+      console.error('❌ No authorization header')
       return new Response(
-        JSON.stringify({ error: 'Missing authorization header' }),
-        { status: 401, headers }
+        JSON.stringify({ error: 'No authorization header' }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    const jwt = authHeader.replace('Bearer ', '')
-    console.log('JWT length:', jwt.length)
+    const token = authHeader.replace('Bearer ', '')
+    console.log('📝 Token received, length:', token.length)
 
-    // Получаем переменные окружения
-    const supabaseUrl = Deno.env.get('SUPABASE_URL')
-    const supabaseServiceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
+    // Create admin client
+    const supabaseAdmin = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+      {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false
+        }
+      }
+    )
 
-    console.log('Supabase URL exists:', !!supabaseUrl)
-    console.log('Service role key exists:', !!supabaseServiceRoleKey)
-
-    if (!supabaseUrl || !supabaseServiceRoleKey) {
-      throw new Error('Missing environment variables')
-    }
-
-    // Создаем admin клиент
-    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey, {
-      auth: { autoRefreshToken: false, persistSession: false }
-    })
-
-    // Проверяем пользователя
-    console.log('Verifying user with JWT...')
-    const { data: { user }, error: userError } = await supabaseAdmin.auth.getUser(jwt)
-
+    // Get user from token
+    const { data: { user }, error: userError } = await supabaseAdmin.auth.getUser(token)
+    
     if (userError) {
-      console.error('User verification error:', userError)
+      console.error('❌ Error getting user:', userError)
       return new Response(
-        JSON.stringify({ error: 'Invalid token', details: userError.message }),
-        { status: 401, headers }
+        JSON.stringify({ error: 'Failed to get user', details: userError.message }),
+        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
     if (!user) {
-      console.error('User not found')
+      console.error('❌ User not found')
       return new Response(
         JSON.stringify({ error: 'User not found' }),
-        { status: 401, headers }
+        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
-    console.log('User verified:', user.id, user.email)
+    console.log('✅ User found:', user.id, user.email)
 
-    // Удаляем пользователя
-    console.log('Deleting user...')
-    const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(user.id)
-
-    if (deleteError) {
-      console.error('Delete error:', deleteError)
-      throw deleteError
+    // Try to delete user data first (optional, but good to have)
+    try {
+      console.log('🗑️ Deleting pets for user:', user.id)
+      const { error: petsError } = await supabaseAdmin
+        .from('pets')
+        .delete()
+        .eq('user_id', user.id)
+      
+      if (petsError) {
+        console.error('⚠️ Error deleting pets (continuing anyway):', petsError)
+      } else {
+        console.log('✅ Pets deleted successfully')
+      }
+    } catch (petsErr) {
+      console.error('⚠️ Exception deleting pets (continuing anyway):', petsErr)
     }
 
-    console.log('User deleted successfully')
+    // Delete the user
+    console.log('🗑️ Deleting user:', user.id)
+    const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(user.id)
+    
+    if (deleteError) {
+      console.error('❌ Error deleting user:', deleteError)
+      return new Response(
+        JSON.stringify({ error: deleteError.message }),
+        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      )
+    }
 
+    console.log('✅ User deleted successfully')
+    
     return new Response(
-      JSON.stringify({ success: true, userId: user.id }),
-      { status: 200, headers }
+      JSON.stringify({ success: true, message: 'User deleted successfully' }),
+      { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
+    
   } catch (error) {
-    console.error('Function error:', error)
+    console.error('❌ Unexpected error:', error)
     return new Response(
-      JSON.stringify({ error: error.message || 'Unknown error' }),
+      JSON.stringify({ 
+        error: error instanceof Error ? error.message : 'Internal server error' 
+      }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     )
   }
