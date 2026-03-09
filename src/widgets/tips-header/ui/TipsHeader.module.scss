@@ -1,0 +1,43 @@
+.header {
+	text-align: center;
+	margin-bottom: 3rem;
+}
+
+.iconWrapper {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 3.5rem;
+	height: 3.5rem;
+	margin: 0 auto 1rem;
+	background: #dcfce7;
+	border-radius: 9999px;
+
+	svg {
+		width: 1.5rem;
+		height: 1.5rem;
+		color: #16a34a;
+	}
+}
+
+.title {
+	font-size: 2.5rem;
+	font-weight: 800;
+	margin-bottom: 1rem;
+	background: linear-gradient(to right, #16a34a, #2563eb);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+
+	@media (min-width: 640px) {
+		font-size: 3rem;
+	}
+}
+
+.subtitle {
+	font-size: 1.125rem;
+	color: #6b7280;
+	max-width: 42rem;
+	margin: 0 auto;
+	line-height: 1.6;
+}

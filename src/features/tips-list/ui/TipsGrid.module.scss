@@ -1,0 +1,57 @@
+.grid {
+	display: grid;
+	gap: 1.5rem;
+
+	@media (min-width: 768px) {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 2rem;
+	}
+
+	@media (min-width: 1024px) {
+		grid-template-columns: repeat(3, 1fr);
+	}
+}
+
+.cardWrapper {
+	transform: translateY(0);
+	transition: all 0.3s ease;
+	opacity: 0;
+	animation: fadeIn 0.5s ease-out forwards;
+	height: 100%;
+
+	&:hover {
+		transform: translateY(-0.25rem);
+	}
+}
+
+.skeletonWrapper {
+	animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+	height: 100%;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes pulse {
+	0%, 100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.5;
+	}
+}
+
+// Генерация задержек для анимаций
+@for $i from 0 through 20 {
+	.delay-#{$i} {
+		animation-delay: #{$i * 100}ms;
+	}
+}
