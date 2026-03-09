@@ -1,0 +1,1 @@
+export { TipsHeader } from './ui/TipsHeader';
