@@ -6,6 +6,7 @@ import { BurgerMenu } from '../../../shared/ui/BurgerMenu/BurgerMenu';
 import { Container } from '../../../shared/ui/Container/Container';
 import cls from './Navbar.module.scss';
 import { NavLink } from './NavLink';
+import { useAuth } from '../../../app/providers/auth-provider';
 
 const DEFAULT_AVATAR = '/images/passport-1';
 
@@ -13,6 +14,7 @@ export const Navbar = () => {
 	const [isMobile, setIsMobile] = useState(window.innerWidth <= 820);
 	const navigate = useNavigate();
 	const { pet, loading } = usePet();
+	const { user } = useAuth();
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -29,22 +31,12 @@ export const Navbar = () => {
 		{ to: '/tips', icon: <FaLightbulb />, label: 'Советы' }
 	];
 
-	// Для отладки - можно убрать после исправления
-	useEffect(() => {
-		console.log('Navbar - pet:', {
-			pet,
-			loading,
-			avatar_url: pet?.avatar_url
-		});
-	}, [pet, loading]);
-
 	const petName = pet?.name || 'Питомец';
-	const userEmail = 'grishavinyar@gmail.com';
+	const userEmail = user?.email || '';
 
 	// Определяем URL аватара
-	const avatarUrl = loading || !pet?.avatar_url 
-		? DEFAULT_AVATAR 
-		: pet.avatar_url;
+	const avatarUrl =
+		loading || !pet?.avatar_url ? DEFAULT_AVATAR : pet.avatar_url;
 
 	return (
 		<header className={cls.navbar}>
@@ -81,7 +73,7 @@ export const Navbar = () => {
 								key={avatarUrl} // Ключ для принудительного обновления при смене URL
 								src={avatarUrl}
 								alt="profile"
-								onError={(e) => {
+								onError={e => {
 									console.log('Image failed to load:', e.currentTarget.src);
 									e.currentTarget.src = DEFAULT_AVATAR;
 								}}
