@@ -1,13 +1,12 @@
-import { useContext } from 'react'
-import { PetContext } from './PetContext'
+import { useContext } from 'react';
+import { PetContext } from './PetContext';
 
 export const usePet = () => {
-
-  const context = useContext(PetContext)
+  const context = useContext(PetContext);
 
   if (!context) {
-    throw new Error('usePet must be used inside PetProvider')
+    throw new Error('usePet must be used inside PetProvider');
   }
 
-  return context
-}
+  return context;
+};

@@ -6,123 +6,123 @@ import { useAuth } from '../auth-provider';
 import { PetContext, type Pet } from './PetContext';
 
 export const PetProvider = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useAuth();
-  const [pet, setPet] = useState<Pet | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+	const { user } = useAuth();
+	const [pet, setPet] = useState<Pet | null>(null);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<Error | null>(null);
 
-  const loadOrCreatePet = useCallback(async () => {
-    if (!user) {
-      setPet(null);
-      setLoading(false);
-      return;
-    }
+	const loadOrCreatePet = useCallback(async () => {
+		if (!user) {
+			setPet(null);
+			setLoading(false);
+			return;
+		}
 
-    try {
-      setLoading(true);
-      
-      // Сначала пытаемся найти существующего питомца
-      const { data: existingPet, error: findError } = await supabase
-        .from('pets')
-        .select('*')
-        .eq('user_id', user.id)
-        .maybeSingle();
+		try {
+			setLoading(true);
+			setError(null);
 
-      if (findError) {
-        console.error('Error finding pet:', findError);
-        throw findError;
-      }
+			// Сначала пытаемся найти существующего питомца
+			const { data: existingPets, error: findError } = await supabase
+				.from('pets')
+				.select('*')
+				.eq('user_id', user.id);
 
-      // Если питомец уже существует - используем его
-      if (existingPet) {
-        console.log('Existing pet found:', existingPet);
-        setPet(existingPet);
-        return;
-      }
+			if (findError) {
+				console.error('Error finding pet:', findError);
+				throw findError;
+			}
 
-      // Если питомца нет - создаем нового
-      console.log('No pet found, creating new one for user:', user.id);
-      const petName = user.email?.split('@')[0] || 'Питомец';
-      
-      const newPet = await createPet(user.id, { name: petName });
-      console.log('New pet created:', newPet);
-      
-      setPet(newPet);
-    } catch (err) {
-      console.error('Error in loadOrCreatePet:', err);
-      setError(err instanceof Error ? err : new Error('Unknown error'));
-    } finally {
-      setLoading(false);
-    }
-  }, [user]);
+			// Если питомцы уже существуют - берем первого
+			if (existingPets && existingPets.length > 0) {
+				console.log('Existing pets found:', existingPets);
+				setPet(existingPets[0]); // Берем первого питомца
+				return;
+			}
 
-  const changeAvatar = async (file: File) => {
-    if (!pet?.id) {
-      console.error('No pet ID available');
-      return;
-    }
+			// Если питомцев нет - создаем нового
+			console.log('No pet found, creating new one for user:', user.id);
+			const petName = user.email?.split('@')[0] || 'Питомец';
 
-    try {
-      const url = await uploadPetAvatar(pet.id, file);
-      console.log('Avatar uploaded, URL:', url);
+			const newPet = await createPet(user.id, { name: petName });
+			console.log('New pet created:', newPet);
 
-      // Обновляем локальное состояние
-      setPet((prev: Pet | null) => {
-        if (!prev) return prev;
-        return {
-          ...prev,
-          avatar_url: url
-        };
-      });
-    } catch (err) {
-      console.error('Error changing avatar:', err);
-      setError(err instanceof Error ? err : new Error('Error changing avatar'));
-    }
-  };
+			setPet(newPet);
+		} catch (err) {
+			console.error('Error in loadOrCreatePet:', err);
+			setError(err instanceof Error ? err : new Error('Unknown error'));
+		} finally {
+			setLoading(false);
+		}
+	}, [user]);
 
-  // Загружаем питомца при монтировании или смене пользователя
-  useEffect(() => {
-    loadOrCreatePet();
-  }, [loadOrCreatePet]);
+	const changeAvatar = async (file: File) => {
+		if (!pet?.id) {
+			console.error('No pet ID available');
+			return;
+		}
 
-  // Добавляем подписку на изменения в таблице pets
-  useEffect(() => {
-    if (!user) return;
+		try {
+			const url = await uploadPetAvatar(pet.id, file);
+			console.log('Avatar uploaded, URL:', url);
 
-    const channel = supabase
-      .channel('pets-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'pets',
-          filter: `user_id=eq.${user.id}`
-        },
-        (payload) => {
-          console.log('Pet changed:', payload);
-          // Обновляем данные при изменениях
-          loadOrCreatePet();
-        }
-      )
-      .subscribe();
+			// Обновляем локальное состояние
+			setPet((prev: Pet | null) => {
+				if (!prev) return prev;
+				return {
+					...prev,
+					avatar_url: url
+				};
+			});
+		} catch (err) {
+			console.error('Error changing avatar:', err);
+			setError(err instanceof Error ? err : new Error('Error changing avatar'));
+		}
+	};
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [user, loadOrCreatePet]);
+	// Загружаем питомца при монтировании или смене пользователя
+	useEffect(() => {
+		loadOrCreatePet();
+	}, [loadOrCreatePet]);
 
-  return (
-    <PetContext.Provider
-      value={{
-        pet,
-        loading,
-        error,
-        changeAvatar,
-        refreshPet: loadOrCreatePet
-      }}
-    >
-      {children}
-    </PetContext.Provider>
-  );
+	// Добавляем подписку на изменения в таблице pets
+	useEffect(() => {
+		if (!user) return;
+
+		const channel = supabase
+			.channel('pets-changes')
+			.on(
+				'postgres_changes',
+				{
+					event: '*',
+					schema: 'public',
+					table: 'pets',
+					filter: `user_id=eq.${user.id}`
+				},
+				payload => {
+					console.log('Pet changed:', payload);
+					// Обновляем данные при изменениях
+					loadOrCreatePet();
+				}
+			)
+			.subscribe();
+
+		return () => {
+			supabase.removeChannel(channel);
+		};
+	}, [user, loadOrCreatePet]);
+
+	return (
+		<PetContext.Provider
+			value={{
+				pet,
+				loading,
+				error,
+				changeAvatar,
+				refreshPet: loadOrCreatePet
+			}}
+		>
+			{children}
+		</PetContext.Provider>
+	);
 };

@@ -1,14 +1,12 @@
 import { useEffect, useState } from 'react';
 import { FaDog, FaHome, FaLightbulb } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../app/providers/auth-provider';
 import { usePet } from '../../../app/providers/pet-provider/usePet';
 import { BurgerMenu } from '../../../shared/ui/BurgerMenu/BurgerMenu';
 import { Container } from '../../../shared/ui/Container/Container';
 import cls from './Navbar.module.scss';
 import { NavLink } from './NavLink';
-import { useAuth } from '../../../app/providers/auth-provider';
-
-const DEFAULT_AVATAR = '/images/passport-1';
 
 export const Navbar = () => {
 	const [isMobile, setIsMobile] = useState(window.innerWidth <= 820);
@@ -34,9 +32,55 @@ export const Navbar = () => {
 	const petName = pet?.name || 'Питомец';
 	const userEmail = user?.email || '';
 
-	// Определяем URL аватара
-	const avatarUrl =
-		loading || !pet?.avatar_url ? DEFAULT_AVATAR : pet.avatar_url;
+	// Функция для получения содержимого аватара
+	const getAvatarContent = () => {
+		if (loading) {
+			return <div className={cls.avatarSkeleton}>...</div>;
+		}
+
+		// Если есть avatar_url, пытаемся загрузить изображение
+		if (pet?.avatar_url) {
+			return (
+				<img
+					src={pet.avatar_url}
+					alt={`${petName}'s avatar`}
+					onError={e => {
+						console.log('Image failed to load:', e.currentTarget.src);
+						e.currentTarget.style.display = 'none';
+
+						// Создаем fallback с первой буквой имени
+						const parent = e.currentTarget.parentElement;
+						if (parent) {
+							// Проверяем, нет ли уже fallback
+							if (!parent.querySelector(`.${cls.avatarFallback}`)) {
+								const fallback = document.createElement('div');
+								fallback.className = cls.avatarFallback;
+								fallback.textContent = petName[0]?.toUpperCase() || '?';
+								parent.appendChild(fallback);
+							}
+						}
+					}}
+					onLoad={e => {
+						// Если изображение загрузилось, удаляем возможный fallback
+						const parent = e.currentTarget.parentElement;
+						if (parent) {
+							const fallback = parent.querySelector(`.${cls.avatarFallback}`);
+							if (fallback) {
+								fallback.remove();
+							}
+						}
+					}}
+				/>
+			);
+		}
+
+		// Если нет avatar_url, показываем fallback с первой буквой
+		return (
+			<div className={cls.avatarFallback}>
+				{petName[0]?.toUpperCase() || '?'}
+			</div>
+		);
+	};
 
 	return (
 		<header className={cls.navbar}>
@@ -65,24 +109,10 @@ export const Navbar = () => {
 					className={cls.profile}
 					onClick={() => navigate('/profile')}
 				>
-					<div className={cls.image_block}>
-						{loading ? (
-							<div className={cls.avatarSkeleton}>...</div>
-						) : (
-							<img
-								key={avatarUrl} // Ключ для принудительного обновления при смене URL
-								src={avatarUrl}
-								alt="profile"
-								onError={e => {
-									console.log('Image failed to load:', e.currentTarget.src);
-									e.currentTarget.src = DEFAULT_AVATAR;
-								}}
-							/>
-						)}
-					</div>
+					<div className={cls.image_block}>{getAvatarContent()}</div>
 					<div className={cls.info}>
-						<span>{petName}</span>
-						<span>{userEmail}</span>
+						<span className={cls.petName}>{petName}</span>
+						<span className={cls.userEmail}>{userEmail}</span>
 					</div>
 				</div>
 			</Container>
