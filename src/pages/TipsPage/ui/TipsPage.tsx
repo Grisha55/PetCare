@@ -1,13 +1,12 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
-import { PawPrint, Heart } from 'lucide-react';
-import { fetchTips, type Tip } from '../../../entities/tip';
-import { getLikedTips } from '../../../entities/tip';
+import { Heart, PawPrint } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../../app/providers/auth-provider';
+import { fetchTips, getLikedTips, type Tip } from '../../../entities/tip';
+import type { CategoryFilterValue } from '../../../features/tips-filters';
+import { LoadMoreButton, TipsGrid } from '../../../features/tips-list';
+import { EmptyState } from '../../../shared/ui/EmptyState';
 import { Navbar } from '../../../widgets/navbar';
 import { TipsHeader } from '../../../widgets/tips-header';
-import { TipsGrid, LoadMoreButton } from '../../../features/tips-list';
-import { EmptyState } from '../../../shared/ui/EmptyState';
-import type { CategoryFilterValue } from '../../../features/tips-filters';
 import styles from './TipsPage.module.scss';
 
 const TipsPage = () => {
