@@ -8,9 +8,11 @@ import { UpcomingEvents } from '../../../widgets/upcoming-events';
 import cls from './MainPage.module.scss';
 import { fetchTips, type Tip } from '../../../entities/tip';
 import { usePet } from '../../../app/providers/pet-provider/usePet';
+import { useProfile } from '../../../entities/user/hooks/useProfile';
 
 const MainPage = () => {
 	const { pet } = usePet();
+	const { profile } = useProfile();
 	const { records, deleteRecord } = useMedicalRecords(pet?.id || null);
 	const [tips, setTips] = useState<Tip[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +37,11 @@ const MainPage = () => {
 		<div className="container">
 			<main className={cls.page}>
 				<Navbar />
-				<PetSummary />
+				<PetSummary
+					petImg={pet?.avatar_url || ''}
+					petName={profile?.name || ''}
+					records={records}
+				/>
 				<UpcomingEvents
 					records={records}
 					onDelete={deleteRecord}
