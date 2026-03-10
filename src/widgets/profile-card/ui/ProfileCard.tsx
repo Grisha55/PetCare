@@ -1,97 +1,75 @@
-import { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../app/providers/auth-provider';
+import { useRef } from 'react';
 import cls from './ProfileCard.module.scss';
-import { usePet } from '../../../app/providers/pet-provider/usePet'
-
-const DEFAULT_AVATAR = '/images/passport-1';
+import { useAuth } from '../../../app/providers/auth-provider';
+import { useProfile } from '../../../entities/user/hooks/useProfile';
+import { usePet } from '../../../app/providers/pet-provider/usePet';
 
 export const ProfileCard = () => {
-  const { pet, changeAvatar, loading, error } = usePet();
-  const { user } = useAuth();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const navigate = useNavigate();
-  const [imgError, setImgError] = useState(false);
+	const { user } = useAuth();
+	const { pet, changeAvatar } = usePet();
+	const { profile } = useProfile();
+	const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files?.length) return;
-    // Сбрасываем ошибку при загрузке нового файла
-    setImgError(false);
-    changeAvatar(e.target.files[0]);
-  };
+	const handleAvatarClick = () => {
+		fileInputRef.current?.click();
+	};
 
-  const handleAvatarClick = () => {
-    fileInputRef.current?.click();
-  };
+	const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+		if (file && pet) {
+			try {
+				await changeAvatar(file);
+			} catch (error) {
+				console.error('Failed to change avatar:', error);
+			}
+		}
+	};
 
-  const handleSettingsClick = () => {
-    navigate('/settings');
-  }
+	// Получаем имя пользователя из разных источников
+	const displayName =
+		profile?.name ||
+		user?.user_metadata?.name ||
+		user?.email?.split('@')[0] ||
+		'Пользователь';
 
-  const handleImageError = () => {
-    console.log('ProfileCard - image failed to load:', pet?.avatar_url);
-    setImgError(true);
-  };
+	return (
+		<div className={cls.card}>
+			<div className={cls.avatarSection}>
+				<div
+					className={cls.avatar}
+					onClick={handleAvatarClick}
+				>
+					{pet?.avatar_url ? (
+						<img
+							src={pet?.avatar_url}
+							alt="Avatar"
+						/>
+					) : (
+						<div className={cls.avatarPlaceholder}>
+							{displayName.charAt(0).toUpperCase()}
+						</div>
+					)}
+				</div>
+				<input
+					type="file"
+					ref={fileInputRef}
+					onChange={handleAvatarChange}
+					accept="image/*"
+					style={{ display: 'none' }}
+				/>
+				<button
+					onClick={handleAvatarClick}
+					className={cls.changeAvatarBtn}
+				>
+					Сменить фото питомца
+				</button>
+			</div>
 
-  if (loading) {
-    return (
-      <div className={cls.card}>
-        <div className={cls.loading}>Загрузка профиля...</div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className={cls.card}>
-        <div className={cls.error}>Ошибка: {error.message}</div>
-      </div>
-    );
-  }
-
-  if (!pet) {
-    return (
-      <div className={cls.card}>
-        <div className={cls.error}>Питомец не найден</div>
-      </div>
-    );
-  }
-
-  // Определяем URL с учетом ошибки
-  const avatarUrl = imgError || !pet.avatar_url 
-    ? DEFAULT_AVATAR 
-    : pet.avatar_url;
-
-  return (
-    <div className={cls.card}>
-      <div
-        className={cls.avatarContainer}
-        onClick={handleAvatarClick}
-      >
-        <img
-          key={pet.avatar_url} // Ключ меняется при изменении URL
-          src={avatarUrl}
-          className={cls.avatar}
-          alt={pet.name}
-          onError={handleImageError}
-        />
-        <div className={cls.avatarOverlay}>
-          <span>Изменить фото</span>
-        </div>
-
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          hidden
-          onChange={handleChange}
-        />
-      </div>
-
-      <h2>{pet.name}</h2>
-      <p>{user?.email || 'Email не указан'}</p>
-
-      <button className={cls.settings} onClick={handleSettingsClick}>Настройки</button>
-    </div>
-  );
+			<div className={cls.info}>
+				<h3>{displayName}</h3>
+				<p>{user?.email}</p>
+				{pet && <p>Питомец: {pet.name}</p>}
+			</div>
+		</div>
+	);
 };
