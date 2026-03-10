@@ -3,6 +3,7 @@ import { FaDog, FaHome, FaLightbulb } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../app/providers/auth-provider';
 import { usePet } from '../../../app/providers/pet-provider/usePet';
+import { useProfile } from '../../../entities/user/hooks/useProfile';
 import { BurgerMenu } from '../../../shared/ui/BurgerMenu/BurgerMenu';
 import { Container } from '../../../shared/ui/Container/Container';
 import cls from './Navbar.module.scss';
@@ -13,6 +14,7 @@ export const Navbar = () => {
 	const navigate = useNavigate();
 	const { pet, loading } = usePet();
 	const { user } = useAuth();
+	const { profile } = useProfile();
 
 	useEffect(() => {
 		const handleResize = () => {
@@ -29,7 +31,7 @@ export const Navbar = () => {
 		{ to: '/tips', icon: <FaLightbulb />, label: 'Советы' }
 	];
 
-	const petName = pet?.name || 'Питомец';
+	const petName = profile?.name || 'NoName';
 	const userEmail = user?.email || '';
 
 	// Функция для получения содержимого аватара
