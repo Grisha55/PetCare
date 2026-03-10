@@ -1,8 +1,8 @@
 import { useRef } from 'react';
-import cls from './ProfileCard.module.scss';
 import { useAuth } from '../../../app/providers/auth-provider';
-import { useProfile } from '../../../entities/user/hooks/useProfile';
 import { usePet } from '../../../app/providers/pet-provider/usePet';
+import { useProfile } from '../../../entities/user/hooks/useProfile';
+import cls from './ProfileCard.module.scss';
 
 export const ProfileCard = () => {
 	const { user } = useAuth();
@@ -68,7 +68,7 @@ export const ProfileCard = () => {
 			<div className={cls.info}>
 				<h3>{displayName}</h3>
 				<p>{user?.email}</p>
-				{pet && <p>Питомец: {pet.name}</p>}
+				{pet && <p>Питомец: {profile?.name}</p>}
 			</div>
 		</div>
 	);

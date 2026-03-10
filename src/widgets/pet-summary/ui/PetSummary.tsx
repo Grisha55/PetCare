@@ -1,20 +1,29 @@
+import type { MedicalRecord } from '../../../entities/medical-record/model/types';
 import cls from './PetSummary.module.scss';
-import { getPet } from '../../../entities/pet/model/selectors'
 
-export const PetSummary = () => {
-  const pet = getPet();
+interface PetSummaryProps {
+	petImg: string | null;
+	petName: string | null;
+	records: MedicalRecord[];
+}
 
-  return (
-    <section className={cls.card}>
-      <img src={pet.avatar} alt={pet.name} className={cls.avatar} />
+export const PetSummary = ({ petImg, petName, records }: PetSummaryProps) => {
+	const DEFAULT_AVATAR_URL = '/passport-1';
+	const petStatus =
+		records.length === 0 ? 'Все супер!!!' : 'Необходимо сделать визит к врачу';
 
-      <div className={cls.info}>
-        <h2>{pet.name}</h2>
-        <p>
-          {pet.type === 'cat' ? 'Кот' : 'Пёс'}, {pet.age} года
-        </p>
-        <span className={cls.status}>Все показатели в норме</span>
-      </div>
-    </section>
-  );
+	return (
+		<section className={cls.card}>
+			<img
+				src={petImg || DEFAULT_AVATAR_URL}
+				alt={petName || 'NoName'}
+				className={cls.avatar}
+			/>
+
+			<div className={cls.info}>
+				<h2>{petName || 'NoName'}</h2>
+				<span className={cls.status}>{petStatus}</span>
+			</div>
+		</section>
+	);
 };
