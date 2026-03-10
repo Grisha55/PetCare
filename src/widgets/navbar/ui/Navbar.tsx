@@ -76,7 +76,6 @@ export const Navbar = () => {
 			);
 		}
 
-		// Если нет avatar_url, показываем fallback с первой буквой
 		return (
 			<div className={cls.avatarFallback}>
 				{petName[0]?.toUpperCase() || '?'}
