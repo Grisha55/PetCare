@@ -1,3 +1,4 @@
+import { Camera, Mail, PawPrint, User } from 'lucide-react';
 import { useRef } from 'react';
 import { useAuth } from '../../../app/providers/auth-provider';
 import { usePet } from '../../../app/providers/pet-provider/usePet';
@@ -25,7 +26,6 @@ export const ProfileCard = () => {
 		}
 	};
 
-	// Получаем имя пользователя из разных источников
 	const displayName =
 		profile?.name ||
 		user?.user_metadata?.name ||
@@ -34,22 +34,27 @@ export const ProfileCard = () => {
 
 	return (
 		<div className={cls.card}>
+			<div className={cls.cardGradient} />
+
 			<div className={cls.avatarSection}>
-				<div
-					className={cls.avatar}
-					onClick={handleAvatarClick}
-				>
-					{pet?.avatar_url ? (
-						<img
-							src={pet?.avatar_url}
-							alt="Avatar"
-						/>
-					) : (
-						<div className={cls.avatarPlaceholder}>
-							{displayName.charAt(0).toUpperCase()}
-						</div>
-					)}
+				<div className={cls.avatarWrapper}>
+					<div
+						className={cls.avatar}
+						onClick={handleAvatarClick}
+					>
+						{pet?.avatar_url ? (
+							<img
+								src={pet?.avatar_url}
+								alt="Avatar"
+							/>
+						) : (
+							<div className={cls.avatarPlaceholder}>
+								{displayName.charAt(0).toUpperCase()}
+							</div>
+						)}
+					</div>
 				</div>
+
 				<input
 					type="file"
 					ref={fileInputRef}
@@ -57,19 +62,45 @@ export const ProfileCard = () => {
 					accept="image/*"
 					style={{ display: 'none' }}
 				/>
-				<button
-					onClick={handleAvatarClick}
-					className={cls.changeAvatarBtn}
-				>
-					Сменить фото питомца
-				</button>
 			</div>
 
 			<div className={cls.info}>
-				<h3>{displayName}</h3>
-				<p>{user?.email}</p>
-				{pet && <p>Питомец: {profile?.name}</p>}
+				<div className={cls.nameWrapper}>
+					<User
+						size={20}
+						className={cls.icon}
+					/>
+					<h3 className={cls.name}>{displayName}</h3>
+				</div>
+
+				<div className={cls.infoRow}>
+					<Mail
+						size={18}
+						className={cls.icon}
+					/>
+					<p className={cls.email}>{user?.email}</p>
+				</div>
+
+				{pet && profile?.name && (
+					<div className={cls.infoRow}>
+						<PawPrint
+							size={18}
+							className={cls.icon}
+						/>
+						<p className={cls.petName}>
+							Питомец: <span>{profile.name}</span>
+						</p>
+					</div>
+				)}
 			</div>
+
+			<button
+				onClick={handleAvatarClick}
+				className={cls.changeAvatarBtn}
+			>
+				<Camera size={18} />
+				<span>Сменить фото питомца</span>
+			</button>
 		</div>
 	);
 };
