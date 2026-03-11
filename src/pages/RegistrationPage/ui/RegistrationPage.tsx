@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../../../shared/api/supabase';
 import { createPet, uploadPetAvatar } from '../../../shared/api/petApi';
+import cls from './RegistrationPage.module.scss';
 
 interface PostgrestError {
 	code: string;
@@ -11,7 +12,6 @@ interface PostgrestError {
 }
 
 export const RegistrationPage = () => {
-	//const { register } = useAuth() // убрали login
 	const navigate = useNavigate();
 
 	const [email, setEmail] = useState('');
@@ -29,21 +29,17 @@ export const RegistrationPage = () => {
 		setNeedsEmailConfirmation(false);
 
 		try {
-			// 1. Регистрируем пользователя
 			const { data, error: signUpError } = await supabase.auth.signUp({
 				email,
 				password,
 				options: {
-					// Опционально: можно сразу подтверждать email (если отключено в настройках)
 					emailRedirectTo: window.location.origin
 				}
 			});
 
 			if (signUpError) throw signUpError;
 
-			// 2. Проверяем, нужно ли подтверждение email
 			if (data.user && !data.session) {
-				// Пользователь создан, но не аутентифицирован - нужно подтвердить email
 				setNeedsEmailConfirmation(true);
 				setError(
 					`На email ${email} отправлено письмо с подтверждением. Подтвердите email и войдите в приложение.`
@@ -52,28 +48,23 @@ export const RegistrationPage = () => {
 				return;
 			}
 
-			// 3. Если есть сессия (email confirmation отключен), создаем питомца
 			if (data.session) {
 				const user = data.user;
 				if (!user) throw new Error('User not found');
 
-				// Создаем питомца
 				const pet = await createPet(user.id, {
 					name: petName
 				});
 
-				// Загружаем фото если есть
 				if (photo && pet) {
 					await uploadPetAvatar(pet.id, photo);
 				}
 
-				// Перенаправляем на главную
 				navigate('/');
 			}
 		} catch (error: unknown) {
 			console.error('Registration error:', error);
 
-			// Type guard for PostgrestError
 			const isPostgrestError = (err: unknown): err is PostgrestError => {
 				return (
 					typeof err === 'object' &&
@@ -83,12 +74,10 @@ export const RegistrationPage = () => {
 				);
 			};
 
-			// Type guard for Error
 			const isError = (err: unknown): err is Error => {
 				return err instanceof Error;
 			};
 
-			// Обработка ошибки уникальности питомца
 			if (isPostgrestError(error) && error.code === '23505') {
 				setError(
 					'У вас уже есть питомец. Вы можете добавить ещё одного в настройках.'
@@ -112,29 +101,20 @@ export const RegistrationPage = () => {
 		}
 	};
 
-	// Если нужно подтверждение email, показываем специальное сообщение
 	if (needsEmailConfirmation) {
 		return (
-			<div style={{ textAlign: 'center', padding: '2rem' }}>
+			<div className={cls.confirmationContainer}>
 				<h1>Почти готово! 🎉</h1>
-				<p style={{ color: '#666', margin: '1rem 0' }}>
+				<p>
 					На ваш email <strong>{email}</strong> отправлено письмо с
 					подтверждением.
 				</p>
-				<p style={{ color: '#666' }}>
+				<p>
 					Пожалуйста, перейдите по ссылке в письме, чтобы активировать аккаунт.
 				</p>
 				<button
 					onClick={() => navigate('/login')}
-					style={{
-						marginTop: '2rem',
-						padding: '0.75rem 2rem',
-						background: '#4CAF50',
-						color: 'white',
-						border: 'none',
-						borderRadius: '4px',
-						cursor: 'pointer'
-					}}
+					className={cls.loginButton}
 				>
 					Перейти к входу
 				</button>
@@ -143,55 +123,90 @@ export const RegistrationPage = () => {
 	}
 
 	return (
-		<form onSubmit={handleSubmit}>
-			<h1>Registration</h1>
+		<div className={cls.container}>
+			<div className={cls.card}>
+				<h1 className={cls.title}>Регистрация</h1>
 
-			{error && (
-				<div style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>
-			)}
+				{error && <div className={cls.error}>{error}</div>}
 
-			<input
-				placeholder="Email"
-				value={email}
-				onChange={e => setEmail(e.target.value)}
-				disabled={loading}
-				required
-			/>
+				<form
+					onSubmit={handleSubmit}
+					className={cls.form}
+				>
+					<div className={cls.field}>
+						<label htmlFor="email">Email</label>
+						<input
+							id="email"
+							type="email"
+							placeholder="your@email.com"
+							value={email}
+							onChange={e => setEmail(e.target.value)}
+							disabled={loading}
+							required
+						/>
+					</div>
 
-			<input
-				type="password"
-				placeholder="Password"
-				value={password}
-				onChange={e => setPassword(e.target.value)}
-				disabled={loading}
-				required
-			/>
+					<div className={cls.field}>
+						<label htmlFor="password">Пароль</label>
+						<input
+							id="password"
+							type="password"
+							placeholder="••••••••"
+							value={password}
+							onChange={e => setPassword(e.target.value)}
+							disabled={loading}
+							required
+						/>
+					</div>
 
-			<input
-				placeholder="Pet name"
-				value={petName}
-				onChange={e => setPetName(e.target.value)}
-				disabled={loading}
-				required
-			/>
+					<div className={cls.field}>
+						<label htmlFor="petName">Имя питомца</label>
+						<input
+							id="petName"
+							type="text"
+							placeholder="Мурзик"
+							value={petName}
+							onChange={e => setPetName(e.target.value)}
+							disabled={loading}
+							required
+						/>
+					</div>
 
-			<input
-				type="file"
-				accept="image/*"
-				onChange={e => {
-					if (e.target.files?.[0]) {
-						setPhoto(e.target.files[0]);
-					}
-				}}
-				disabled={loading}
-			/>
+					<div className={cls.field}>
+						<label htmlFor="photo">Фото питомца (необязательно)</label>
+						<input
+							id="photo"
+							type="file"
+							accept="image/*"
+							onChange={e => {
+								if (e.target.files?.[0]) {
+									setPhoto(e.target.files[0]);
+								}
+							}}
+							disabled={loading}
+							className={cls.fileInput}
+						/>
+					</div>
 
-			<button
-				type="submit"
-				disabled={loading}
-			>
-				{loading ? 'Registering...' : 'Register'}
-			</button>
-		</form>
+					<button
+						type="submit"
+						className={cls.submitButton}
+						disabled={loading}
+					>
+						{loading ? 'Регистрация...' : 'Зарегистрироваться'}
+					</button>
+				</form>
+
+				<div className={cls.footer}>
+					<p>Уже есть аккаунт?</p>
+					<Link
+						to="/login"
+						className={cls.loginLink}
+					>
+						Войти
+					</Link>
+				</div>
+			</div>
+		</div>
 	);
 };

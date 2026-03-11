@@ -1,26 +1,122 @@
-.page {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg-color);
+.container {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	padding: 20px;
+}
+
+.card {
+	background: white;
+	border-radius: 24px;
+	padding: 40px;
+	width: 100%;
+	max-width: 400px;
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+	font-size: 28px;
+	font-weight: 700;
+	color: #1a202c;
+	margin: 0 0 8px 0;
+	text-align: center;
+}
+
+.error {
+	background: #fff5f5;
+	color: #e53e3e;
+	padding: 12px;
+	border-radius: 12px;
+	margin-bottom: 24px;
+	font-size: 14px;
+	text-align: center;
+	border: 1px solid #feb2b2;
 }
 
 .form {
-  width: 36rem;
-  background: var(--bg-secondary);
-  padding: 3rem;
-  border-radius: 2rem;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
 }
 
-h1 {
-  margin-bottom: 2rem;
-  text-align: center;
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+
+	label {
+		font-size: 14px;
+		font-weight: 500;
+		color: #4a5568;
+	}
+
+	input {
+		padding: 12px 16px;
+		border: 2px solid #e2e8f0;
+		border-radius: 12px;
+		font-size: 16px;
+		transition: all 0.2s ease;
+
+		&:focus {
+			outline: none;
+			border-color: #667eea;
+			box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+		}
+
+		&:disabled {
+			background: #f7fafc;
+			cursor: not-allowed;
+		}
+	}
 }
 
-p {
-  margin-top: 1.6rem;
-  font-size: 1.3rem;
-  text-align: center;
+.submitButton {
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	color: white;
+	border: none;
+	border-radius: 12px;
+	padding: 14px;
+	font-size: 16px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	margin-top: 8px;
+
+	&:hover:not(:disabled) {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+	}
+
+	&:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+}
+
+.footer {
+	margin-top: 24px;
+	text-align: center;
+	padding-top: 24px;
+	border-top: 1px solid #e2e8f0;
+
+	p {
+		color: #718096;
+		font-size: 14px;
+		margin: 0 0 8px 0;
+	}
+}
+
+.registerLink {
+	color: #667eea;
+	text-decoration: none;
+	font-weight: 600;
+	font-size: 16px;
+	transition: color 0.2s ease;
+
+	&:hover {
+		color: #764ba2;
+		text-decoration: underline;
+	}
 }
