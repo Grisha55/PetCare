@@ -1,9 +1,10 @@
 import { Heart, PawPrint } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useAuth } from '../../../app/providers/auth-provider';
-import { fetchTips, getLikedTips, type Tip } from '../../../entities/tip';
+import { fetchTips, type Tip } from '../../../entities/tip';
 import type { CategoryFilterValue } from '../../../features/tips-filters';
 import { LoadMoreButton, TipsGrid } from '../../../features/tips-list';
+import { getSavedTips, toggleSaveTip } from '../../../shared/api/savedTipsApi';
 import { EmptyState } from '../../../shared/ui/EmptyState';
 import { Navbar } from '../../../widgets/navbar';
 import { TipsHeader } from '../../../widgets/tips-header';
@@ -16,40 +17,42 @@ const TipsPage = () => {
 	const [initialLoading, setInitialLoading] = useState(true);
 	const [selectedCategory, setSelectedCategory] =
 		useState<CategoryFilterValue>('all');
-	const [likedTipIds, setLikedTipIds] = useState<Set<string>>(new Set());
-	const [showOnlyLiked, setShowOnlyLiked] = useState(false);
+	const [savedTipIds, setSavedTipIds] = useState<Set<string>>(new Set());
+	const [showOnlySaved, setShowOnlySaved] = useState(false);
 
 	const { user } = useAuth();
 	const initialLoadRef = useRef(false);
 
-	// Загрузка лайков
+	// Загрузка сохраненных советов
 	useEffect(() => {
-		const loadUserLikes = async () => {
+		const loadSavedTips = async () => {
 			if (!user) {
-				setLikedTipIds(new Set());
+				setSavedTipIds(new Set());
 				return;
 			}
 
 			try {
-				const likedIds = await getLikedTips(user.id);
-				setLikedTipIds(new Set(likedIds));
+				const savedTips = await getSavedTips(user.id);
+				const savedIds = new Set(savedTips.map(tip => tip.id));
+				setSavedTipIds(savedIds);
+				console.log('Loaded saved tips:', savedIds);
 			} catch (error) {
-				console.error('Failed to load likes:', error);
+				console.error('Failed to load saved tips:', error);
 			}
 		};
 
-		loadUserLikes();
+		loadSavedTips();
 	}, [user]);
 
-	// Обновление лайков в tips
+	// Обновление статуса saved в tips
 	useEffect(() => {
 		setTips(prev =>
 			prev.map(tip => ({
 				...tip,
-				liked: likedTipIds.has(tip.id)
+				saved: savedTipIds.has(tip.id)
 			}))
 		);
-	}, [likedTipIds]);
+	}, [savedTipIds]);
 
 	// Первоначальная загрузка
 	useEffect(() => {
@@ -63,7 +66,7 @@ const TipsPage = () => {
 				setTips(
 					newTips.map(tip => ({
 						...tip,
-						liked: likedTipIds.has(tip.id)
+						saved: savedTipIds.has(tip.id)
 					}))
 				);
 			} catch (error) {
@@ -74,7 +77,7 @@ const TipsPage = () => {
 		};
 
 		loadInitialTips();
-	}, []);
+	}, [savedTipIds]);
 
 	// Загрузка дополнительных советов
 	const loadMoreTips = async () => {
@@ -87,7 +90,7 @@ const TipsPage = () => {
 				...prev,
 				...newTips.map(tip => ({
 					...tip,
-					liked: likedTipIds.has(tip.id)
+					saved: savedTipIds.has(tip.id)
 				}))
 			]);
 		} catch (error) {
@@ -97,18 +100,39 @@ const TipsPage = () => {
 		}
 	};
 
-	// Обработчик лайка
-	const handleLikeToggle = useCallback((tipId: string, liked: boolean) => {
-		setLikedTipIds(prev => {
-			const newSet = new Set(prev);
-			if (liked) {
-				newSet.add(tipId);
-			} else {
-				newSet.delete(tipId);
+	// Обработчик сохранения/удаления
+	const handleSaveToggle = useCallback(
+		async (tip: Tip) => {
+			if (!user) {
+				console.log('Please login to save tips');
+				return;
 			}
-			return newSet;
-		});
-	}, []);
+
+			console.log('Toggling save for tip:', {
+				id: tip.id,
+				title: tip.title,
+				category: tip.category
+			});
+
+			try {
+				const isNowSaved = await toggleSaveTip(user.id, tip);
+				console.log('Save toggle result:', isNowSaved);
+
+				setSavedTipIds(prev => {
+					const newSet = new Set(prev);
+					if (isNowSaved) {
+						newSet.add(tip.id);
+					} else {
+						newSet.delete(tip.id);
+					}
+					return newSet;
+				});
+			} catch (error) {
+				console.error('Failed to toggle save:', error);
+			}
+		},
+		[user]
+	);
 
 	// Фильтрация
 	useEffect(() => {
@@ -118,14 +142,14 @@ const TipsPage = () => {
 			filtered = filtered.filter(tip => tip.category === selectedCategory);
 		}
 
-		if (showOnlyLiked) {
-			filtered = filtered.filter(tip => tip.liked);
+		if (showOnlySaved) {
+			filtered = filtered.filter(tip => tip.saved);
 		}
 
 		setFilteredTips(filtered);
-	}, [tips, selectedCategory, showOnlyLiked]);
+	}, [tips, selectedCategory, showOnlySaved]);
 
-	const likedCount = filteredTips.filter(t => t.liked).length;
+	const savedCount = filteredTips.filter(t => t.saved).length;
 
 	return (
 		<div className={styles.page}>
@@ -139,19 +163,19 @@ const TipsPage = () => {
 				<TipsHeader
 					selectedCategory={selectedCategory}
 					onCategoryChange={setSelectedCategory}
-					showOnlyLiked={showOnlyLiked}
-					onLikedToggle={() => setShowOnlyLiked(!showOnlyLiked)}
-					likedCount={likedCount}
+					showOnlySaved={showOnlySaved}
+					onSavedToggle={() => setShowOnlySaved(!showOnlySaved)}
+					savedCount={savedCount}
 					isAuthenticated={!!user}
 				/>
 
 				<TipsGrid
 					tips={filteredTips}
 					loading={initialLoading || loading}
-					onLikeToggle={handleLikeToggle}
+					onSaveToggle={handleSaveToggle}
 				/>
 
-				{!initialLoading && !loading && tips.length > 0 && !showOnlyLiked && (
+				{!initialLoading && !loading && tips.length > 0 && !showOnlySaved && (
 					<LoadMoreButton
 						onLoadMore={loadMoreTips}
 						loading={loading}
@@ -161,21 +185,21 @@ const TipsPage = () => {
 
 				{!initialLoading && !loading && filteredTips.length === 0 && (
 					<EmptyState
-						icon={showOnlyLiked ? <Heart /> : <PawPrint />}
+						icon={showOnlySaved ? <Heart /> : <PawPrint />}
 						title={
-							showOnlyLiked
+							showOnlySaved
 								? 'У вас пока нет сохраненных советов'
 								: 'Советы не найдены'
 						}
 						description={
-							showOnlyLiked
+							showOnlySaved
 								? 'Нажимайте на сердечко у советов, чтобы сохранить их'
 								: 'Попробуйте выбрать другую категорию'
 						}
 						action={
-							showOnlyLiked ? (
+							showOnlySaved ? (
 								<button
-									onClick={() => setShowOnlyLiked(false)}
+									onClick={() => setShowOnlySaved(false)}
 									className={styles.showAllButton}
 								>
 									Показать все советы
