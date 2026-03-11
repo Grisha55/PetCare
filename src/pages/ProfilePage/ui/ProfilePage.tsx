@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'; // или import { useRouter } f
 import cls from './ProfilePage.module.scss';
 
 const ProfilePage = () => {
-	const { user } = useAuth();
+	const { user, logout } = useAuth();
 	const { profile } = useProfile();
 	const navigate = useNavigate(); // для React Router v6
 	// const router = useRouter(); // для Next.js
@@ -22,10 +22,7 @@ const ProfilePage = () => {
 	};
 
 	const handleLogoutClick = () => {
-		// Здесь можно добавить логику выхода
-		console.log('Logout clicked');
-		// Например: logout()
-		// navigate('/login');
+		logout();
 	};
 
 	return (
