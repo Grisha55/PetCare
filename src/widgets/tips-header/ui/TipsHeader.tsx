@@ -1,55 +1,30 @@
-import { PawPrint } from 'lucide-react';
-import { 
-  CategoryFilter, 
-  LikedFilter, 
-  ActiveFilter,
-  type CategoryFilterValue 
-} from '../../../features/tips-filters';
+import type { CategoryFilterValue } from '../../../features/tips-filters';
+import { TipsFilters } from '../../tips-filters';
 import styles from './TipsHeader.module.scss';
 
 interface TipsHeaderProps {
-  selectedCategory: CategoryFilterValue;
-  onCategoryChange: (category: CategoryFilterValue) => void;
-  showOnlyLiked: boolean;
-  onLikedToggle: () => void;
-  likedCount: number;
-  isAuthenticated: boolean;
+	selectedCategory: CategoryFilterValue;
+	onCategoryChange: (category: CategoryFilterValue) => void;
+	showOnlySaved?: boolean; // делаем опциональным
+	onSavedToggle?: () => void; // делаем опциональным
+	savedCount?: number; // делаем опциональным
+	isAuthenticated?: boolean; // делаем опциональным
 }
 
 export const TipsHeader = ({
-  selectedCategory,
-  onCategoryChange,
-  showOnlyLiked,
-  onLikedToggle,
-  likedCount,
-  isAuthenticated
+	selectedCategory,
+	onCategoryChange
 }: TipsHeaderProps) => {
-  return (
-    <div className={styles.header}>
-      <div className={styles.iconWrapper}>
-        <PawPrint />
-      </div>
-      <h1 className={styles.title}>Veterinary Tips</h1>
-      <p className={styles.subtitle}>
-        Профессиональные советы ветеринаров для здоровья и счастья ваших питомцев
-      </p>
+	return (
+		<div className={styles.header}>
+			<h1 className={styles.title}>Полезные советы</h1>
 
-      <CategoryFilter 
-        selectedCategory={selectedCategory} 
-        onCategoryChange={onCategoryChange} 
-      />
-
-      <LikedFilter
-        showOnlyLiked={showOnlyLiked}
-        onToggle={onLikedToggle}
-        likedCount={likedCount}
-        isAuthenticated={isAuthenticated}
-      />
-
-      <ActiveFilter
-        selectedCategory={selectedCategory}
-        onClear={() => onCategoryChange('all')}
-      />
-    </div>
-  );
+			<div className={styles.controls}>
+				<TipsFilters
+					selectedCategory={selectedCategory}
+					onCategoryChange={onCategoryChange}
+				/>
+			</div>
+		</div>
+	);
 };

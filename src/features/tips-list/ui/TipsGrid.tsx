@@ -1,29 +1,39 @@
-import { TipCard, TipSkeleton } from '../../../entities/tip';
-import { type TipsListProps } from '../model/types';
+import { TipCard, type Tip } from '../../../entities/tip';
 import styles from './TipsGrid.module.scss';
 
-export const TipsGrid = ({ tips, loading, onLikeToggle, className }: TipsListProps) => {
-  return (
-    <div className={`${styles.grid} ${className || ''}`}>
-      {tips.map((tip, index) => (
-        <div
-          key={tip.id}
-          className={styles.cardWrapper}
-          style={{ animationDelay: `${index * 100}ms` }}
-        >
-          <TipCard tip={tip} onLikeToggle={onLikeToggle} />
-        </div>
-      ))}
+interface TipsGridProps {
+	tips: Tip[];
+	loading: boolean;
+	onSaveToggle?: (tip: Tip) => Promise<void>; // делаем опциональным
+}
 
-      {loading && Array.from({ length: 3 }).map((_, i) => (
-        <div
-          key={i}
-          className={styles.skeletonWrapper}
-          style={{ animationDelay: `${i * 100}ms` }}
-        >
-          <TipSkeleton />
-        </div>
-      ))}
-    </div>
-  );
+export const TipsGrid = ({ tips, loading, onSaveToggle }: TipsGridProps) => {
+	if (loading) {
+		return (
+			<div className={styles.loading}>
+				<div className={styles.spinner} />
+				<p>Загрузка советов...</p>
+			</div>
+		);
+	}
+
+	if (tips.length === 0) {
+		return (
+			<div className={styles.empty}>
+				<p>Советы не найдены</p>
+			</div>
+		);
+	}
+
+	return (
+		<div className={styles.grid}>
+			{tips.map(tip => (
+				<TipCard
+					key={tip.id}
+					tip={tip}
+					onSaveToggle={onSaveToggle}
+				/>
+			))}
+		</div>
+	);
 };

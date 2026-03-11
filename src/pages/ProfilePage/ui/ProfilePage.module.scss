@@ -3,6 +3,7 @@
 	background: linear-gradient(135deg, #f5f7fa 0%, #e9edf5 100%);
 	display: flex;
 	flex-direction: column;
+	position: relative;
 }
 
 .main {
@@ -122,46 +123,22 @@
 		flex: 1;
 	}
 
+	&:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+
 	svg {
 		transition: transform 0.2s ease;
 	}
 
-	&:hover svg {
+	&:not(:disabled):hover svg {
 		transform: translateY(-2px);
 	}
 
-	// Эффект пульсации при клике
-	&:active {
+	&:not(:disabled):active {
 		transform: scale(0.98);
-	}
-
-	&::after {
-		content: '';
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: 5px;
-		height: 5px;
-		background: rgba(255, 255, 255, 0.5);
-		opacity: 0;
-		border-radius: 100%;
-		transform: scale(1, 1) translate(-50%);
-		transform-origin: 50% 50%;
-	}
-
-	&:focus:not(:active)::after {
-		animation: ripple 1s ease-out;
-	}
-}
-
-@keyframes ripple {
-	0% {
-		transform: scale(0, 0);
-		opacity: 0.5;
-	}
-	100% {
-		transform: scale(20, 20);
-		opacity: 0;
 	}
 }
 
@@ -170,7 +147,7 @@
 	color: #4a5568;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 
-	&:hover {
+	&:not(:disabled):hover {
 		background: #f7fafc;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 	}
@@ -185,7 +162,7 @@
 	background: #fff5f5;
 	color: #e53e3e;
 
-	&:hover {
+	&:not(:disabled):hover {
 		background: #fed7d7;
 		transform: translateY(-2px);
 		box-shadow: 0 4px 12px rgba(229, 62, 62, 0.2);
@@ -194,6 +171,84 @@
 	&:focus {
 		outline: 2px solid #e53e3e;
 		outline-offset: 2px;
+	}
+}
+
+// Спиннер для кнопки
+.spinner {
+	width: 18px;
+	height: 18px;
+	border: 2px solid rgba(229, 62, 62, 0.3);
+	border-radius: 50%;
+	border-top-color: #e53e3e;
+	animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+// Оверлей при выходе
+.logoutOverlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.5);
+	backdrop-filter: blur(4px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+	animation: fadeIn 0.3s ease-out;
+}
+
+.logoutModal {
+	background: white;
+	padding: 32px;
+	border-radius: 24px;
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+	text-align: center;
+	animation: slideUp 0.3s ease-out;
+
+	p {
+		margin-top: 16px;
+		color: #4a5568;
+		font-size: 16px;
+		font-weight: 500;
+	}
+}
+
+.spinnerLarge {
+	width: 48px;
+	height: 48px;
+	border: 3px solid #e2e8f0;
+	border-radius: 50%;
+	border-top-color: #667eea;
+	animation: spin 1s linear infinite;
+	margin: 0 auto;
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes slideUp {
+	from {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
 	}
 }
 
@@ -277,7 +332,312 @@
 	min-width: 0;
 }
 
-// Адаптивные настройки
+// Секция с сохраненными советами
+.savedTipsSection {
+	background: white;
+	border-radius: 24px;
+	padding: 24px;
+	margin-top: 24px;
+	box-shadow:
+		0 4px 12px rgba(0, 0, 0, 0.05),
+		0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.sectionHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-bottom: 20px;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.sectionTitle {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+
+	h2 {
+		font-size: 18px;
+		font-weight: 600;
+		color: #1a202c;
+		margin: 0;
+	}
+}
+
+.heartIcon {
+	color: #e53e3e;
+}
+
+.count {
+	background: #fed7d7;
+	color: #e53e3e;
+	font-size: 12px;
+	font-weight: 600;
+	padding: 2px 8px;
+	border-radius: 20px;
+}
+
+.viewAllLink {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	color: #667eea;
+	font-size: 14px;
+	font-weight: 500;
+	text-decoration: none;
+	background: none;
+	border: none;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	padding: 8px 12px;
+	border-radius: 8px;
+
+	&:hover {
+		color: #764ba2;
+		gap: 8px;
+		background: #f7fafc;
+	}
+}
+
+// Загрузка советов
+.loadingTips {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 48px 0;
+	gap: 16px;
+	color: #a0aec0;
+
+	.spinner {
+		width: 40px;
+		height: 40px;
+		border: 3px solid #e2e8f0;
+		border-radius: 50%;
+		border-top-color: #667eea;
+		animation: spin 1s linear infinite;
+	}
+}
+
+// Сетка советов
+.tipsGrid {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+// Карточка совета
+.tipCard {
+	background: #f8fafc;
+	border-radius: 16px;
+	padding: 16px;
+	transition: all 0.3s ease;
+	border: 2px solid transparent;
+	animation: fadeIn 0.5s ease-out;
+
+	&:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+		border-color: #667eea;
+		background: white;
+	}
+}
+
+.tipContent {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.tipHeader {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	flex-wrap: wrap;
+
+	h3 {
+		font-size: 16px;
+		font-weight: 600;
+		color: #1a202c;
+		margin: 0;
+		flex: 1;
+	}
+}
+
+.tipCategory {
+	font-size: 11px;
+	font-weight: 600;
+	padding: 4px 8px;
+	background: #667eea;
+	color: white;
+	border-radius: 12px;
+	text-transform: uppercase;
+	white-space: nowrap;
+}
+
+.tipDescription {
+	font-size: 14px;
+	color: #4a5568;
+	margin: 0;
+	line-height: 1.6;
+	word-break: break-word;
+}
+
+.tipFooter {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 8px;
+	padding-top: 8px;
+	border-top: 1px solid #e2e8f0;
+}
+
+.savedDate {
+	font-size: 12px;
+	color: #718096;
+}
+
+.tipActions {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.tipSavedIcon {
+	color: #e53e3e;
+}
+
+.deleteButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	background: #ef4444; // Красный фон
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	position: relative;
+	padding: 0; // Убираем внутренние отступы
+
+	// Стили для иконки
+	svg {
+		width: 16px;
+		height: 16px;
+		color: white; // Белый цвет иконки
+		display: block; // Убеждаемся, что иконка отображается как блок
+	}
+
+	&:hover:not(:disabled) {
+		background: #dc2626; // Темно-красный при наведении
+		transform: scale(1.1);
+		box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+
+		svg {
+			transform: scale(1.1);
+		}
+	}
+
+	&:active:not(:disabled) {
+		transform: scale(0.95);
+	}
+
+	&:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+		background: #9ca3af;
+	}
+}
+
+// Спиннер при удалении
+.deletingSpinner {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 16px;
+	height: 16px;
+	border: 2px solid rgba(255, 255, 255, 0.3);
+	border-radius: 50%;
+	border-top-color: white;
+	animation: spin 0.6s linear infinite;
+}
+
+// Кнопка "Показать еще"
+.showMoreButton {
+	width: 100%;
+	padding: 12px;
+	background: #f7fafc;
+	border: 2px dashed #cbd5e0;
+	border-radius: 12px;
+	color: #4a5568;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	margin-top: 8px;
+
+	&:hover {
+		background: #edf2f7;
+		border-color: #667eea;
+		color: #667eea;
+		transform: translateY(-2px);
+	}
+
+	&:active {
+		transform: translateY(0);
+	}
+}
+
+// Кнопка "Посмотреть советы"
+.browseTipsButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 10px 20px;
+	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+	color: white;
+	border: none;
+	border-radius: 12px;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	margin-top: 16px;
+
+	&:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 8px 16px rgba(102, 126, 234, 0.3);
+	}
+
+	&:active {
+		transform: translateY(0);
+	}
+}
+
+// Анимации
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+// Адаптивность
+@media (max-width: 1024px) {
+	.statsCard {
+		display: none;
+	}
+}
+
 @media (max-width: 768px) {
 	.main {
 		padding: 16px 12px;
@@ -293,6 +653,29 @@
 
 	.breadcrumbs {
 		margin-bottom: 16px;
+	}
+
+	.tipCard {
+		padding: 14px;
+	}
+
+	.tipHeader h3 {
+		font-size: 15px;
+	}
+
+	.tipDescription {
+		font-size: 13px;
+	}
+}
+
+@media (max-width: 640px) {
+	.sectionHeader {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.viewAllLink {
+		align-self: flex-end;
 	}
 }
 
@@ -316,20 +699,17 @@
 		padding: 8px 12px;
 		font-size: 13px;
 	}
-}
 
-// Анимация загрузки (можно использовать при переходе)
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-		transform: translateY(10px);
+	.tipHeader {
+		flex-direction: column;
+		align-items: flex-start;
 	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
 
-.grid > * {
-	animation: fadeIn 0.5s ease-out;
+	.tipCategory {
+		align-self: flex-start;
+	}
+
+	.tipActions {
+		gap: 8px;
+	}
 }

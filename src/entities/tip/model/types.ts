@@ -4,9 +4,8 @@ export interface Tip {
   id: string;
   title: string;
   content: string;
-  category: TipCategory;
-  link?: string;
-  liked?: boolean;
+  category: 'health' | 'training' | 'nutrition';
+  saved?: boolean; // добавляем поле saved
 }
 
 export interface DogFact {
