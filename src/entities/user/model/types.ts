@@ -4,3 +4,8 @@ export interface User {
   email: string;
   avatar: string;
 }
+
+export interface RegistrationData {
+  email: string;
+  password: string;
+}

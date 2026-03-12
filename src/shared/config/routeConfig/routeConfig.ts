@@ -1,11 +1,11 @@
 import type { ComponentType } from 'react'
+import { LoginPage } from '../../../pages/LoginPage/ui/LoginPage'
 import { MainPage } from '../../../pages/MainPage'
 import { PassportPage } from '../../../pages/PassportPage'
-import { ProfilePage } from '../../../pages/ProfilePage'
+import ProfilePage from '../../../pages/ProfilePage'
+import { RegistrationPage } from '../../../pages/RegistrationPage/ui/RegistrationPage/RegistrationPage'
 import { SettingsPage } from '../../../pages/SettingsPage'
 import { TipsPage } from '../../../pages/TipsPage'
-import { RegistrationPage } from '../../../pages/RegistrationPage/ui/RegistrationPage'
-import { LoginPage } from '../../../pages/LoginPage/ui/LoginPage'
 // import { withTheme } from '../../../app/providers/ThemeProvider'
 
 export interface AppRoute {

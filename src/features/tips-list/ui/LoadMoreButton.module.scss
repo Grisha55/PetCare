@@ -1,89 +1,63 @@
-.buttonContainer {
+.container {
 	display: flex;
-	justify-content: center;
-	margin-top: 3rem;
+	flex-direction: column;
+	align-items: center;
+	margin: 32px 0;
 }
 
-.loadButton {
-	position: relative;
-	display: inline-flex;
+.button {
+	display: flex;
 	align-items: center;
-	gap: 0.75rem;
-	padding: 1rem 2rem;
-	background: linear-gradient(to right, #16a34a, #22c55e);
-	color: white;
+	justify-content: center;
+	gap: 8px;
+	padding: 12px 24px;
+	background: white;
+	border: 2px solid #e2e8f0;
+	border-radius: 30px;
+	color: #4a5568;
+	font-size: 16px;
 	font-weight: 500;
-	border-radius: 1rem;
-	overflow: hidden;
-	box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-	transition: all 0.3s ease;
-	border: none;
 	cursor: pointer;
+	transition: all 0.2s ease;
 
 	&:hover:not(:disabled) {
-		transform: translateY(-0.125rem);
-		box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+		border-color: #667eea;
+		color: #667eea;
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+	}
 
-		.buttonIcon {
-			transform: rotate(12deg);
-		}
+	&:active:not(:disabled) {
+		transform: translateY(0);
 	}
 
 	&:disabled {
-		opacity: 0.5;
+		opacity: 0.6;
 		cursor: not-allowed;
 	}
-}
 
-.buttonGradient {
-	position: absolute;
-	inset: 0;
-	background: linear-gradient(to right, #15803d, #16a34a);
-	opacity: 0;
-	transition: opacity 0.3s ease;
+	svg {
+		transition: transform 0.2s ease;
+	}
 
-	.loadButton:hover:not(:disabled) & {
-		opacity: 1;
+	&:hover:not(:disabled) svg {
+		transform: translateY(4px);
 	}
 }
 
-.buttonIcon {
-	position: relative;
-	width: 1.25rem;
-	height: 1.25rem;
-	transition: transform 0.3s ease;
-}
-
-.buttonText {
-	position: relative;
-}
-
-.buttonCount {
-	position: relative;
-	font-size: 0.875rem;
-	opacity: 0.8;
-}
-
-.loadingButton {
-	display: inline-flex;
-	align-items: center;
-	gap: 0.75rem;
-	padding: 1rem 2rem;
-	background: #9ca3af;
-	color: white;
-	font-weight: 500;
-	border-radius: 1rem;
-	cursor: not-allowed;
-	border: none;
-}
-
-.loadingSpinner {
-	width: 1.25rem;
-	height: 1.25rem;
-	border: 2px solid white;
-	border-top-color: transparent;
+.spinner {
+	width: 20px;
+	height: 20px;
+	border: 2px solid #e2e8f0;
 	border-radius: 50%;
-	animation: spin 1s linear infinite;
+	border-top-color: #667eea;
+	animation: spin 0.8s linear infinite;
+}
+
+.count {
+	margin-top: 8px;
+	font-size: 14px;
+	color: #a0aec0;
 }
 
 @keyframes spin {

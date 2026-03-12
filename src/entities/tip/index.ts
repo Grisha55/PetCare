@@ -1,5 +1,5 @@
-export { type Tip, type TipCategory } from './model/types';
-export { fetchTips } from './api/tipsApi';
-export { getLikedTips, toggleTipLike } from './api/tipsLikesApi';
-export { TipCard } from './ui/TipCard';
-export { TipSkeleton } from './ui/TipSkeleton';
+export { fetchTips } from './api/tipsApi'
+export { TipCard } from './ui/TipCard'
+export { useTips } from './hooks/useTips';
+export { useTipsFilter } from './hooks/useTipsFilter';
+export type { Tip } from './model/types';

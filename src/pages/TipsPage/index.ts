@@ -1,3 +1,3 @@
-import TipsPage from './ui/TipsPage'
+import TipsPage from './ui/TipsPage/TipsPage'
 
 export { TipsPage }

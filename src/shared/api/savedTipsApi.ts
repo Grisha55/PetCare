@@ -6,7 +6,17 @@ export interface SavedTip extends Tip {
   user_id: string;
 }
 
-export const saveTip = async (userId: string, tip: Tip): Promise<any> => {
+interface SupabaseResponse {
+  id: string;
+  user_id: string;
+  tip_id: string;
+  title: string;
+  content: string;
+  category: string;
+  saved_at: string;
+}
+
+export const saveTip = async (userId: string, tip: Tip): Promise<SupabaseResponse[] | null> => {
   console.log('Saving tip for user:', userId);
   console.log('Tip to save:', tip);
   
@@ -15,11 +25,11 @@ export const saveTip = async (userId: string, tip: Tip): Promise<any> => {
     .from('saved_tips')
     .insert({
       user_id: userId,
-      tip_id: tip.id,        // может быть tipId или id
+      tip_id: tip.id,
       title: tip.title,
       content: tip.content,
       category: tip.category,
-      saved_at: new Date().toISOString() // может быть created_at или date
+      saved_at: new Date().toISOString()
     })
     .select();
 
