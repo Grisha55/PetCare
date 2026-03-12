@@ -1,0 +1,51 @@
+.pageWrapper {
+	min-height: 100vh;
+	background: linear-gradient(135deg, #f5f7fa 0%, #e9edf5 100%);
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+.main {
+	flex: 1;
+	padding: 24px 20px;
+
+	@media (min-width: 768px) {
+		padding: 32px 40px;
+	}
+}
+
+.container {
+	max-width: 1440px;
+	margin: 0 auto;
+	width: 100%;
+}
+
+.content {
+	width: 100%;
+}
+
+.grid {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+
+	@media (min-width: 1024px) {
+		flex-direction: row;
+		gap: 32px;
+	}
+}
+
+.cardColumn {
+	flex: 1;
+	max-width: 100%;
+
+	@media (min-width: 1024px) {
+		max-width: 380px;
+	}
+}
+
+.formColumn {
+	flex: 2;
+	min-width: 0;
+}

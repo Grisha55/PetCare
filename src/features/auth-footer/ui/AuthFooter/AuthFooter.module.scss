@@ -1,0 +1,25 @@
+.footer {
+	margin-top: 24px;
+	text-align: center;
+	padding-top: 24px;
+	border-top: 1px solid #e2e8f0;
+
+	p {
+		color: #718096;
+		font-size: 14px;
+		margin: 0 0 8px 0;
+	}
+}
+
+.link {
+	color: #667eea;
+	text-decoration: none;
+	font-weight: 600;
+	font-size: 16px;
+	transition: color 0.2s ease;
+
+	&:hover {
+		color: #764ba2;
+		text-decoration: underline;
+	}
+}

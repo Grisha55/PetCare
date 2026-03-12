@@ -1,4 +1,5 @@
 import { Heart } from 'lucide-react';
+import { useState } from 'react';
 import styles from './TipCard.module.scss';
 import type { Tip } from '../model/types';
 
@@ -8,30 +9,25 @@ interface TipCardProps {
 }
 
 export const TipCard = ({ tip, onSaveToggle }: TipCardProps) => {
-	// Создаем детерминированную задержку на основе id
-	// Используем последние цифры id для создания числа от 0 до 0.3
-	const getAnimationDelay = (id: string) => {
-		// Берем последние 2 символа id, конвертируем в число и нормализуем
-		const lastChars = id.slice(-2);
-		const num = parseInt(lastChars, 16) || 0; // парсим как hex
-		const delay = (num % 30) / 100; // получаем число от 0 до 0.3
-		return `${delay}s`;
-	};
+	const [isSaving, setIsSaving] = useState(false);
 
 	const handleSaveClick = async (e: React.MouseEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
-		if (onSaveToggle) {
-			const button = e.currentTarget as HTMLButtonElement;
-			button.style.transform = 'scale(0.95)';
-			setTimeout(() => {
-				button.style.transform = '';
-			}, 200);
 
+		if (!onSaveToggle || isSaving) return;
+
+		try {
+			setIsSaving(true);
 			await onSaveToggle(tip);
+		} catch (error) {
+			console.error('Failed to toggle save:', error);
+		} finally {
+			setIsSaving(false);
 		}
 	};
 
+	// Определяем эмодзи для категорий
 	const getCategoryEmoji = (category: string) => {
 		switch (category) {
 			case 'health':
@@ -45,6 +41,7 @@ export const TipCard = ({ tip, onSaveToggle }: TipCardProps) => {
 		}
 	};
 
+	// Определяем название категории на русском
 	const getCategoryName = (category: string) => {
 		switch (category) {
 			case 'health':
@@ -62,7 +59,6 @@ export const TipCard = ({ tip, onSaveToggle }: TipCardProps) => {
 		<div
 			className={styles.card}
 			data-category={tip.category}
-			style={{ animationDelay: getAnimationDelay(tip.id) }}
 		>
 			<div className={styles.category}>
 				<span>{getCategoryEmoji(tip.category)}</span>
@@ -76,6 +72,7 @@ export const TipCard = ({ tip, onSaveToggle }: TipCardProps) => {
 				<button
 					className={`${styles.saveButton} ${tip.saved ? styles.saved : ''}`}
 					onClick={handleSaveClick}
+					disabled={isSaving}
 					aria-label={tip.saved ? 'Удалить из сохраненных' : 'Сохранить совет'}
 				>
 					<Heart

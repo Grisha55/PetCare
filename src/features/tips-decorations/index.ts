@@ -1,0 +1,1 @@
+export { TipsDecorations } from './ui/TipsDecorations/TipsDecorations';

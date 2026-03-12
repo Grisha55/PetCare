@@ -4,7 +4,7 @@ import styles from './TipsGrid.module.scss';
 interface TipsGridProps {
 	tips: Tip[];
 	loading: boolean;
-	onSaveToggle?: (tip: Tip) => Promise<void>; // делаем опциональным
+	onSaveToggle?: (tip: Tip) => Promise<void>;
 }
 
 export const TipsGrid = ({ tips, loading, onSaveToggle }: TipsGridProps) => {
