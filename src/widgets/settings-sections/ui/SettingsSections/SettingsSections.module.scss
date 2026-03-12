@@ -1,0 +1,14 @@
+.sections {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.dangerZoneCard {
+	border: 2px solid #feb2b2;
+	box-shadow: 0 4px 12px rgba(229, 62, 62, 0.1);
+
+	:global(.cardTitle) {
+		color: #e53e3e;
+	}
+}

@@ -1,0 +1,15 @@
+.settingsPage {
+	min-height: calc(100vh - 80px);
+	background: linear-gradient(135deg, #f5f7fa 0%, #e9edf5 100%);
+	padding: 24px 20px;
+
+	@media (min-width: 768px) {
+		padding: 32px 40px;
+	}
+}
+
+.container {
+	max-width: 1200px;
+	margin: 0 auto;
+	width: 100%;
+}
