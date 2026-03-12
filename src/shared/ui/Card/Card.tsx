@@ -1,16 +1,17 @@
-import { type FC, type PropsWithChildren } from 'react';
-import styles from './Card.module.scss';
+import { type FC, type ReactNode } from 'react';
+import cls from './Card.module.scss';
 
-interface CardProps extends PropsWithChildren {
+interface CardProps {
 	title?: string;
+	children: ReactNode;
 	className?: string;
 }
 
-export const Card: FC<CardProps> = ({ children, title, className = '' }) => {
+export const Card: FC<CardProps> = ({ title, children, className }) => {
 	return (
-		<div className={`${styles.card} ${className}`}>
-			{title && <h3 className={styles.title}>{title}</h3>}
-			{children}
+		<div className={`${cls.card} ${className || ''}`}>
+			{title && <h2 className={cls.title}>{title}</h2>}
+			<div className={cls.content}>{children}</div>
 		</div>
 	);
 };

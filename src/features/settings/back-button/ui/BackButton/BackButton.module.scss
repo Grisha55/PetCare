@@ -1,0 +1,32 @@
+.backButton {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 16px;
+	background: white;
+	border: 2px solid #e2e8f0;
+	border-radius: 12px;
+	color: #4a5568;
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	&:hover {
+		border-color: #667eea;
+		color: #667eea;
+		transform: translateX(-4px);
+	}
+
+	&:active {
+		transform: translateX(-2px);
+	}
+
+	svg {
+		transition: transform 0.2s ease;
+	}
+
+	&:hover svg {
+		transform: translateX(-2px);
+	}
+}
