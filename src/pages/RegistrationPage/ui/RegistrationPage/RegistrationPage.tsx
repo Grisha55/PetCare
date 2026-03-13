@@ -7,9 +7,11 @@ import { supabase } from '../../../../shared/api/supabase';
 import { getRegistrationErrorMessage } from '../../../../shared/lib/error-handlers';
 import { ConfirmationScreen } from '../../../../widgets/confirmation-screen';
 import cls from './RegistrationPage.module.scss';
+import { usePet } from '../../../../app/providers/pet-provider/usePet';
 
 export const RegistrationPage = () => {
 	const navigate = useNavigate();
+	const { setPet } = usePet();
 
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
@@ -53,6 +55,8 @@ export const RegistrationPage = () => {
 				if (!user) throw new Error('User not found');
 
 				const pet = await createPet(user.id, { name: petName });
+
+				setPet(pet);
 
 				if (photo && pet) {
 					await uploadPetAvatar(pet.id, photo);

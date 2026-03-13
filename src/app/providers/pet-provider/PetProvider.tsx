@@ -1,6 +1,6 @@
 // PetProvider.tsx
 import { useEffect, useState, useCallback } from 'react';
-import { createPet, uploadPetAvatar } from '../../../shared/api/petApi';
+import { uploadPetAvatar } from '../../../shared/api/petApi';
 import { supabase } from '../../../shared/api/supabase';
 import { useAuth } from '../auth-provider';
 import { PetContext, type Pet } from './PetContext';
@@ -10,6 +10,10 @@ export const PetProvider = ({ children }: { children: React.ReactNode }) => {
 	const [pet, setPet] = useState<Pet | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState<Error | null>(null);
+
+	const updatePet = (newPet: Pet | null) => {
+		setPet(newPet);
+	};
 
 	const loadOrCreatePet = useCallback(async () => {
 		if (!user) {
@@ -42,12 +46,13 @@ export const PetProvider = ({ children }: { children: React.ReactNode }) => {
 
 			// Если питомцев нет - создаем нового
 			console.log('No pet found, creating new one for user:', user.id);
-			const petName = user.email?.split('@')[0] || 'Питомец';
+			setPet(null);
+			//const petName = user.email?.split('@')[0] || 'Питомец';
 
-			const newPet = await createPet(user.id, { name: petName });
-			console.log('New pet created:', newPet);
+			//const newPet = await createPet(user.id, { name: petName });
+			//console.log('New pet created:', newPet);
 
-			setPet(newPet);
+			//setPet(newPet);
 		} catch (err) {
 			console.error('Error in loadOrCreatePet:', err);
 			setError(err instanceof Error ? err : new Error('Unknown error'));
@@ -119,7 +124,8 @@ export const PetProvider = ({ children }: { children: React.ReactNode }) => {
 				loading,
 				error,
 				changeAvatar,
-				refreshPet: loadOrCreatePet
+				refreshPet: loadOrCreatePet,
+				setPet: updatePet
 			}}
 		>
 			{children}

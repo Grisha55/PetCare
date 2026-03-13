@@ -14,6 +14,7 @@ export interface PetContextType {
   error: Error | null;
   changeAvatar: (file: File) => Promise<void>;
   refreshPet: () => Promise<void>;
+  setPet: (pet: Pet | null) => void;
 }
 
 export const PetContext = createContext<PetContextType | null>(null);

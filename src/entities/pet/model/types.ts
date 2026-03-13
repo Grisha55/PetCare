@@ -2,7 +2,8 @@ export interface Pet {
   id: string
   name: string
   avatar_url: string | null
-  email?: string
+  user_id: string
+  created_at?: string
 }
 
 export interface CreatePetData {
