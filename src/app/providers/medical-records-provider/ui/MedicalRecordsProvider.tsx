@@ -1,32 +1,46 @@
+// MedicalRecordsProvider.tsx
 import { useState, type ReactNode } from 'react';
 import { v4 as uuid } from 'uuid';
+import type {
+	CreateMedicalRecord,
+	MedicalRecord
+} from '../../../../entities/medical-record/model/types';
+import { usePet } from '../../pet-provider/usePet';
 import { MedicalRecordsContext } from '../model/context';
-import type { CreateMedicalRecord, MedicalRecord } from '../../../../entities/medical-record/model/types'
 
 export const MedicalRecordsProvider = ({
-  children,
+	children
 }: {
-  children: ReactNode;
+	children: ReactNode;
 }) => {
-  const [records, setRecords] = useState<MedicalRecord[]>([]);
+	const { pet } = usePet(); // Получаем текущего питомца
+	const [records, setRecords] = useState<MedicalRecord[]>([]);
 
-  const addRecord = (data: CreateMedicalRecord) => {
-    setRecords((prev) => [
-      ...prev,
-      {
-        id: uuid(),
-        ...data,
-      },
-    ]);
-  };
+	const addRecord = (data: CreateMedicalRecord) => {
+		if (!pet?.id) {
+			console.error('No pet selected');
+			return;
+		}
 
-  const deleteRecord = (id: string) => {
-    setRecords((prev) => prev.filter((record) => record.id !== id));
-  };
+		setRecords(prev => [
+			...prev,
+			{
+				id: uuid(),
+				pet_id: pet.id,
+				...data
+			}
+		]);
+	};
 
-  return (
-    <MedicalRecordsContext.Provider value={{ records, addRecord, deleteRecord }}>
-      {children}
-    </MedicalRecordsContext.Provider>
-  );
+	const deleteRecord = (id: string) => {
+		setRecords(prev => prev.filter(record => record.id !== id));
+	};
+
+	return (
+		<MedicalRecordsContext.Provider
+			value={{ records, addRecord, deleteRecord }}
+		>
+			{children}
+		</MedicalRecordsContext.Provider>
+	);
 };

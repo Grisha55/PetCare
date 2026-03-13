@@ -88,7 +88,7 @@ export const ProfileCard = () => {
 							className={cls.icon}
 						/>
 						<p className={cls.petName}>
-							Питомец: <span>{profile.name}</span>
+							Питомец: <span>{pet.name}</span>
 						</p>
 					</div>
 				)}
