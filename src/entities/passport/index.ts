@@ -1,1 +1,1 @@
-export { passportImages } from './model/passport.mock'
+export type { PassportPhoto, PassportPhotoUpload } from './model/types'

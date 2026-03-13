@@ -8,19 +8,22 @@ import { ThemeProvider } from './app/providers/ThemeProvider';
 import { AuthProvider } from './app/providers/auth-provider';
 import { PetProvider } from './app/providers/pet-provider/PetProvider';
 import { MedicalRecordsProvider } from './app/providers/medical-records-provider/ui/MedicalRecordsProvider';
+import { PassportProvider } from './entities/passport/context';
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <ThemeProvider>
-        <AuthProvider>
-          <PetProvider>
-            <MedicalRecordsProvider>
-              <App />
-            </MedicalRecordsProvider>
-          </PetProvider>
-        </AuthProvider>
-      </ThemeProvider>
-    </BrowserRouter>
-  </StrictMode>
+	<StrictMode>
+		<BrowserRouter>
+			<ThemeProvider>
+				<AuthProvider>
+					<PetProvider>
+						<PassportProvider>
+							<MedicalRecordsProvider>
+								<App />
+							</MedicalRecordsProvider>
+						</PassportProvider>
+					</PetProvider>
+				</AuthProvider>
+			</ThemeProvider>
+		</BrowserRouter>
+	</StrictMode>
 );
