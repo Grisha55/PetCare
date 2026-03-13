@@ -1,125 +1,97 @@
+// supabase/functions/delete-user/index.ts
 // @ts-expect-error - Deno specific import
-import { serve } from 'https://deno.land/std@0.177.0/http/server.ts';
+import { serve } from 'https://deno.land/std@0.177.0/http/server.ts'
 // @ts-expect-error - Deno specific import
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1';
-
-// @ts-expect-error - Deno namespace
-const supabaseUrl = Deno.env.get('SUPABASE_URL');
-// @ts-expect-error - Deno namespace
-const supabaseServiceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.7.1'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': '*',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 
 serve(async (req: Request) => {
-  // Handle CORS preflight
+  // CORS preflight
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders });
   }
 
   try {
-    console.log('🚀 Delete user function started');
+    console.log('1️⃣ Function started');
     
-    // Check environment variables
+    // Получаем переменные окружения
+    const supabaseUrl = Deno.env.get('SUPABASE_URL');
+    const supabaseServiceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+    
     if (!supabaseUrl || !supabaseServiceRoleKey) {
-      console.error('❌ Missing environment variables');
-      return new Response(
-        JSON.stringify({ error: 'Server configuration error' }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      throw new Error('Missing env vars');
     }
+
+    // Получаем userId из тела запроса
+    const { userId } = await req.json();
+    console.log('2️⃣ UserId:', userId);
     
-    // Get auth header
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      console.error('❌ No authorization header');
-      return new Response(
-        JSON.stringify({ error: 'No authorization header' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+    if (!userId) {
+      throw new Error('No userId provided');
     }
 
-    const token = authHeader.replace('Bearer ', '');
-    console.log('📝 Token received, length:', token.length);
+    // Создаем админ-клиент
+    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey);
+    console.log('3️⃣ Admin client created');
 
-    // Create admin client
-    const supabaseAdmin = createClient(
-      supabaseUrl,
-      supabaseServiceRoleKey,
-      {
-        auth: {
-          autoRefreshToken: false,
-          persistSession: false
-        }
-      }
-    );
-
-    // Get user from token
-    const { data: { user }, error: userError } = await supabaseAdmin.auth.getUser(token);
+    // Удаляем все связанные записи ПОСЛЕДОВАТЕЛЬНО
+    console.log('4️⃣ Deleting pets...');
+    const { error: petsError } = await supabaseAdmin
+      .from('pets')
+      .delete()
+      .eq('user_id', userId);
     
-    if (userError) {
-      console.error('❌ Error getting user:', userError);
-      return new Response(
-        JSON.stringify({ error: 'Failed to get user', details: userError.message }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+    if (petsError) {
+      console.error('⚠️ Pets deletion error:', petsError);
     }
 
-    if (!user) {
-      console.error('❌ User not found');
-      return new Response(
-        JSON.stringify({ error: 'User not found' }),
-        { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
-    }
-
-    console.log('✅ User found:', user.id, user.email);
-
-    // Try to delete user data first
+    // Удаляем медицинские записи (если таблица существует)
     try {
-      console.log('🗑️ Deleting pets for user:', user.id);
-      const { error: petsError } = await supabaseAdmin
-        .from('pets')
+      console.log('5️⃣ Deleting medical records...');
+      await supabaseAdmin
+        .from('medical_records')
         .delete()
-        .eq('user_id', user.id);
-      
-      if (petsError) {
-        console.error('⚠️ Error deleting pets (continuing anyway):', petsError);
-      } else {
-        console.log('✅ Pets deleted successfully');
-      }
-    } catch (petsErr) {
-      console.error('⚠️ Exception deleting pets (continuing anyway):', petsErr);
+        .eq('user_id', userId);
+    } catch (e) {
+      console.log('ℹ️ Medical records table may not exist');
     }
 
-    // Delete the user
-    console.log('🗑️ Deleting user:', user.id);
-    const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(user.id);
+    // Удаляем профиль (если таблица существует)
+    try {
+      console.log('6️⃣ Deleting profile...');
+      await supabaseAdmin
+        .from('profiles')
+        .delete()
+        .eq('id', userId);
+    } catch (e) {
+      console.log('ℹ️ Profiles table may not exist');
+    }
+
+    // Теперь удаляем пользователя
+    console.log('7️⃣ Deleting user from auth...');
+    const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(userId);
     
     if (deleteError) {
-      console.error('❌ Error deleting user:', deleteError);
-      return new Response(
-        JSON.stringify({ error: deleteError.message }),
-        { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      console.error('❌ Auth deletion error:', deleteError);
+      throw deleteError;
     }
 
-    console.log('✅ User deleted successfully');
+    console.log('8️⃣ User deleted successfully');
     
     return new Response(
-      JSON.stringify({ success: true, message: 'User deleted successfully' }),
+      JSON.stringify({ success: true }),
       { status: 200, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
     
   } catch (error) {
-    console.error('❌ Unexpected error:', error);
+    console.error('❌ Fatal error:', error);
     return new Response(
-      JSON.stringify({ 
-        error: error instanceof Error ? error.message : 'Internal server error' 
-      }),
+      JSON.stringify({ error: error.message || 'Internal error' }),
       { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   }
