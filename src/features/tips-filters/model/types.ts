@@ -1,4 +1,4 @@
-import { type TipCategory } from '../../../entities/tip';
+import type { TipCategory } from '../../../entities/tip/model/types'
 
 export type CategoryFilterValue = TipCategory | 'all';
 

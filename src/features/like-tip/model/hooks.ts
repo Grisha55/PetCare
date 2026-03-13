@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { toggleTipLike } from '../../../entities/tip';
 import { useAuth } from '../../../app/providers/auth-provider';
+import { toggleTipLike } from '../../../entities/tip/api/tipsLikesApi'
 
 export const useLikeTip = (onLikeToggle?: (tipId: string, liked: boolean) => void) => {
   const { user } = useAuth();
