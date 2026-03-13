@@ -233,3 +233,16 @@
 		}
 	}
 }
+
+.exportButton {
+	@media (max-width: 768px) {
+		width: 100%;
+		min-width: auto;
+	}
+}
+
+.buttonContent {
+	@media (max-width: 768px) {
+		justify-content: center;
+	}
+}

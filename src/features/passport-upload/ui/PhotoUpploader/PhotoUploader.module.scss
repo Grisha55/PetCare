@@ -206,3 +206,16 @@
 		}
 	}
 }
+
+.uploader {
+	@media (max-width: 768px) {
+		width: 100%;
+	}
+}
+
+.uploadButton {
+	@media (max-width: 768px) {
+		width: 100%;
+		justify-content: center;
+	}
+}

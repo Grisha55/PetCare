@@ -14,7 +14,7 @@ const PassportPage = () => {
 	const { records, addRecord, deleteRecord } = useMedicalRecords(
 		pet?.id ?? null
 	);
-	const { photos, addPhoto, removePhoto } = usePassport(); // 👈 Используем контекст
+	const { photos, addPhoto, removePhoto } = usePassport();
 
 	const handleAdd = async (data: CreateMedicalRecord) => {
 		await addRecord(data);
