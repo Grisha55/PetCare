@@ -6,6 +6,7 @@ import { RegistrationPage } from '../../../pages/RegistrationPage/ui/Registratio
 import SettingsPage from '../../../pages/SettingsPage'
 import { TipsPage } from '../../../pages/TipsPage'
 import LoginPage from '../../../pages/LoginPage'
+import ResetPasswordPage from '../../../pages/ResetPasswordPage'
 // import { withTheme } from '../../../app/providers/ThemeProvider'
 
 export interface AppRoute {
@@ -18,6 +19,7 @@ export const AppRoutes = {
 	REGISTRATION: 'registration',
 	TIPS: 'tips',
 	PROFILE: 'profile',
+	RESET_PASSWORD: 'reset-password'
 } as const;
 
 export type AppRoutes = typeof AppRoutes[keyof typeof AppRoutes]
@@ -30,6 +32,10 @@ export const routeConfig: Record<string, AppRoute> = {
 	[AppRoutes.REGISTRATION]: {
 		path: '/registration',
 		component: RegistrationPage,
+	},
+	[AppRoutes.RESET_PASSWORD]: {
+		path: '/reset-password',
+		component: ResetPasswordPage
 	},
 	main: {
 		path: '/',
