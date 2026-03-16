@@ -6,6 +6,7 @@ import { usePet } from '../../../app/providers/pet-provider/usePet';
 import { useProfile } from '../../../entities/user/hooks/useProfile';
 import { BurgerMenu } from '../../../shared/ui/BurgerMenu/BurgerMenu';
 import { Container } from '../../../shared/ui/Container/Container';
+import { NotificationCenter } from '../../../widgets/notification-center'; // 👈 Импортируем
 import cls from './Navbar.module.scss';
 import { NavLink } from './NavLink';
 
@@ -106,14 +107,18 @@ export const Navbar = () => {
 					</nav>
 				)}
 
-				<div
-					className={cls.profile}
-					onClick={() => navigate('/profile')}
-				>
-					<div className={cls.image_block}>{getAvatarContent()}</div>
-					<div className={cls.info}>
-						<span className={cls.petName}>{petName}</span>
-						<span className={cls.userEmail}>{userEmail}</span>
+				<div className={cls.rightSection}>
+					<NotificationCenter />
+
+					<div
+						className={cls.profile}
+						onClick={() => navigate('/profile')}
+					>
+						<div className={cls.image_block}>{getAvatarContent()}</div>
+						<div className={cls.info}>
+							<span className={cls.petName}>{petName}</span>
+							<span className={cls.userEmail}>{userEmail}</span>
+						</div>
 					</div>
 				</div>
 			</Container>

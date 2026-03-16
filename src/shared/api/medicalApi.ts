@@ -1,29 +1,28 @@
+import type { MedicalRecord, CreateMedicalRecord } from '../../entities/medical-record/model/types'
 import { supabase } from './supabase';
 
 export const createMedicalRecord = async (
   petId: string,
-  type: 'vaccine' | 'medicine' | 'visit',
-  title: string,
-  description: string,
-  date: string
+  data: CreateMedicalRecord
 ) => {
-  const { data, error } = await supabase
+  const { data: newRecord, error } = await supabase
     .from('medical_records')
     .insert({
       pet_id: petId,
-      type,
-      title,
-      description,
-      date,
+      type: data.type,
+      title: data.title,
+      description: data.description,
+      date: data.date,
     })
-    .select();
+    .select()
+    .single();
 
   if (error) throw error;
 
-  return data;
+  return newRecord as MedicalRecord;
 };
 
-export const getMedicalRecords = async (petId: string) => {
+export const getMedicalRecords = async (petId: string): Promise<MedicalRecord[]> => {
   const { data, error } = await supabase
     .from('medical_records')
     .select('*')
@@ -32,7 +31,7 @@ export const getMedicalRecords = async (petId: string) => {
 
   if (error) throw error;
 
-  return data;
+  return data || [];
 };
 
 export const deleteMedicalRecord = async (id: string) => {
@@ -43,3 +42,42 @@ export const deleteMedicalRecord = async (id: string) => {
 
   if (error) throw error
 }
+
+export const createReminderNotification = async (
+  userId: string,
+  petId: string,
+  record: MedicalRecord
+) => {
+  const recordDate = new Date(record.date);
+  const today = new Date();
+  const daysUntil = Math.ceil((recordDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+
+  let message = '';
+  let type = 'info';
+
+  if (daysUntil <= 0) {
+    message = `Сегодня запланировано: ${record.title}`;
+    type = 'warning';
+  } else if (daysUntil === 1) {
+    message = `Завтра: ${record.title}`;
+    type = 'reminder';
+  } else if (daysUntil <= 7) {
+    message = `Через ${daysUntil} дней: ${record.title}`;
+    type = 'reminder';
+  }
+
+  if (message) {
+    const { error } = await supabase
+      .from('user_notifications')
+      .insert({
+        user_id: userId,
+        pet_id: petId,
+        record_id: record.id,
+        type,
+        title: `Напоминание: ${record.title}`,
+        message
+      });
+
+    if (error) console.error('Error creating notification:', error);
+  }
+};

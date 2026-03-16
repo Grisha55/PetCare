@@ -12,6 +12,7 @@
 	align-items: center;
 	justify-content: space-between;
 	height: 6.4rem;
+	padding: 0 2rem; // Добавляем отступы по бокам
 }
 
 .leftSection {
@@ -57,6 +58,21 @@
 	}
 }
 
+.rightSection {
+	display: flex;
+	align-items: center;
+	gap: 1.2rem;
+	width: 16rem;
+	justify-content: flex-end;
+}
+
+// Стили для NotificationCenter
+.notificationWrapper {
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
 .profile {
 	display: flex;
 	align-items: center;
@@ -69,7 +85,8 @@
 	background: var(--bg-secondary);
 	box-shadow: 0 2px 8px var(--shadow);
 	transition: all 0.2s ease;
-	width: 16rem;
+	width: auto; // Меняем с фиксированной на auto
+	min-width: 12rem;
 
 	&:hover {
 		background: var(--primary-color);
@@ -104,6 +121,7 @@
 	color: var(--text-secondary);
 	min-width: 0;
 	overflow: hidden;
+	flex: 1;
 }
 
 .info span {
@@ -283,6 +301,50 @@
 .userEmail {
 	font-size: 12px;
 	color: #666;
+}
+
+// Адаптивность
+@media (max-width: 768px) {
+	.navbarContainer {
+		padding: 0 1rem;
+	}
+
+	.leftSection {
+		width: auto;
+	}
+
+	.rightSection {
+		gap: 0.8rem;
+		width: auto;
+	}
+
+	.profile {
+		min-width: auto;
+		padding: 0.4rem;
+
+		.info {
+			display: none; // Скрываем текст на планшетах
+		}
+	}
+}
+
+@media (max-width: 480px) {
+	.navbarContainer {
+		padding: 0 0.8rem;
+	}
+
+	.rightSection {
+		gap: 0.4rem;
+	}
+
+	.profile {
+		padding: 0.2rem;
+
+		.image_block {
+			width: 36px;
+			height: 36px;
+		}
+	}
 }
 
 @keyframes loading {
