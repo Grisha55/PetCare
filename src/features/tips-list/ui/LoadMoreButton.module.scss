@@ -11,18 +11,18 @@
 	justify-content: center;
 	gap: 8px;
 	padding: 12px 24px;
-	background: white;
-	border: 2px solid #e2e8f0;
+	background: var(--bg-primary);
+	border: 2px solid var(--border-light);
 	border-radius: 30px;
-	color: #4a5568;
+	color: var(--text-tertiary);
 	font-size: 16px;
 	font-weight: 500;
 	cursor: pointer;
 	transition: all 0.2s ease;
 
 	&:hover:not(:disabled) {
-		border-color: #667eea;
-		color: #667eea;
+		border-color: var(--accent-purple-800);
+		color: var(--accent-purple-800);
 		transform: translateY(-2px);
 		box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
 	}
@@ -48,16 +48,16 @@
 .spinner {
 	width: 20px;
 	height: 20px;
-	border: 2px solid #e2e8f0;
+	border: 2px solid var(--border-light);
 	border-radius: 50%;
-	border-top-color: #667eea;
+	border-top-color: var(--accent-purple-800);
 	animation: spin 0.8s linear infinite;
 }
 
 .count {
 	margin-top: 8px;
 	font-size: 14px;
-	color: #a0aec0;
+	color: var(--text-tertiary);
 }
 
 @keyframes spin {

@@ -14,21 +14,21 @@
 	align-items: center;
 	gap: 8px;
 	padding: 16px;
-	border: 2px solid var(--border-color);
+	border: 2px solid var(--border-light);
 	border-radius: 12px;
-	background: var(--bg-color);
+	background: var(--bg-primary);
 	cursor: pointer;
 	transition: all 0.2s ease;
-	color: var(--text-color);
+	color: var(--text-primary);
 
 	&:hover {
-		border-color: var(--primary-color);
+		border-color: var(--border-dark);
 		transform: translateY(-2px);
 	}
 
 	&.active {
-		border-color: var(--secondary-accent);
-		background: var(--primary-color);
+		border-color: var(--accent-purple-400);
+		background: var(--bg-primary);
 	}
 }
 

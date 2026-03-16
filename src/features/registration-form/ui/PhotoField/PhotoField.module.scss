@@ -6,7 +6,7 @@
 	label {
 		font-size: 14px;
 		font-weight: 500;
-		color: #4a5568;
+		color: var(--text-tertiary);
 	}
 }
 
@@ -35,12 +35,12 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
-		background: rgba(0, 0, 0, 0.5);
+		background: var(--overlay-dark);
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		color: white;
+		color: var(--overlay-light);
 		opacity: 0;
 		transition: opacity 0.2s ease;
 
@@ -58,21 +58,21 @@
 .uploadButton {
 	width: 100%;
 	padding: 20px;
-	background: #f7fafc;
-	border: 2px dashed #cbd5e0;
+	background: var(--bg-secondary);
+	border: 2px dashed var(--border-medium);
 	border-radius: 12px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	gap: 8px;
-	color: #4a5568;
+	color: var(--text-tertiary);
 	cursor: pointer;
 	transition: all 0.2s ease;
 
 	&:hover:not(:disabled) {
-		border-color: #667eea;
-		color: #667eea;
-		background: #f0f4ff;
+		border-color: var(--accent-purple-800);
+		color: var(--accent-purple-800);
+		background: var(--accent-purple-50);
 	}
 
 	&:disabled {
@@ -81,7 +81,7 @@
 	}
 
 	svg {
-		color: #a0aec0;
+		color: var(--text-tertiary);
 	}
 }
 

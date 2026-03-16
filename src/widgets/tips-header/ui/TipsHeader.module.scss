@@ -10,13 +10,13 @@
 	width: 3.5rem;
 	height: 3.5rem;
 	margin: 0 auto 1rem;
-	background: #dcfce7;
+	background: var(--success-100);
 	border-radius: 9999px;
 
 	svg {
 		width: 1.5rem;
 		height: 1.5rem;
-		color: #16a34a;
+		color: var(--success-600);
 	}
 }
 
@@ -24,7 +24,7 @@
 	font-size: 2.5rem;
 	font-weight: 800;
 	margin-bottom: 1rem;
-	background: linear-gradient(to right, #16a34a, #2563eb);
+	background: linear-gradient(to right, var(--success-600), var(--secondary-500));
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
@@ -36,7 +36,7 @@
 
 .subtitle {
 	font-size: 1.125rem;
-	color: #6b7280;
+	color: var(--gray-500);
 	max-width: 42rem;
 	margin: 0 auto;
 	line-height: 1.6;

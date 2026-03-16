@@ -1,27 +1,3 @@
-// DailyTip.module.scss
-
-// Переменные
-$primary-green: #10b981;
-$primary-green-light: #d1fae5;
-$primary-green-dark: #059669;
-
-$accent-yellow: #fbbf24;
-$accent-orange: #f97316;
-
-$text-primary: #1f2937;
-$text-secondary: #6b7280;
-$text-light: #9ca3af;
-
-$bg-white: #ffffff;
-$bg-cream: #fef9e7;
-$bg-gradient-start: #f0fdf4;
-$bg-gradient-end: #fef9e7;
-
-$shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-$shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-$shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-
-// Миксины
 @mixin flex-center {
 	display: flex;
 	align-items: center;
@@ -34,7 +10,6 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 	border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-// Анимации
 @keyframes float {
 	0%,
 	100% {
@@ -81,18 +56,16 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 	}
 }
 
-// Основной контейнер
 .card {
 	position: relative;
-	background: $bg-white;
+	background: var(--bg-primary);
 	border-radius: 2rem;
 	padding: 2rem;
 	margin: 1.5rem 0;
-	box-shadow: $shadow-md;
+	box-shadow: var(--shadow-md);
 	overflow: hidden;
 	animation: slideIn 0.6s ease-out;
 
-	// Градиентная обводка
 	&::before {
 		content: '';
 		position: absolute;
@@ -102,9 +75,9 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 		bottom: -2px;
 		background: linear-gradient(
 			45deg,
-			$primary-green,
-			$accent-yellow,
-			$primary-green
+			var(--primary-600),
+			var(--accent-yellow),
+			var(--primary-600)
 		);
 		border-radius: 2rem;
 		z-index: -1;
@@ -114,7 +87,7 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 
 	&:hover {
 		transform: translateY(-4px);
-		box-shadow: $shadow-lg;
+		box-shadow: var(--shadow-lg);
 
 		&::before {
 			opacity: 0.5;
@@ -122,7 +95,6 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 	}
 }
 
-// Декоративные элементы
 .decor {
 	position: absolute;
 	top: 0;
@@ -136,12 +108,11 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 	svg {
 		width: 100%;
 		height: 100%;
-		color: $primary-green;
+		color: var(--primary-600);
 		animation: float 6s ease-in-out infinite;
 	}
 }
 
-// Заголовок
 .header {
 	display: flex;
 	align-items: center;
@@ -155,21 +126,21 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 	@include flex-center;
 	width: 3rem;
 	height: 3rem;
-	background: linear-gradient(135deg, $primary-green-light, $bg-cream);
+	background: linear-gradient(135deg, var(--primary-200), var(--bg-secondary));
 	border-radius: 1rem;
-	box-shadow: $shadow-sm;
+	box-shadow: var(--shadow-sm);
 
 	svg {
 		width: 1.5rem;
 		height: 1.5rem;
-		color: $primary-green-dark;
+		color: var(--primary-700);
 	}
 }
 
 .title {
 	font-size: 1.5rem;
 	font-weight: 700;
-	background: linear-gradient(135deg, $primary-green-dark, $accent-orange);
+	background: linear-gradient(135deg, var(--primary-700), var(--accent-orange));
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
@@ -182,26 +153,33 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 		left: 0;
 		width: 40px;
 		height: 3px;
-		background: linear-gradient(90deg, $primary-green, $accent-yellow);
+		background: linear-gradient(
+			90deg,
+			var(--primary-600),
+			var(--accent-yellow)
+		);
 		border-radius: 2px;
 	}
 }
 
-// Контент
 .content {
 	position: relative;
 	z-index: 1;
 }
 
 .text {
-	color: $text-primary;
+	color: var(--text-primary);
 	font-size: 1.125rem;
 	line-height: 1.7;
 	margin-bottom: 1.5rem;
 	position: relative;
 	padding-left: 1rem;
 	border-left: 4px solid transparent;
-	border-image: linear-gradient(180deg, $primary-green, $accent-yellow);
+	border-image: linear-gradient(
+		180deg,
+		var(--primary-600),
+		var(--accent-yellow)
+	);
 	border-image-slice: 1;
 
 	p {
@@ -211,7 +189,7 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 
 		&::before {
 			content: '«';
-			color: $primary-green;
+			color: var(--primary-600);
 			font-size: 1.5rem;
 			opacity: 0.5;
 			margin-right: 0.25rem;
@@ -219,7 +197,7 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 
 		&::after {
 			content: '»';
-			color: $primary-green;
+			color: var(--primary-600);
 			font-size: 1.5rem;
 			opacity: 0.5;
 			margin-left: 0.25rem;
@@ -227,14 +205,13 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 	}
 }
 
-// Мета-информация
 .meta {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	margin-top: 1rem;
 	padding-top: 1rem;
-	border-top: 2px dashed $primary-green-light;
+	border-top: 2px dashed var(--primary-200);
 }
 
 .category {
@@ -242,11 +219,11 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 	align-items: center;
 	gap: 0.5rem;
 	padding: 0.5rem 1rem;
-	background: $primary-green-light;
+	background: var(--primary-200);
 	border-radius: 2rem;
 	font-size: 0.875rem;
 	font-weight: 500;
-	color: $primary-green-dark;
+	color: var(--primary-700);
 	text-transform: capitalize;
 
 	svg {
@@ -257,7 +234,7 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 
 .date {
 	font-size: 0.875rem;
-	color: $text-light;
+	color: var(--text-tertiary);
 	display: flex;
 	align-items: center;
 	gap: 0.25rem;
@@ -268,23 +245,22 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 	}
 }
 
-// Кнопка "Поделиться"
 .shareButton {
 	@include flex-center;
 	width: 2.5rem;
 	height: 2.5rem;
-	background: $bg-cream;
+	background: var(--bg-secondary);
 	border: none;
 	border-radius: 50%;
 	cursor: pointer;
 	transition: all 0.3s ease;
-	color: $primary-green-dark;
+	color: var(--primary-700);
 
 	&:hover {
-		background: $primary-green;
+		background: var(--primary-600);
 		color: white;
 		transform: rotate(360deg);
-		box-shadow: $shadow-md;
+		box-shadow: var(--shadow-md);
 	}
 
 	svg {
@@ -293,14 +269,18 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 	}
 }
 
-// Состояние загрузки
 .skeleton {
 	position: relative;
 	z-index: 1;
 
 	.skeletonLine {
 		height: 1.2rem;
-		background: linear-gradient(90deg, #e5e7eb 25%, #f3f4f6 50%, #e5e7eb 75%);
+		background: linear-gradient(
+			90deg,
+			var(--gray-200) 25%,
+			var(--gray-100) 50%,
+			var(--gray-200) 75%
+		);
 		background-size: 200% 100%;
 		animation: loading 1.5s infinite;
 		border-radius: 0.5rem;
@@ -318,13 +298,12 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 	}
 }
 
-// Пустое состояние
 .empty {
 	@include flex-center;
 	flex-direction: column;
 	gap: 1rem;
 	padding: 2rem;
-	background: linear-gradient(135deg, $primary-green-light, $bg-cream);
+	background: linear-gradient(135deg, var(--primary-200), var(--bg-secondary));
 	border-radius: 1.5rem;
 	position: relative;
 	z-index: 1;
@@ -333,26 +312,25 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 		@include flex-center;
 		width: 4rem;
 		height: 4rem;
-		background: $bg-white;
+		background: var(--bg-primary);
 		border-radius: 50%;
-		box-shadow: $shadow-sm;
+		box-shadow: var(--shadow-sm);
 
 		svg {
 			width: 2rem;
 			height: 2rem;
-			color: $primary-green;
+			color: var(--primary-600);
 		}
 	}
 
 	.emptyText {
 		font-size: 1rem;
-		color: $text-secondary;
+		color: var(--text-secondary);
 		text-align: center;
 		max-width: 250px;
 	}
 }
 
-// Эффект "сияния" при наведении
 .shine {
 	position: absolute;
 	top: 0;
@@ -373,7 +351,6 @@ $shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 	animation: shine 3s infinite;
 }
 
-// Медиа-запросы
 @media (max-width: 768px) {
 	.card {
 		padding: 1.5rem;

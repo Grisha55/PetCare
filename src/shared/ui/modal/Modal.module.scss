@@ -1,17 +1,17 @@
 .backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+	position: fixed;
+	inset: 0;
+	background: var(--overlay-dark);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	z-index: 1000;
 }
 
 .content {
-  max-width: 90vw;
-  max-height: 90vh;
-  background: #fff;
-  border-radius: 2rem;
-  padding: 1.6rem;
+	max-width: 90vw;
+	max-height: 90vh;
+	background: var(--bg-primary);
+	border-radius: 2rem;
+	padding: 1.6rem;
 }

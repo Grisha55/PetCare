@@ -18,7 +18,7 @@
 }
 
 .titleIcon {
-	color: #667eea;
+	color: var(--accent-purple-800);
 	background: rgba(102, 126, 234, 0.1);
 	padding: 8px;
 	border-radius: 12px;
@@ -29,7 +29,7 @@
 .title {
 	font-size: 24px;
 	font-weight: 700;
-	color: #1a202c;
+	color: var(--text-secondary);
 	margin: 0;
 
 	@media (min-width: 768px) {
@@ -84,33 +84,33 @@
 }
 
 .settingsBtn {
-	background: white;
-	color: #4a5568;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+	background: var(--bg-primary);
+	color: var(--text-tertiary);
+	box-shadow: var(--shadow-sm);
 
 	&:not(:disabled):hover {
-		background: #f7fafc;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+		background: var(--bg-secondary);
+		box-shadow: var(--shadow-lg);
 	}
 
 	&:focus {
-		outline: 2px solid #667eea;
+		outline: 2px solid var(--accent-purple-800);
 		outline-offset: 2px;
 	}
 }
 
 .logoutBtn {
-	background: #fff5f5;
-	color: #e53e3e;
+	background: var(--bg-secondary);
+	color: var(--btn-danger-bg);
 
 	&:not(:disabled):hover {
-		background: #fed7d7;
+		background: var(--accent-pink);
 		transform: translateY(-2px);
 		box-shadow: 0 4px 12px rgba(229, 62, 62, 0.2);
 	}
 
 	&:focus {
-		outline: 2px solid #e53e3e;
+		outline: 2px solid var(--btn-danger-hover);
 		outline-offset: 2px;
 	}
 }
@@ -120,7 +120,7 @@
 	height: 18px;
 	border: 2px solid rgba(229, 62, 62, 0.3);
 	border-radius: 50%;
-	border-top-color: #e53e3e;
+	border-top-color: var(--btn-danger-bg);
 	animation: spin 0.8s linear infinite;
 }
 

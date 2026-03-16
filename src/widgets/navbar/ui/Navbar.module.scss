@@ -1,10 +1,11 @@
 .navbar {
-	background: var(--bg-color);
-	border-bottom: 0.1rem solid var(--border);
+	background: var(--bg-primary);
+	border-bottom: 0.1rem solid var(--border-light);
 	backdrop-filter: blur(10px);
 	position: sticky;
 	top: 0;
 	z-index: 100;
+	border-radius: 10px;
 }
 
 .navbarContainer {
@@ -12,7 +13,7 @@
 	align-items: center;
 	justify-content: space-between;
 	height: 6.4rem;
-	padding: 0 2rem; // Добавляем отступы по бокам
+	padding: 0 2rem;
 }
 
 .leftSection {
@@ -28,11 +29,10 @@
 	font-weight: 600;
 	background: linear-gradient(
 		135deg,
-		var(--primary-strong) 0%,
-		var(--secondary-accent) 100%
+		var(--bg-secondary) 0%,
+		var(--bg-tertiary) 100%
 	);
 	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
 	background-clip: text;
 	letter-spacing: -0.5px;
 	flex-shrink: 0;
@@ -41,13 +41,15 @@
 .links {
 	display: flex;
 	gap: 0.8rem;
-	background: var(--bg-secondary);
+	background-color: var(--accent-pink);
 	padding: 0.4rem;
 	border-radius: 3rem;
-	box-shadow: 0 4px 12px var(--shadow);
+	box-shadow: var(--shadow-md);
 	margin: 0 auto;
 
 	.link {
+		background-color: var(--bg-secondary);
+		color: var(--text-primary);
 		animation: slideIn 0.5s ease backwards;
 
 		@for $i from 1 through 3 {
@@ -66,7 +68,6 @@
 	justify-content: flex-end;
 }
 
-// Стили для NotificationCenter
 .notificationWrapper {
 	position: relative;
 	display: flex;
@@ -83,18 +84,19 @@
 	padding: 0.4rem 0.8rem 0.4rem 0.4rem;
 	border-radius: 3rem;
 	background: var(--bg-secondary);
-	box-shadow: 0 2px 8px var(--shadow);
+	box-shadow: var(--shadow-md);
 	transition: all 0.2s ease;
-	width: auto; // Меняем с фиксированной на auto
+	width: auto;
 	min-width: 12rem;
+	color: var(--text-primary);
 
 	&:hover {
-		background: var(--primary-color);
+		background: var(--bg-tertiary);
 		transform: translateY(-1px);
-		box-shadow: 0 8px 16px var(--shadow);
+		box-shadow: var(--shadow-lg);
 
 		.info span {
-			color: var(--primary-strong);
+			color: var(--text-tertiary);
 		}
 	}
 }
@@ -140,13 +142,13 @@
 
 .info span:last-child {
 	font-size: 1rem;
-	color: var(--text-muted);
+	color: var(--text-primary);
 }
 
 .link {
 	font-size: 1.4rem;
 	font-weight: 500;
-	color: var(--text-secondary);
+	color: var(--text-inverted);
 	text-decoration: none;
 	padding: 0.8rem 2rem;
 	border-radius: 2.4rem;
@@ -165,11 +167,7 @@
 		transform: translate(-50%, -50%);
 		width: 0;
 		height: 0;
-		background: radial-gradient(
-			circle,
-			var(--primary-color) 0%,
-			transparent 70%
-		);
+		background: radial-gradient(circle, var(--bg-primary) 0%, transparent 70%);
 		border-radius: 50%;
 		transition: all 0.4s ease;
 		z-index: 0;
@@ -192,7 +190,7 @@
 	}
 
 	&:hover {
-		color: var(--primary-strong);
+		color: var(--text-tertiary);
 		transform: translateY(-2px);
 
 		&::before {
@@ -219,12 +217,12 @@
 .linkActive {
 	background: linear-gradient(
 		135deg,
-		var(--primary-color) 0%,
-		var(--secondary-accent) 100%
+		var(--bg-primary) 0%,
+		var(--gray-50) 100%
 	);
-	color: var(--primary-strong);
+	color: var(--accent-blue);
 	font-weight: 600;
-	box-shadow: 0 4px 12px rgba(98, 53, 197, 0.3);
+	box-shadow: 0 4px 12px var(--accent-purple-1000);
 	position: relative;
 
 	&::after {
@@ -241,19 +239,19 @@
 	}
 
 	.linkContent {
-		color: var(--primary-strong);
+		color: var(--text-primary);
 	}
 
 	.icon {
-		color: var(--primary-strong);
+		color: var(--text-primary);
 		animation: bounce 2s infinite;
 	}
 
 	&:hover {
 		background: linear-gradient(
 			135deg,
-			var(--secondary-accent) 0%,
-			var(--primary-color) 100%
+			var(--bg-secondary) 0%,
+			var(--bg-primary) 100%
 		);
 		transform: translateY(-2px);
 		box-shadow: 0 8px 20px rgba(98, 53, 197, 0.4);
@@ -273,8 +271,12 @@
 	width: 100%;
 	height: 100%;
 	border-radius: 50%;
-	background: linear-gradient(135deg, #4f46e5, #7c3aed);
-	color: white;
+	background: linear-gradient(
+		135deg,
+		var(--accent-purple-600),
+		var(--accent-purple-1000)
+	);
+	color: var(--text-inverted);
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -287,7 +289,12 @@
 	width: 100%;
 	height: 100%;
 	border-radius: 50%;
-	background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+	background: linear-gradient(
+		90deg,
+		var(--gray-50) 25%,
+		var(--gray-100) 50%,
+		var(--gray-200) 75%
+	);
 	background-size: 200% 100%;
 	animation: loading 1.5s infinite;
 }
@@ -295,15 +302,14 @@
 .petName {
 	font-weight: 600;
 	font-size: 14px;
-	color: #333;
+	color: var(--text-tertiary);
 }
 
 .userEmail {
 	font-size: 12px;
-	color: #666;
+	color: var(--text-tertiary);
 }
 
-// Адаптивность
 @media (max-width: 768px) {
 	.navbarContainer {
 		padding: 0 1rem;
@@ -323,7 +329,7 @@
 		padding: 0.4rem;
 
 		.info {
-			display: none; // Скрываем текст на планшетах
+			display: none;
 		}
 	}
 }

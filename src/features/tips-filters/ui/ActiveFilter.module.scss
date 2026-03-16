@@ -4,8 +4,8 @@
 	gap: 0.5rem;
 	padding: 0.5rem 1rem;
 	margin-top: 1rem;
-	background: #16a34a;
-	color: white;
+	background: var(--success-600);
+	color: var(--btn-primary-text);
 	border-radius: 9999px;
 	font-size: 0.875rem;
 	font-weight: 500;
@@ -21,7 +21,7 @@
 		padding: 0.25rem;
 		background: none;
 		border: none;
-		color: white;
+		color: var(--btn-primary-text);
 		cursor: pointer;
 		opacity: 0.8;
 		transition: all 0.2s ease;

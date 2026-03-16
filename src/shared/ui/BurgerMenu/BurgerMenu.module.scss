@@ -1,105 +1,109 @@
 .burgerButton {
-  display: none;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 3rem;
-  height: 3rem;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 110;
-  position: relative;
+	display: none;
+	flex-direction: column;
+	justify-content: space-around;
+	width: 3rem;
+	height: 3rem;
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+	z-index: 110;
+	position: relative;
 
-  span {
-    width: 3rem;
-    height: 0.3rem;
-    background: var(--primary-strong);
-    border-radius: 1rem;
-    transition: all 0.3s ease;
-    transform-origin: 1px;
-  }
+	span {
+		width: 3rem;
+		height: 0.3rem;
+		background: var(--gray-900);
+		border-radius: 1rem;
+		transition: all 0.3s ease;
+		transform-origin: 1px;
+	}
 
-  &.open {
-    span:first-child {
-      transform: rotate(45deg);
-    }
+	&.open {
+		span:first-child {
+			transform: rotate(45deg);
+		}
 
-    span:nth-child(2) {
-      opacity: 0;
-      transform: translateX(-20px);
-    }
+		span:nth-child(2) {
+			opacity: 0;
+			transform: translateX(-20px);
+		}
 
-    span:last-child {
-      transform: rotate(-45deg);
-    }
-  }
+		span:last-child {
+			transform: rotate(-45deg);
+		}
+	}
 }
 
 .menuOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(5px);
-  z-index: 100;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background: var(--overlay-dark);
+	backdrop-filter: blur(5px);
+	z-index: 100;
+	opacity: 0;
+	visibility: hidden;
+	transition: all 0.3s ease;
 
-  &.open {
-    opacity: 1;
-    visibility: visible;
-  }
+	&.open {
+		opacity: 1;
+		visibility: visible;
+	}
 }
 
 .menuContent {
-  position: fixed;
-  top: 0;
-  left: -100%;
-  width: 80%;
-  max-width: 40rem;
-  height: 100vh;
-  background: var(--bg-color);
-  box-shadow: 2px 0 10px var(--shadow);
-  padding: 8rem 2rem 2rem;
-  transition: left 0.3s ease;
-  overflow-y: auto;
+	position: fixed;
+	top: 0;
+	left: -100%;
+	width: 80%;
+	max-width: 40rem;
+	height: 100vh;
+	background: var(--bg-color);
+	box-shadow: 2px 0 10px var(--shadow);
+	padding: 8rem 2rem 2rem;
+	transition: left 0.3s ease;
+	overflow-y: auto;
 
-  .menuOverlay.open & {
-    left: 0;
-  }
+	.menuOverlay.open & {
+		left: 0;
+	}
 
-  a {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1.5rem 2rem;
-    margin-bottom: 0.5rem;
-    font-size: 1.8rem;
-    border-radius: 1rem;
-    color: var(--text-primary);
-    text-decoration: none;
-    transition: all 0.2s ease;
+	a {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		padding: 1.5rem 2rem;
+		margin-bottom: 0.5rem;
+		font-size: 1.8rem;
+		border-radius: 1rem;
+		color: var(--text-primary);
+		text-decoration: none;
+		transition: all 0.2s ease;
 
-    &:hover {
-      background: var(--primary-color);
-      color: var(--primary-strong);
-      transform: translateX(5px);
-    }
+		&:hover {
+			background: var(--accent-blue);
+			color: var(--text-primary);
+			transform: translateX(5px);
+		}
 
-    &.active {
-      background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-accent) 100%);
-      color: var(--primary-strong);
-      font-weight: 600;
-    }
-  }
+		&.active {
+			background: linear-gradient(
+				135deg,
+				var(--primary-color) 0%,
+				var(--secondary-accent) 100%
+			);
+			color: var(--text-inverted);
+			font-weight: 600;
+		}
+	}
 }
 
 @media (max-width: 820px) {
-  .burgerButton {
-    display: flex;
-  }
+	.burgerButton {
+		display: flex;
+	}
 }

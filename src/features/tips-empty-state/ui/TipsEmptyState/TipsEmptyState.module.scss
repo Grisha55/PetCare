@@ -1,7 +1,11 @@
 .showAllButton {
 	padding: 10px 20px;
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-	color: white;
+	background: linear-gradient(
+		135deg,
+		var(--accent-purple-800) 0%,
+		var(--accent-purple-1000) 100%
+	);
+	color: var(--btn-primary-text);
 	border: none;
 	border-radius: 12px;
 	font-size: 14px;

@@ -1,5 +1,5 @@
 .section {
-	background: var(--bg-color);
+	background: var(--bg-primary);
 	padding: 2rem;
 	border-radius: 2rem;
 	width: 100%;
@@ -56,8 +56,8 @@
 	position: relative;
 	border-radius: 1.6rem;
 	overflow: hidden;
-	background: #fff;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+	background: var(--bg-secondary);
+	box-shadow: var(--shadow-sm);
 	aspect-ratio: 1;
 	width: 100%;
 
@@ -75,7 +75,7 @@
 .overlay {
 	position: absolute;
 	inset: 0;
-	background: rgba(0, 0, 0, 0.4);
+	background: var(--overlay-dark);
 
 	display: flex;
 	gap: 1.2rem;
@@ -86,7 +86,7 @@
 	transition: opacity 0.2s;
 
 	button {
-		background: #fff;
+		background: var(--bg-primary);
 		border: none;
 		border-radius: 50%;
 		width: 4rem;
@@ -97,7 +97,7 @@
 		align-items: center;
 		justify-content: center;
 		transition: all 0.2s ease;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+		box-shadow: var(--shadow-lg);
 
 		@media (max-width: 480px) {
 			width: 3.5rem;
@@ -107,8 +107,8 @@
 
 		&:hover {
 			transform: scale(1.1);
-			background: #667eea;
-			color: white;
+			background: var(--accent-purple-800);
+			color: var(--btn-primary-text);
 		}
 
 		&:active {

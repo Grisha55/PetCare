@@ -5,18 +5,22 @@
 }
 
 .error {
-	background: #fff5f5;
-	color: #e53e3e;
+	background: var(--bg-secondary);
+	color: var(--error-700);
 	padding: 12px;
 	border-radius: 12px;
 	font-size: 14px;
 	text-align: center;
-	border: 1px solid #feb2b2;
+	border: 1px solid var(--accent-pink);
 }
 
 .submitButton {
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-	color: white;
+	background: linear-gradient(
+		135deg,
+		var(--accent-purple-800) 0%,
+		var(--accent-purple-1000) 100%
+	);
+	color: var(--btn-primary-text);
 	border: none;
 	border-radius: 12px;
 	padding: 14px;

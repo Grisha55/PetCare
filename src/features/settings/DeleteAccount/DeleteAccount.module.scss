@@ -3,7 +3,7 @@
 }
 
 .warning {
-	color: #dc3545;
+	color: var(--btn-danger-bg);
 	font-weight: 500;
 	margin-bottom: 20px;
 	padding: 12px;

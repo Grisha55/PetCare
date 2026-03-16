@@ -5,10 +5,10 @@
 }
 
 .dangerZoneCard {
-	border: 2px solid #feb2b2;
+	border: 2px solid var(--accent-pink);
 	box-shadow: 0 4px 12px rgba(229, 62, 62, 0.1);
 
 	:global(.cardTitle) {
-		color: #e53e3e;
+		color: var(--btn-danger-bg);
 	}
 }
