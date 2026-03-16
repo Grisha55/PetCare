@@ -4,7 +4,7 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background: rgba(0, 0, 0, 0.5);
+	background: var(--overlay-dark);
 	backdrop-filter: blur(4px);
 	display: flex;
 	align-items: center;
@@ -14,16 +14,16 @@
 }
 
 .logoutModal {
-	background: white;
+	background: var(--bg-primary);
 	padding: 32px;
 	border-radius: 24px;
-	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+	box-shadow: var(--shadow-xl);
 	text-align: center;
 	animation: slideUp 0.3s ease-out;
 
 	p {
 		margin-top: 16px;
-		color: #4a5568;
+		color: var(--text-tertiary);
 		font-size: 16px;
 		font-weight: 500;
 	}
@@ -32,9 +32,9 @@
 .spinnerLarge {
 	width: 48px;
 	height: 48px;
-	border: 3px solid #e2e8f0;
+	border: 3px solid var(--border-light);
 	border-radius: 50%;
-	border-top-color: #667eea;
+	border-top-color: var(--accent-purple-800);
 	animation: spin 1s linear infinite;
 	margin: 0 auto;
 }

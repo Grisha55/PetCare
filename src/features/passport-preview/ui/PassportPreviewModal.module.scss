@@ -15,11 +15,11 @@
 	justify-content: center;
 	flex-wrap: wrap;
 	z-index: 10;
-	background: rgba(255, 255, 255, 0.9);
+	background: var(--bg-primary);
 	padding: 12px 20px;
 	border-radius: 50px;
 	backdrop-filter: blur(10px);
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+	box-shadow: var(--shadow-md);
 }
 
 .controlButton,
@@ -28,16 +28,15 @@
 	height: 48px;
 	border-radius: 50%;
 	border: none;
-	background: white;
-	color: #4a5568;
+	background: var(--bg-primary);
+	color: var(--text-tertiary);
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	cursor: pointer;
 	transition: all 0.2s ease;
-	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+	box-shadow: var(--shadow-lg);
 
-	/* Горизонтальное расположение эмодзи */
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -58,8 +57,8 @@
 
 	&:hover:not(.disabled):not(:disabled) {
 		transform: translateY(-2px);
-		background: #667eea;
-		color: white;
+		background: var(--accent-purple-800);
+		color: var(--text-inverted);
 		box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
 	}
 
@@ -71,32 +70,32 @@
 	&:disabled {
 		opacity: 0.3;
 		cursor: not-allowed;
-		background: #e2e8f0;
-		color: #a0aec0;
+		background: var(--bg-secondary);
+		color: var(--text-tertiary);
 		box-shadow: none;
 		transform: none;
 	}
 }
 
 .closeButton {
-	background: #ef4444;
-	color: white;
+	background: var(--error-500);
+	color: var(--text-inverted);
 
 	&:hover:not(.disabled):not(:disabled) {
-		background: #dc2626;
+		background: var(--error-600);
 	}
 }
 
 .imageContainer {
-	background: #1a202c;
+	background: var(--text-secondary);
 	border-radius: 16px;
 	overflow: hidden;
-	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+	box-shadow: var(--shadow-xl);
 	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	border: 2px solid white;
+	border: 2px solid var(--border-light);
 	max-width: 100%;
 	max-height: 100%;
 
@@ -118,15 +117,19 @@
 	display: flex;
 	flex-direction: column;
 	gap: 12px;
-	background: white;
+	background: var(--bg-primary);
 	padding: 16px 24px;
 	border-radius: 30px;
-	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+	box-shadow: var(--shadow-lg);
 }
 
 .sizeIndicator {
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-	color: white;
+	background: linear-gradient(
+		135deg,
+		var(--accent-purple-800) 0%,
+		var(--accent-purple-1000) 100%
+	);
+	color: var(--text-inverted);
 	padding: 8px 20px;
 	border-radius: 30px;
 	font-size: 16px;
@@ -139,17 +142,16 @@
 	display: flex;
 	justify-content: space-between;
 	font-size: 13px;
-	color: #718096;
+	color: var(--text-tertiary);
 	font-weight: 500;
 
 	span {
-		background: #f7fafc;
+		background: var(--bg-secondary);
 		padding: 4px 12px;
 		border-radius: 20px;
 	}
 }
 
-// Адаптивность
 @media (max-width: 768px) {
 	.container {
 		padding: 16px;

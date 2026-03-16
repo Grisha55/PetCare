@@ -6,23 +6,23 @@
 
 .filterButton {
 	padding: 8px 16px;
-	border: 2px solid #e2e8f0;
+	border: 2px solid var(--border-light);
 	border-radius: 20px;
-	background: white;
-	color: #4a5568;
+	background: var(--bg-primary);
+	color: var(--text-tertiary);
 	font-size: 14px;
 	font-weight: 500;
 	cursor: pointer;
 	transition: all 0.2s ease;
 
 	&:hover {
-		border-color: #667eea;
-		color: #667eea;
+		border-color: var(--accent-purple-800);
+		color: var(--accent-purple-800);
 	}
 
 	&.active {
-		background: #667eea;
-		border-color: #667eea;
-		color: white;
+		background: var(--accent-purple-800);
+		border-color: var(--accent-purple-800);
+		color: var(--btn-primary-text);
 	}
 }

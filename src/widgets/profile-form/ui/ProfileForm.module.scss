@@ -5,8 +5,8 @@
 }
 
 .error {
-	background-color: #fee;
-	color: #c00;
+	background-color: var(--error-50);
+	color: var(--error-700);
 	padding: 10px;
 	border-radius: 4px;
 	margin-bottom: 15px;
@@ -14,8 +14,8 @@
 }
 
 .success {
-	background-color: #e8f5e9;
-	color: #2e7d32;
+	background-color: var(--success-50);
+	color: var(--success-500);
 	padding: 10px;
 	border-radius: 4px;
 	margin-bottom: 15px;
@@ -30,6 +30,7 @@ button:disabled {
 h2 {
 	font-size: 2rem;
 	margin-bottom: 2rem;
+	color: var(--text-primary);
 }
 
 label {
@@ -44,7 +45,7 @@ input {
 	margin-top: 0.4rem;
 	padding: 0.8rem 1.2rem;
 	border-radius: 0.8rem;
-	border: 1px solid var(--border);
+	border: 1px solid var(--border-light);
 	font-size: 1.4rem;
 }
 
@@ -55,8 +56,12 @@ input {
 }
 
 button {
-	background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-	color: var(--text-white);
+	background: linear-gradient(
+		135deg,
+		var(--accent-purple-800) 0%,
+		var(--accent-purple-1000) 100%
+	);
+	color: var(--btn-primary-text);
 	padding: 0.8rem 2.4rem;
 	border-radius: 1rem;
 	border: none;

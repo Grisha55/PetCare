@@ -1,6 +1,10 @@
 .pageWrapper {
 	min-height: 100vh;
-	background: linear-gradient(135deg, #f5f7fa 0%, #e9edf5 100%);
+	background: linear-gradient(
+		135deg,
+		var(--bg-secondary) 0%,
+		var(--bg-primary) 100%
+	);
 	display: flex;
 	flex-direction: column;
 	position: relative;

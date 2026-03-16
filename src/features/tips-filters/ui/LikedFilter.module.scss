@@ -9,10 +9,10 @@
 	align-items: center;
 	gap: 0.5rem;
 	padding: 0.75rem 1.5rem;
-	background: white;
-	border: 2px solid #e5e7eb;
+	background: var(--bg-primary);
+	border: 2px solid var(--gray-200);
 	border-radius: 9999px;
-	color: #4b5563;
+	color: var(--gray-600);
 	font-weight: 500;
 	cursor: pointer;
 	transition: all 0.2s ease;
@@ -24,9 +24,9 @@
 	}
 
 	&:hover {
-		border-color: #ef4444;
-		background: #fef2f2;
-		color: #ef4444;
+		border-color: var(--error-500);
+		background: var(--error-50);
+		color: var(--error-500);
 
 		svg {
 			transform: scale(1.1);
@@ -34,13 +34,13 @@
 	}
 
 	&.active {
-		background: #ef4444;
-		border-color: #ef4444;
-		color: white;
+		background: var(--error-500);
+		border-color: var(--error-500);
+		color: var(--btn-primary-text);
 
 		&:hover {
-			background: #dc2626;
-			border-color: #dc2626;
+			background: var(--btn-danger-bg);
+			border-color: var(--btn-danger-bg);
 		}
 	}
 }

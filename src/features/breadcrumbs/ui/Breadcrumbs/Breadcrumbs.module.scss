@@ -4,13 +4,13 @@
 	gap: 8px;
 	margin-bottom: 24px;
 	font-size: 14px;
-	color: #718096;
+	color: var(--text-tertiary);
 
 	span {
 		cursor: default;
 
 		&.current {
-			color: #4a5568;
+			color: var(--text-tertiary);
 			font-weight: 500;
 		}
 
@@ -19,12 +19,12 @@
 			transition: color 0.2s ease;
 
 			&:hover {
-				color: #667eea;
+				color: var(--accent-purple-800);
 			}
 		}
 	}
 
 	.separator {
-		color: #cbd5e0;
+		color: var(--border-light);
 	}
 }

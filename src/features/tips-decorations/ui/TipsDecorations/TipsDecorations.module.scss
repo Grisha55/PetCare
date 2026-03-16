@@ -15,7 +15,11 @@
 	right: -100px;
 	width: 400px;
 	height: 400px;
-	background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+	background: linear-gradient(
+		135deg,
+		var(--accent-blue) 0%,
+		var(--accent-purple-1000) 100%
+	);
 	border-radius: 50%;
 	filter: blur(60px);
 	animation: float 20s ease-in-out infinite;
@@ -27,7 +31,11 @@
 	left: -100px;
 	width: 400px;
 	height: 400px;
-	background: linear-gradient(135deg, #48bb7820 0%, #38a16920 100%);
+	background: linear-gradient(
+		135deg,
+		var(--primary-400) 0%,
+		var(--primary-600) 100%
+	);
 	border-radius: 50%;
 	filter: blur(60px);
 	animation: float 15s ease-in-out infinite reverse;
