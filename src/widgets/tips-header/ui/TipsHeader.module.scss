@@ -24,7 +24,12 @@
 	font-size: 2.5rem;
 	font-weight: 800;
 	margin-bottom: 1rem;
-	background: linear-gradient(to right, var(--success-600), var(--secondary-500));
+	margin-top: 2rem;
+	background: linear-gradient(
+		to right,
+		var(--success-600),
+		var(--secondary-500)
+	);
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;

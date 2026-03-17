@@ -1,14 +1,16 @@
 import { type FC } from 'react';
-import { SettingsLayout } from '../../../../widgets/settings-layout';
 import { SettingsHeader } from '../../../../widgets/settings-header';
+import { SettingsLayout } from '../../../../widgets/settings-layout';
 import { SettingsSections } from '../../../../widgets/settings-sections';
 
 const SettingsPage: FC = () => {
 	return (
-		<SettingsLayout>
-			<SettingsHeader />
-			<SettingsSections />
-		</SettingsLayout>
+		<div className="container">
+			<SettingsLayout>
+				<SettingsHeader />
+				<SettingsSections />
+			</SettingsLayout>
+		</div>
 	);
 };
 

@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
+import { usePet } from '../../../app/providers/pet-provider/usePet';
 import { useMedicalRecords } from '../../../entities/medical-record/model/useMedicalRecords';
+import { fetchTips, type Tip } from '../../../entities/tip';
+import { useProfile } from '../../../entities/user/hooks/useProfile';
 import { DailyTip } from '../../../widgets/daily-tip';
 import { HealthStatus } from '../../../widgets/health-status';
 import { Navbar } from '../../../widgets/navbar';
 import { PetSummary } from '../../../widgets/pet-summary';
 import { UpcomingEvents } from '../../../widgets/upcoming-events';
 import cls from './MainPage.module.scss';
-import { fetchTips, type Tip } from '../../../entities/tip';
-import { usePet } from '../../../app/providers/pet-provider/usePet';
-import { useProfile } from '../../../entities/user/hooks/useProfile';
 
 const MainPage = () => {
 	const { pet } = usePet();
@@ -46,7 +46,7 @@ const MainPage = () => {
 					records={records}
 					onDelete={deleteRecord}
 				/>
-				<HealthStatus />
+				<HealthStatus records={records} />
 				<DailyTip
 					tips={tips}
 					isLoading={isLoading}
