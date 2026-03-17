@@ -1,0 +1,59 @@
+.settingsPage {
+	min-height: 100vh;
+	background: var(--bg-primary);
+	padding: 40px 20px;
+}
+
+.title {
+	font-size: 32px;
+	font-weight: 600;
+	color: var(--text-primary);
+	margin-bottom: 32px;
+}
+
+.header {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	margin-bottom: 32px;
+}
+
+.backButton {
+	display: inline-flex;
+	align-items: center;
+	padding: 8px 16px;
+	background: var(--bg-secondary);
+	border: 1px solid var(--border-light);
+	border-radius: 8px;
+	color: var(--text-color);
+	text-decoration: none;
+	font-size: 14px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	&:hover {
+		background: var(--secondary-100);
+		transform: translateX(-2px);
+	}
+}
+
+.sections {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.description {
+	color: var(--text-secondary);
+	font-size: 14px;
+	margin-bottom: 20px;
+	line-height: 1.5;
+}
+
+.dangerZone {
+	border: 1px solid var(--btn-danger-bg);
+
+	.title {
+		color: var(--text-inverted);
+	}
+}

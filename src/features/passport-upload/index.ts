@@ -1,0 +1,1 @@
+export { PassportDropzone } from './ui/PassportDropzone';

@@ -1,0 +1,18 @@
+.confirmation {
+	text-align: center;
+}
+
+.warning {
+	color: var(--btn-danger-bg);
+	font-weight: 500;
+	margin-bottom: 20px;
+	padding: 12px;
+	background: rgba(220, 53, 69, 0.1);
+	border-radius: 8px;
+}
+
+.actions {
+	display: flex;
+	gap: 12px;
+	justify-content: center;
+}

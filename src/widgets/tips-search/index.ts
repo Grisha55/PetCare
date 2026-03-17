@@ -1,0 +1,1 @@
+export { TipsSearch } from './ui/TipsSearch';

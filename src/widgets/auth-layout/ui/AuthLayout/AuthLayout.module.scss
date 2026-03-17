@@ -1,0 +1,29 @@
+.container {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(
+		135deg,
+		var(--accent-purple-800) 0%,
+		var(--accent-purple-1000) 100%
+	);
+	padding: 20px;
+}
+
+.card {
+	background: var(--bg-primary);
+	border-radius: 24px;
+	padding: 40px;
+	width: 100%;
+	max-width: 400px;
+	box-shadow: var(--shadow-xl);
+}
+
+.title {
+	font-size: 28px;
+	font-weight: 700;
+	color: var(--text-secondary);
+	margin: 0 0 8px 0;
+	text-align: center;
+}

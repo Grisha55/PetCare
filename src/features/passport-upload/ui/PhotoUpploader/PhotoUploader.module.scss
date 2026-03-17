@@ -1,0 +1,228 @@
+.uploader {
+	display: inline-block;
+}
+
+.uploadButton {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	padding: 12px 24px;
+	background: linear-gradient(
+		135deg,
+		var(--accent-purple-800) 0%,
+		var(--accent-purple-1000) 100%
+	);
+	border: none;
+	border-radius: 14px;
+	color: var(--btn-primary-text);
+	font-size: 15px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+	box-shadow:
+		0 4px 6px -1px rgba(102, 126, 234, 0.3),
+		0 2px 4px -1px rgba(102, 126, 234, 0.2),
+		inset 0 1px 1px rgba(255, 255, 255, 0.3);
+	position: relative;
+	overflow: hidden;
+
+	&:hover:not(.uploading) {
+		transform: translateY(-2px);
+		box-shadow:
+			0 10px 15px -3px rgba(102, 126, 234, 0.4),
+			0 4px 6px -2px rgba(102, 126, 234, 0.3),
+			inset 0 1px 2px rgba(255, 255, 255, 0.4);
+
+		svg {
+			transform: scale(1.1);
+		}
+	}
+
+	&:active:not(.uploading) {
+		transform: translateY(1px);
+		box-shadow:
+			0 2px 4px -1px rgba(102, 126, 234, 0.3),
+			0 1px 2px -1px rgba(102, 126, 234, 0.2);
+	}
+
+	&::before {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 0;
+		height: 0;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.2);
+		transform: translate(-50%, -50%);
+		transition:
+			width 0.6s ease,
+			height 0.6s ease;
+		z-index: 0;
+	}
+
+	&:hover::before {
+		width: 200px;
+		height: 200px;
+	}
+
+	&.uploading {
+		background: linear-gradient(
+			135deg,
+			var(--success-500) 0%,
+			var(--success-600) 100%
+		);
+		cursor: not-allowed;
+		opacity: 0.9;
+
+		&:hover {
+			transform: none;
+			box-shadow:
+				0 4px 6px -1px rgba(72, 187, 120, 0.3),
+				0 2px 4px -1px rgba(72, 187, 120, 0.2);
+		}
+	}
+
+	svg,
+	span {
+		position: relative;
+		z-index: 1;
+	}
+
+	svg {
+		transition: all 0.3s ease;
+	}
+
+	.spinning {
+		animation: spin 1s linear infinite;
+	}
+}
+
+.fileInput {
+	position: absolute;
+	width: 0;
+	height: 0;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.error {
+	margin-bottom: 12px;
+	padding: 10px 16px;
+	background: var(--bg-secondary);
+	border: 1px solid var(--error-300);
+	border-radius: 12px;
+	color: var(--error-600);
+	font-size: 14px;
+	animation: slideIn 0.3s ease;
+
+	@media (max-width: 640px) {
+		font-size: 13px;
+		padding: 8px 12px;
+	}
+}
+
+@keyframes slideIn {
+	from {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@media (max-width: 640px) {
+	.uploadButton {
+		padding: 10px 20px;
+		font-size: 14px;
+
+		svg {
+			width: 18px;
+			height: 18px;
+		}
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	.uploadButton {
+		background: linear-gradient(
+			135deg,
+			var(--accent-purple-700) 0%,
+			var(--accent-purple-1000) 100%
+		);
+
+		&:hover:not(.uploading) {
+			box-shadow:
+				0 10px 15px -3px rgba(90, 67, 216, 0.5),
+				0 4px 6px -2px rgba(90, 67, 216, 0.3);
+		}
+
+		&.uploading {
+			background: linear-gradient(
+				135deg,
+				var(--primary-600) 0%,
+				var(--primary-700) 100%
+			);
+		}
+	}
+}
+
+@media (min-width: 1024px) {
+	.uploadButton {
+		position: relative;
+		isolation: isolate;
+
+		&::after {
+			content: '';
+			position: absolute;
+			inset: 0;
+			border-radius: 14px;
+			padding: 2px;
+			background: linear-gradient(
+				135deg,
+				rgba(255, 255, 255, 0.4),
+				rgba(255, 255, 255, 0)
+			);
+			mask:
+				linear-gradient(var(--bg-primary) 0 0) content-box,
+				linear-gradient(var(--bg-primary) 0 0);
+			-webkit-mask:
+				linear-gradient(var(--bg-primary) 0 0) content-box,
+				linear-gradient(var(--bg-primary) 0 0);
+			-webkit-mask-composite: xor;
+			mask-composite: exclude;
+			opacity: 0;
+			transition: opacity 0.3s ease;
+			z-index: 2;
+		}
+
+		&:hover::after {
+			opacity: 1;
+		}
+	}
+}
+
+.uploader {
+	@media (max-width: 768px) {
+		width: 100%;
+	}
+}
+
+.uploadButton {
+	@media (max-width: 768px) {
+		width: 100%;
+		justify-content: center;
+	}
+}

@@ -1,0 +1,21 @@
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.error {
+	background: var(--bg-secondary);
+	color: var(--error-700);
+	padding: 12px;
+	border-radius: 12px;
+	font-size: 14px;
+	text-align: center;
+	border: 1px solid var(--error-300);
+}
+
+.forgotWrapper {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: -8px;
+}

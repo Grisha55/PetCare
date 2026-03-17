@@ -1,0 +1,67 @@
+.container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 32px 0;
+}
+
+.button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 12px 24px;
+	background: var(--bg-primary);
+	border: 2px solid var(--border-light);
+	border-radius: 30px;
+	color: var(--text-tertiary);
+	font-size: 16px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	&:hover:not(:disabled) {
+		border-color: var(--accent-purple-800);
+		color: var(--accent-purple-800);
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+	}
+
+	&:active:not(:disabled) {
+		transform: translateY(0);
+	}
+
+	&:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
+
+	svg {
+		transition: transform 0.2s ease;
+	}
+
+	&:hover:not(:disabled) svg {
+		transform: translateY(4px);
+	}
+}
+
+.spinner {
+	width: 20px;
+	height: 20px;
+	border: 2px solid var(--border-light);
+	border-radius: 50%;
+	border-top-color: var(--accent-purple-800);
+	animation: spin 0.8s linear infinite;
+}
+
+.count {
+	margin-top: 8px;
+	font-size: 14px;
+	color: var(--text-tertiary);
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}

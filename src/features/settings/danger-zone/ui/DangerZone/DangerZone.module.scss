@@ -1,0 +1,26 @@
+.dangerZone {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.warning {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 12px 16px;
+	background: var(--bg-secondary);
+	border-radius: 12px;
+	color: var(--btn-danger-bg);
+	font-size: 14px;
+
+	svg {
+		flex-shrink: 0;
+		color: var(--btn-danger-hover);
+	}
+
+	p {
+		margin: 0;
+		line-height: 1.5;
+	}
+}

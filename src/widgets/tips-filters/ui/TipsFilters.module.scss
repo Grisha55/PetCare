@@ -1,0 +1,28 @@
+.filterBar {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.filterButton {
+	padding: 8px 16px;
+	border: 2px solid var(--border-light);
+	border-radius: 20px;
+	background: var(--bg-primary);
+	color: var(--text-tertiary);
+	font-size: 14px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	&:hover {
+		border-color: var(--accent-purple-800);
+		color: var(--accent-purple-800);
+	}
+
+	&.active {
+		background: var(--accent-purple-800);
+		border-color: var(--accent-purple-800);
+		color: var(--btn-primary-text);
+	}
+}

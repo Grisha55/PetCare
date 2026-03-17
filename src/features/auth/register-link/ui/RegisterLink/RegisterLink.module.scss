@@ -1,0 +1,25 @@
+.footer {
+	margin-top: 24px;
+	text-align: center;
+	padding-top: 24px;
+	border-top: 1px solid var(--gray-100);
+
+	p {
+		color: var(--text-tertiary);
+		font-size: 14px;
+		margin: 0 0 8px 0;
+	}
+}
+
+.registerLink {
+	color: var(--accent-purple-800);
+	text-decoration: none;
+	font-weight: 600;
+	font-size: 16px;
+	transition: color 0.2s ease;
+
+	&:hover {
+		color: var(--accent-purple-1000);
+		text-decoration: underline;
+	}
+}

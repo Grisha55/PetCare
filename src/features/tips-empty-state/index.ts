@@ -1,0 +1,1 @@
+export { TipsEmptyState } from './ui/TipsEmptyState/TipsEmptyState';

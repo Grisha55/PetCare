@@ -1,0 +1,1 @@
+export { TipsList } from './ui/TipsList';

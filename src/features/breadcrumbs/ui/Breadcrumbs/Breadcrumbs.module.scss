@@ -1,0 +1,30 @@
+.breadcrumbs {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 24px;
+	font-size: 14px;
+	color: var(--text-tertiary);
+
+	span {
+		cursor: default;
+
+		&.current {
+			color: var(--text-tertiary);
+			font-weight: 500;
+		}
+
+		&:not(.separator):not(.current) {
+			cursor: pointer;
+			transition: color 0.2s ease;
+
+			&:hover {
+				color: var(--accent-purple-800);
+			}
+		}
+	}
+
+	.separator {
+		color: var(--border-light);
+	}
+}

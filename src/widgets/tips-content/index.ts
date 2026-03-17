@@ -1,0 +1,1 @@
+export { TipsContent } from './ui/TipsContent/TipsContent';
