@@ -5,10 +5,10 @@ import styles from './TipsHeader.module.scss';
 interface TipsHeaderProps {
 	selectedCategory: CategoryFilterValue;
 	onCategoryChange: (category: CategoryFilterValue) => void;
-	showOnlySaved?: boolean; // делаем опциональным
-	onSavedToggle?: () => void; // делаем опциональным
-	savedCount?: number; // делаем опциональным
-	isAuthenticated?: boolean; // делаем опциональным
+	showOnlySaved?: boolean;
+	onSavedToggle?: () => void;
+	savedCount?: number;
+	isAuthenticated?: boolean;
 }
 
 export const TipsHeader = ({

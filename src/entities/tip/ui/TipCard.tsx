@@ -1,7 +1,7 @@
 import { Heart } from 'lucide-react';
-import { useState } from 'react';
-import styles from './TipCard.module.scss';
+import { useEffect, useState } from 'react';
 import type { Tip } from '../model/types';
+import styles from './TipCard.module.scss';
 
 interface TipCardProps {
 	tip: Tip;
@@ -10,6 +10,13 @@ interface TipCardProps {
 
 export const TipCard = ({ tip, onSaveToggle }: TipCardProps) => {
 	const [isSaving, setIsSaving] = useState(false);
+	// Используем локальное состояние для отслеживания статуса сохранения
+	const [isSaved, setIsSaved] = useState(tip.saved || false);
+
+	// Синхронизируем локальное состояние с пропсом при изменении tip
+	useEffect(() => {
+		setIsSaved(tip.saved || false);
+	}, [tip.saved, tip.id]);
 
 	const handleSaveClick = async (e: React.MouseEvent) => {
 		e.preventDefault();
@@ -17,11 +24,19 @@ export const TipCard = ({ tip, onSaveToggle }: TipCardProps) => {
 
 		if (!onSaveToggle || isSaving) return;
 
+		// Оптимистичное обновление UI
+		const previousState = isSaved;
+		setIsSaved(!previousState);
+		setIsSaving(true);
+
 		try {
-			setIsSaving(true);
 			await onSaveToggle(tip);
+			// После успешного сохранения оставляем новое состояние
+			console.log('Save toggled successfully for tip:', tip.id);
 		} catch (error) {
+			// В случае ошибки возвращаем предыдущее состояние
 			console.error('Failed to toggle save:', error);
+			setIsSaved(previousState);
 		} finally {
 			setIsSaving(false);
 		}
@@ -70,16 +85,16 @@ export const TipCard = ({ tip, onSaveToggle }: TipCardProps) => {
 
 			{onSaveToggle && (
 				<button
-					className={`${styles.saveButton} ${tip.saved ? styles.saved : ''}`}
+					className={`${styles.saveButton} ${isSaved ? styles.saved : ''}`}
 					onClick={handleSaveClick}
 					disabled={isSaving}
-					aria-label={tip.saved ? 'Удалить из сохраненных' : 'Сохранить совет'}
+					aria-label={isSaved ? 'Удалить из сохраненных' : 'Сохранить совет'}
 				>
 					<Heart
 						size={20}
-						fill={tip.saved ? 'currentColor' : 'none'}
+						fill={isSaved ? 'currentColor' : 'none'}
 					/>
-					<span>{tip.saved ? 'Сохранено' : 'Сохранить'}</span>
+					<span>{isSaving ? '...' : isSaved ? 'Сохранено' : 'Сохранить'}</span>
 				</button>
 			)}
 		</div>
