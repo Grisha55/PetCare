@@ -26,6 +26,7 @@ const ProfilePage = () => {
 	const [savedTips, setSavedTips] = useState<SavedTip[]>([]);
 	const [loadingSaved, setLoadingSaved] = useState(false);
 	const [deletingTipId, setDeletingTipId] = useState<string | null>(null);
+	const [daysWithPet, setDaysWithPet] = useState(0);
 
 	const formKey = `${user?.id}-${profile?.name}-${user?.email}`;
 
@@ -47,6 +48,20 @@ const ProfilePage = () => {
 
 		loadSavedTips();
 	}, [user]);
+
+	useEffect(() => {
+		if (!user?.created_at) return;
+
+		const calculateDaysWithPet = () => {
+			const startDate = new Date(user.created_at);
+			const today = new Date();
+			const diffTime = Math.abs(today.getTime() - startDate.getTime());
+			const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+			setDaysWithPet(diffDays);
+		};
+
+		calculateDaysWithPet();
+	}, [user?.created_at]);
 
 	const handleDeleteTip = async (tipId: string) => {
 		if (!user || deletingTipId) return;
@@ -130,7 +145,7 @@ const ProfilePage = () => {
 								<div className={cls.cardColumn}>
 									<ProfileCard />
 									<StatsCard
-										daysWithPet={156}
+										daysWithPet={daysWithPet}
 										savedTipsCount={savedTips.length}
 										achievementsCount={8}
 									/>
