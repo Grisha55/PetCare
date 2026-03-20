@@ -30,32 +30,61 @@ export const HealthStatus = ({ records }: HealthStatusProps) => {
 
 		const latest = sorted[0];
 		const today = new Date();
+		// Обнуляем время у today для корректного сравнения
+		today.setHours(0, 0, 0, 0);
+
 		const recordDate = new Date(latest.date);
-		const daysDiff = Math.floor(
-			(today.getTime() - recordDate.getTime()) / (1000 * 3600 * 24)
-		);
+		recordDate.setHours(0, 0, 0, 0);
+
+		const diffTime = recordDate.getTime() - today.getTime();
+		const daysDiff = Math.ceil(diffTime / (1000 * 3600 * 24));
 
 		// Определяем статус на основе давности
-		if (daysDiff < 30) {
+		if (daysDiff > 0) {
+			// Будущая запись
+			return {
+				status: 'upcoming',
+				text: `📅 через ${daysDiff} ${getDaysWord(daysDiff)}`,
+				emoji: '📅',
+				date: latest.date,
+				title: latest.title
+			};
+		} else if (daysDiff === 0) {
+			// Сегодня
 			return {
 				status: 'good',
-				text: `✅ ${daysDiff} ${getDaysWord(daysDiff)} назад`,
+				text: `✅ сегодня`,
 				emoji: '✅',
 				date: latest.date,
 				title: latest.title
 			};
-		} else if (daysDiff < 90) {
+		}
+
+		const daysAgo = Math.abs(daysDiff);
+
+		// Прошлые записи
+		if (daysAgo < 30) {
+			return {
+				status: 'good',
+				text: `✅ ${daysAgo} ${getDaysWord(daysAgo)} назад`,
+				emoji: '✅',
+				date: latest.date,
+				title: latest.title
+			};
+		} else if (daysAgo < 90) {
+			const months = Math.floor(daysAgo / 30);
 			return {
 				status: 'warning',
-				text: `🟡 ${Math.floor(daysDiff / 30)} ${getMonthsWord(Math.floor(daysDiff / 30))} назад`,
+				text: `🟡 ${months} ${getMonthsWord(months)} назад`,
 				emoji: '🟡',
 				date: latest.date,
 				title: latest.title
 			};
 		} else {
+			const months = Math.floor(daysAgo / 30);
 			return {
 				status: 'bad',
-				text: `🔴 ${Math.floor(daysDiff / 30)} ${getMonthsWord(Math.floor(daysDiff / 30))} назад`,
+				text: `🔴 ${months} ${getMonthsWord(months)} назад`,
 				emoji: '🔴',
 				date: latest.date,
 				title: latest.title
