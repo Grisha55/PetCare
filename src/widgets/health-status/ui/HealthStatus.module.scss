@@ -24,7 +24,7 @@
 	justify-content: space-between;
 	align-items: center;
 	padding: 1.4rem 1.6rem;
-	background: var(--surface-color);
+	background: var(--bg-secondary);
 	border-radius: 1.2rem;
 	border-left: 4px solid transparent;
 	transition: all 0.2s ease;
@@ -81,7 +81,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: var(--surface-color-hover);
+	background: var(--accent-purple-100);
 	border-radius: 1rem;
 }
 
@@ -121,7 +121,7 @@
 	margin-bottom: 1rem;
 	width: 250px;
 	padding: 1.2rem;
-	background: var(--surface-color);
+	background: var(--bg-secondary);
 	border-radius: 1.2rem;
 	box-shadow: var(--shadow-lg);
 	opacity: 0;
@@ -138,7 +138,7 @@
 		right: 20px;
 		width: 12px;
 		height: 12px;
-		background: var(--surface-color);
+		background: var(--bg-secondary);
 		border-right: 1px solid var(--border-light);
 		border-bottom: 1px solid var(--border-light);
 		transform: rotate(45deg);
@@ -154,7 +154,7 @@
 
 .tooltipDate {
 	font-size: 1.2rem;
-	color: var(--primary-color);
+	color: var(--text-primary);
 	margin-bottom: 0.6rem;
 }
 
@@ -167,7 +167,7 @@
 .stats {
 	margin-top: 2rem;
 	padding-top: 1.6rem;
-	border-top: 1px solid var(--border-color);
+	border-top: 1px solid var(--border-light);
 	display: flex;
 	justify-content: space-between;
 	font-size: 1.3rem;
@@ -179,7 +179,7 @@
 	align-items: center;
 	gap: 0.6rem;
 	padding: 0.4rem 1rem;
-	background: var(--surface-color);
+	background: var(--bg-secondary);
 	border-radius: 2rem;
 }
 

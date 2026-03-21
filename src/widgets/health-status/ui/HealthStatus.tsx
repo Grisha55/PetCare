@@ -43,7 +43,7 @@ export const HealthStatus = ({ records }: HealthStatusProps) => {
 		if (daysDiff > 0) {
 			// Будущая запись
 			return {
-				status: 'upcoming',
+				status: 'good',
 				text: `📅 через ${daysDiff} ${getDaysWord(daysDiff)}`,
 				emoji: '📅',
 				date: latest.date,
@@ -52,9 +52,9 @@ export const HealthStatus = ({ records }: HealthStatusProps) => {
 		} else if (daysDiff === 0) {
 			// Сегодня
 			return {
-				status: 'good',
-				text: `✅ сегодня`,
-				emoji: '✅',
+				status: 'warning',
+				text: `🟠 сегодня`,
+				emoji: '🟠',
 				date: latest.date,
 				title: latest.title
 			};
@@ -65,9 +65,9 @@ export const HealthStatus = ({ records }: HealthStatusProps) => {
 		// Прошлые записи
 		if (daysAgo < 30) {
 			return {
-				status: 'good',
-				text: `✅ ${daysAgo} ${getDaysWord(daysAgo)} назад`,
-				emoji: '✅',
+				status: 'bad',
+				text: `❌ ${daysAgo} ${getDaysWord(daysAgo)} назад`,
+				emoji: '❌',
 				date: latest.date,
 				title: latest.title
 			};
