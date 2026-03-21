@@ -1,61 +1,113 @@
 import { useState } from 'react';
-import { type CreateMedicalRecord, type MedicalRecordType } from '../../../entities/medical-record/model/types';
+import {
+	type CreateMedicalRecord,
+	type MedicalRecordType
+} from '../../../entities/medical-record/model/types';
 import cls from './AddMedicalRecord.module.scss';
 
-interface Props { 
-  onAdd: (data: CreateMedicalRecord) => void;
- }
+interface Props {
+	onAdd: (data: CreateMedicalRecord) => Promise<void> | void;
+}
 
 export const AddMedicalRecord = ({ onAdd }: Props) => {
-  const [type, setType] = useState<MedicalRecordType>('vaccine');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [date, setDate] = useState('');
+	const [type, setType] = useState<MedicalRecordType>('vaccine');
+	const [title, setTitle] = useState('');
+	const [description, setDescription] = useState('');
+	const [date, setDate] = useState('');
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
+	const handleSubmit: React.FormEventHandler<HTMLFormElement> = async e => {
+		e.preventDefault();
 
-    onAdd({
-      type,
-      title,
-      description,
-      date,
-    });
+		if (isSubmitting) return;
 
-    setTitle('');
-    setDescription('');
-    setDate('');
-  };
+		setIsSubmitting(true);
+		setError(null);
 
-  return (
-    <form className={cls.form} onSubmit={handleSubmit}>
-      <select value={type} onChange={(e) => setType(e.target.value as MedicalRecordType)}>
-        <option value="vaccine">Прививка</option>
-        <option value="medicine">Лекарство</option>
-        <option value="visit">Посещение врача</option>
-      </select>
+		try {
+			await onAdd({
+				type,
+				title,
+				description,
+				date
+			});
 
-      <input
-        placeholder="Название"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        required
-      />
+			// Очищаем только при успехе
+			setTitle('');
+			setDescription('');
+			setDate('');
+		} catch (err) {
+			setError(err instanceof Error ? err.message : 'Произошла ошибка');
+			console.error('Failed to add medical record:', err);
+		} finally {
+			setIsSubmitting(false);
+		}
+	};
 
-      <textarea
-        placeholder="Описание"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
+	return (
+		<form
+			className={cls.form}
+			onSubmit={handleSubmit}
+		>
+			{error && <div className={cls.error}>{error}</div>}
 
-      <input
-        type="date"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-        required
-      />
+			<div className={cls.field}>
+				<label htmlFor="record-type">Тип записи</label>
+				<select
+					id="record-type"
+					value={type}
+					onChange={e => setType(e.target.value as MedicalRecordType)}
+					disabled={isSubmitting}
+				>
+					<option value="vaccine">Прививка</option>
+					<option value="medicine">Лекарство</option>
+					<option value="visit">Посещение врача</option>
+				</select>
+			</div>
 
-      <button type="submit">Добавить</button>
-    </form>
-  );
+			<div className={cls.field}>
+				<label htmlFor="record-title">Название</label>
+				<input
+					id="record-title"
+					placeholder="Название"
+					value={title}
+					onChange={e => setTitle(e.target.value)}
+					required
+					disabled={isSubmitting}
+				/>
+			</div>
+
+			<div className={cls.field}>
+				<label htmlFor="record-description">Описание</label>
+				<textarea
+					id="record-description"
+					placeholder="Описание"
+					value={description}
+					onChange={e => setDescription(e.target.value)}
+					disabled={isSubmitting}
+				/>
+			</div>
+
+			<div className={cls.field}>
+				<label htmlFor="record-date">Дата</label>
+				<input
+					id="record-date"
+					type="date"
+					value={date}
+					onChange={e => setDate(e.target.value)}
+					required
+					disabled={isSubmitting}
+				/>
+			</div>
+
+			<button
+				type="submit"
+				className={cls.submitButton}
+				disabled={isSubmitting}
+			>
+				{isSubmitting ? 'Добавление...' : 'Добавить'}
+			</button>
+		</form>
+	);
 };

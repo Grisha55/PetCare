@@ -1,13 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react'
 
 export const useLikeTip = (id: string) => {
-  const [liked, setLiked] = useState(false);
-
-  useEffect(() => {
+  const [liked, setLiked] = useState(() => {
     const stored = localStorage.getItem('likedTips');
     const parsed = stored ? JSON.parse(stored) : [];
-    setLiked(parsed.includes(id));
-  }, [id]);
+    return parsed.includes(id);
+  });
 
   const toggleLike = () => {
     const stored = localStorage.getItem('likedTips');
