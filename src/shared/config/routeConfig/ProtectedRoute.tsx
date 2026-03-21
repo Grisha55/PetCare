@@ -1,6 +1,7 @@
+import type { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../../app/providers/auth-provider';
-import type { ReactNode } from 'react';
+import { LoadingScreen } from '../../ui/LoadingScreen';
 
 interface Props {
 	children: ReactNode;
@@ -12,7 +13,7 @@ export const ProtectedRoute = ({ children }: Props) => {
 	console.log('ProtectedRoute - user:', user, 'loading:', loading);
 
 	if (loading) {
-		return <div>Loading...</div>;
+		return <LoadingScreen />;
 	}
 
 	if (!user) {
