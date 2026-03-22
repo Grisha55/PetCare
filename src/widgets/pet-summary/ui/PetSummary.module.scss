@@ -15,6 +15,42 @@
 	object-fit: cover;
 }
 
+.avatarFallback {
+	width: 6.4rem;
+	height: 6.4rem;
+	border-radius: 50%;
+	background: linear-gradient(
+		135deg,
+		var(--accent-purple-600),
+		var(--accent-purple-1000)
+	);
+	color: var(--text-inverted);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 2.4rem;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
+.avatarSkeleton {
+	width: 6.4rem;
+	height: 6.4rem;
+	border-radius: 50%;
+	background: var(--bg-secondary);
+	animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0.5;
+	}
+}
+
 .info {
 	h2 {
 		font-size: 1.8rem;
