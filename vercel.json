@@ -4,9 +4,10 @@
 	"devCommand": "npm run dev",
 	"installCommand": "npm install",
 	"framework": "vite",
-	"env": {
-		"VITE_SUPABASE_URL": "https://fclyzqkczoqhiygtjbdg.supabase.co",
-		"VITE_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZjbHl6cWtjem9xaGl5Z3RqYmRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3MDczOTAsImV4cCI6MjA4ODI4MzM5MH0.nsyH9lqVGwNjhYGhWT3nw2C4CNtuEd0iCnM5-i1OUUY",
-		"VITE_SUPABASE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZjbHl6cWtjem9xaGl5Z3RqYmRnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI3MDczOTAsImV4cCI6MjA4ODI4MzM5MH0.nsyH9lqVGwNjhYGhWT3nw2C4CNtuEd0iCnM5-i1OUUY"
-	}
+	"rewrites": [
+		{
+			"source": "/(.*)",
+			"destination": "/index.html"
+		}
+	]
 }
