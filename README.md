@@ -13,9 +13,9 @@
 вся информация о здоровье вашего питомца всегда под рукой в телефоне или
 компьютере.
 
-![Скриншот главного экрана PetCare](`public/screenshots/main-page.png`)
-![Скриншот экрана добавления событий](`public/screenshots/add-vaccine-page.png`)
-![Скриншот экрана профиля](`public/screenshots/profile-page.png`)
+![Скриншот главного экрана PetCare](./screenshots/main-page.png)
+![Скриншот экрана добавления событий](./screenshots/add-vaccine-page.png)
+![Скриншот экрана профиля](./screenshots/profile-page.png)
 
 ---
 
